@@ -6,13 +6,13 @@
 
 #include <cstdlib>
 #include <vector>
-#include <forward_list>
+#include <list>
 #include <algorithm>
 
 template<typename T>
 class HashMapSeparateChaining {
 
-    typedef std::forward_list<T> Bucket;
+    typedef std::list<T> Bucket;
     typedef std::vector<Bucket> HashMap;
     HashMap hashMap;
 
@@ -26,9 +26,9 @@ private:
     }
     size_t realloc(size_t newM){
         size_t hashCalcul;
-        std::vector<std::forward_list<T>> hashMapNew(newM);
+        std::vector<std::list<T>> hashMapNew(newM);
         for(size_t i = 0; i < hashMap.size(); ++i){
-            for(auto j = hashMap.at(i).begin(); i <  hashMap.at(i).end(); ++j ){
+            for(auto j = hashMap.at(i).begin(); i !=  hashMap.at(i).end(); ++j ){
                 T k = *j;
                 hashCalcul = hash(k, newM);
                 hashMapNew.at(hashCalcul).push_front(k);
@@ -45,13 +45,15 @@ public:
     }
 
     bool contains(const T& key) {
-        size_t index = hash(key);
+        size_t index = hash(key, M);
         return (std::find(hashMap.at(index).begin(), hashMap.at(index).end(), key) == hashMap.at(index).end());
     }
 
     void erase(const T& key) {
-        if(contains(key)){
-            remove(key);
+        size_t index = hash(key, M);
+        auto it = std::find(hashMap.at(index).begin(), hashMap.at(index).end(), key);
+        if(it != hashMap.at(index).end()){
+            hashMap.at(index).erase(it);
             if(N / M <= 2){
                 size_t Mnew = M/2;
                 realloc( Mnew);
