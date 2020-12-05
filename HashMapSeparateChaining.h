@@ -36,6 +36,7 @@ private:
             }
         }
         hashMap = hashMapNew;
+        M = newM;
     }
 
 public:
