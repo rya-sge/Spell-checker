@@ -37,11 +37,21 @@ private:
         hashMap = hashMapNew;
         M = newM;
     }
+
 public:
 
 
-    void insert(const T& key) {
+    void insert(const T &key) {
 
+        N++;
+        int hKey = std::hash<T>()(key) % M;
+        size_t occupancy = N / M;
+
+        if (occupancy >= 8) {
+            size_t Mnew = M * 2;
+            realloc(Mnew);
+        }
+        hashMap.at(hKey).puch_front(key);
     }
 
     bool contains(const T& key) {
