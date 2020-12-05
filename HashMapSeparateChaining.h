@@ -64,6 +64,7 @@ public:
         auto it = std::find(hashMap.at(index).begin(), hashMap.at(index).end(), key);
         if(it != hashMap.at(index).end()){
             hashMap.at(index).erase(it);
+            --N;
             if(N / M <= 2){
                 size_t Mnew = M/2;
                 realloc( Mnew);
