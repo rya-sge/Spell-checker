@@ -1,0 +1,1 @@
+add_executable(hashmap_tests_run hashMapTest.cpp catch_main.cpp)
