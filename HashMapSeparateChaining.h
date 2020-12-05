@@ -24,11 +24,11 @@ private:
     size_t hash(T key, size_t m) {
         return std::hash<T>()(key) % m;
     }
-    size_t realloc(size_t newM){
+    void realloc(size_t newM){
         size_t hashCalcul;
-        std::vector<std::list<T>> hashMapNew(newM);
-        for(size_t i = 0; i < hashMap.size(); ++i){
-            for(auto j = hashMap.at(i).begin(); i !=  hashMap.at(i).end(); ++j ){
+        HashMap hashMapNew(newM);
+        for (size_t i = 0; i < hashMap.size(); ++i) {
+            for (auto j = hashMap.at(i).begin(); i < hashMap.at(i).end(); ++j) {
                 T k = *j;
                 hashCalcul = hash(k, newM);
                 hashMapNew.at(hashCalcul).push_front(k);
