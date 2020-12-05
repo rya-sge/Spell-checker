@@ -21,10 +21,21 @@ class HashMapSeparateChaining {
     size_t N = 0;
 
 private:
-    size_t hash(T key) {
-        return std::hash<T>()(key) % hashMap.size();
+    size_t hash(T key, size_t m) {
+        return std::hash<T>()(key) % m;
     }
-
+    size_t realloc(size_t newM){
+        size_t hashCalcul;
+        std::vector<std::forward_list<T>> hashMapNew(newM);
+        for(size_t i = 0; i < hashMap.size(); ++i){
+            for(auto j = hashMap.at(i).begin(); i <  hashMap.at(i).end(); ++j ){
+                T k = *j;
+                hashCalcul = hash(k, newM);
+                hashMapNew.at(hashCalcul).push_front(k);
+            }
+        }
+        hashMap = hashMapNew;
+    }
 public:
 
 
@@ -38,7 +49,13 @@ public:
     }
 
     void erase(const T& key) {
-
+        if(contains(key)){
+            remove(key);
+            if(N / M <= 2){
+                size_t Mnew = M/2;
+                realloc( Mnew);
+            }
+        }
     }
 
     size_t size() {
