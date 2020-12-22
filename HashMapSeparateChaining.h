@@ -51,7 +51,7 @@ public:
             size_t Mnew = M * 2;
             realloc(Mnew);
         }
-        hashMap.at(hKey).puch_front(key);
+        hashMap.at(hKey).push_front(key);
     }
 
     bool contains(const T& key) {
@@ -76,11 +76,5 @@ public:
         return N;
     }
 };
-
-
-
-
-
-
 
 #endif //ASD2_LABS_2020_HASHMAPSEPARATECHAINING_H

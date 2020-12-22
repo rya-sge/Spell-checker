@@ -17,6 +17,7 @@ public:
         this->key = key;
     }
 };
+
 template<typename T>
 class HashMapLinearProbing {
 // Valeurs par défaut
@@ -25,42 +26,62 @@ class HashMapLinearProbing {
     double MAX_FACTOR = 0.5;
     double MIN_FACTOR = 1.0/8;
 
-    typedef std::vector<HashNode<T>> HashMap;
-    //typedef std::vector<std::pair<int, T>> HashMap;
+    typedef std::vector<HashNode<T>*> HashMap;
+
     HashMap hashMap;
-
-
 
     const size_t EMPTY_VALUE = 0;
 
 private:
-    size_t hash(const T& key) {
-        return std::hash<T>()(key) % M;
+    size_t hash(const T& key, size_t m) {
+        return std::hash<T>()(key) % m;
     }
 
+    void realloc(size_t newM){
+        HashMap newHashMap(newM);
 
+        for(HashNode<T> *ptr: hashMap)
+        {
+            if(ptr != NULL){
+                T key = ptr->key;
+                // insert values into the new table
+                size_t index = hash(key, newM);
+                while(newHashMap.at(index) != NULL && newHashMap.at(index)->key != key)
+                    index = (index + 1)%newM;
+                newHashMap.at(index) = ptr;
+            }
+
+        }
+        // remarque: peut mieux faire avec l'allocation dynamique ?
+        hashMap = newHashMap;
+        M = newM;
+    }
 
 public:
+    HashMapLinearProbing(){
+        hashMap = HashMap(M);
+    }
 
     void insert(const T& key) {
         if((double)N / M >= MAX_FACTOR){
-            // todo realloc
+            realloc(M*2);
         }
 
         // find first available index
-        size_t index = hash(key);
-        while(hashMap.at(index) != NULL && hashMap.at(index).key != key){
+        size_t index = hash(key, M);
+        while(hashMap.at(index) != nullptr && hashMap.at(index)->key != key){
             index = (index + 1)%M;
         }
         hashMap.at(index) = new HashNode<T>(key);
+        ++N;
     }
 
     bool contains(const T& key) {
-        size_t index = hash(key);
+        size_t index = hash(key, M);
         size_t count = 0;
 
         while(count != N){
-            if(hashMap.at(index) != NULL && hashMap.at(index).value == key)
+            if(hashMap.at(index) != NULL && hashMap.at(index)->key == key)
                 return true;
             else if(!hashMap.at(index))
                 break;
@@ -69,29 +90,9 @@ public:
             ++count;
         }
 
+        return false;
     }
-    void realloc(size_t newM){
-        HashMap newHashMap(newM);
 
-        for(T ptr: hashMap)
-        {
-            if(ptr != NULL){
-                T key = (*ptr).value;
-                // insert values into the new table
-                size_t index = std::hash<T>()(key) % newM;
-                while(newHashMap.at(index) != NULL && newHashMap.at(index).value != key)
-                    index = (index + 1)%newM;
-                newHashMap.at(index) = key;
-
-            }
-
-
-        }
-
-        // remarque: peut mieux faire avec l'allocation dynamique ?
-        hashMap = newHashMap;
-        M = newM;
-    }
     void erase(const T& key) {
         if(!contains(key)) return;
         int i = hash(key);
@@ -113,7 +114,7 @@ public:
             i = (i + 1) % M;
 
         }
-        N--;
+        --N;
         if(N > 0 && N <= MIN_FACTOR){
             realloc(M / 2);
         }
