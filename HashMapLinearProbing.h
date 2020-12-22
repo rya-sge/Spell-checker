@@ -37,6 +37,13 @@ private:
         return std::hash<T>()(key) % m;
     }
 
+    void findPosition(HashMap* hashMap, const T& key, size_t m, size_t& index){
+        while(hashMap.at(index) != NULL && hashMap.at(index).key != key){
+            index = (index + 1) % m;
+        }
+    }
+
+
     void realloc(size_t newM){
         HashMap *newHashMap  = new HashMap(newM);
 
@@ -46,8 +53,7 @@ private:
                 T key = ptr->key;
                 // insert values into the new table
                 size_t index = hash(key, newM);
-                while(newHashMap->at(index) != NULL && newHashMap->at(index)->key != key)
-                    index = (index + 1)%newM;
+                findPosition(newHashMap, key,newM, index);
                 newHashMap->at(index) = ptr;
             }
 
@@ -79,9 +85,7 @@ public:
 
         // find first available index
         size_t index = hash(key, M);
-        while(hashMap->at(index) != nullptr && hashMap->at(index)->key != key){
-            index = (index + 1)%M;
-        }
+        findPosition(hashMap, key, M, index);
         hashMap->at(index) = new HashNode<T>(key);
         ++N;
     }
