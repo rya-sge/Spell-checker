@@ -70,7 +70,28 @@ public:
         }
 
     }
+    void realloc(size_t newM){
+        HashMap newHashMap(newM);
 
+        for(T ptr: hashMap)
+        {
+            if(ptr != NULL){
+                T key = (*ptr).value;
+                // insert values into the new table
+                size_t index = std::hash<T>()(key) % newM;
+                while(newHashMap.at(index) != NULL && newHashMap.at(index).value != key)
+                    index = (index + 1)%newM;
+                newHashMap.at(index) = key;
+
+            }
+
+
+        }
+
+        // remarque: peut mieux faire avec l'allocation dynamique ?
+        hashMap = newHashMap;
+        M = newM;
+    }
     void erase(const T& key) {
         if(!contains(key)) return;
         int i = hash(key);
@@ -94,7 +115,7 @@ public:
         }
         N--;
         if(N > 0 && N <= MIN_FACTOR){
-            //resize
+            realloc(M / 2);
         }
 
     }
