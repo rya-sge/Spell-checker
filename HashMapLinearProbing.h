@@ -28,7 +28,7 @@ class HashMapLinearProbing {
 
     typedef std::vector<HashNode<T>*> HashMap;
 
-    HashMap hashMap;
+    HashMap *hashMap;
 
     const size_t EMPTY_VALUE = 0;
 
@@ -38,28 +38,38 @@ private:
     }
 
     void realloc(size_t newM){
-        HashMap newHashMap(newM);
+        HashMap *newHashMap  = new HashMap(newM);
 
-        for(HashNode<T> *ptr: hashMap)
+        for(HashNode<T> *ptr: *hashMap)
         {
             if(ptr != NULL){
                 T key = ptr->key;
                 // insert values into the new table
                 size_t index = hash(key, newM);
-                while(newHashMap.at(index) != NULL && newHashMap.at(index)->key != key)
+                while(newHashMap->at(index) != NULL && newHashMap->at(index)->key != key)
                     index = (index + 1)%newM;
-                newHashMap.at(index) = ptr;
+                newHashMap->at(index) = ptr;
             }
 
         }
         // remarque: peut mieux faire avec l'allocation dynamique ?
+        HashMap *oldHashMap = hashMap;
         hashMap = newHashMap;
+        delete oldHashMap;
+
         M = newM;
     }
 
 public:
     HashMapLinearProbing(){
-        hashMap = HashMap(M);
+        hashMap = new HashMap(M);
+    }
+
+    ~HashMapLinearProbing(){
+        for( HashNode<T> *ptr : *hashMap){
+            delete ptr;
+        }
+        delete hashMap;
     }
 
     void insert(const T& key) {
@@ -69,10 +79,10 @@ public:
 
         // find first available index
         size_t index = hash(key, M);
-        while(hashMap.at(index) != nullptr && hashMap.at(index)->key != key){
+        while(hashMap->at(index) != nullptr && hashMap->at(index)->key != key){
             index = (index + 1)%M;
         }
-        hashMap.at(index) = new HashNode<T>(key);
+        hashMap->at(index) = new HashNode<T>(key);
         ++N;
     }
 
@@ -81,9 +91,9 @@ public:
         size_t count = 0;
 
         while(count != N){
-            if(hashMap.at(index) != NULL && hashMap.at(index)->key == key)
+            if(hashMap->at(index) != NULL && hashMap->at(index)->key == key)
                 return true;
-            else if(!hashMap.at(index))
+            else if(!hashMap->at(index))
                 break;
 
             index = (index + 1)%M;
@@ -95,19 +105,19 @@ public:
 
     void erase(const T& key) {
         if(!contains(key)) return;
-        int i = hash(key);
-        while(hashMap.at(i) == NULL || hashMap.at(i).value != key ){
+        int i = hash(key, M);
+        while(hashMap->at(i) == NULL || hashMap->at(i)->key != key ){
             i = (i + 1) % M;
         }
-        delete hashMap.at(i); //Suppression objet pointé
-        hashMap.at(i) = NULL;
+        delete hashMap->at(i); //Suppression objet pointé
+        hashMap->at(i) = NULL;
         i = (i + 1) % M;
-        while(hashMap.at(i) != NULL)
+        while(hashMap->at(i) != NULL)
         {
-            T keyToRedo = hashMap.at(i).value;
+            T keyToRedo = hashMap->at(i)->key;
             //Value valToRedo = vals[i];
-            delete hashMap.at(i); //Suppression objet pointé
-            hashMap.at(i) = NULL;
+            delete hashMap->at(i); //Suppression objet pointé
+            hashMap->at(i) = NULL;
            // vals[i] = null;
             N--;
             insert(keyToRedo);

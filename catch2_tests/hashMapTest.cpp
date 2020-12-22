@@ -82,7 +82,11 @@ TEST_CASE("Linear Probing", "[hashmap]") {
         SECTION("Remove key") {
             for(size_t val : values){
                 hmSizeT.insert(val);
-                REQUIRE(hmSizeT.contains(val));
+            }
+
+            for(size_t val : values){
+                hmSizeT.erase(val);
+                REQUIRE(!hmSizeT.contains(val));
             }
 
             REQUIRE(!hmSizeT.size());
