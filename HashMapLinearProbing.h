@@ -23,8 +23,8 @@ class HashMapLinearProbing {
 // Valeurs par défaut
     size_t M = 2;
     size_t N = 0;
-    double MAX_FACTOR = 0.5;
-    double MIN_FACTOR = 1.0/8;
+    const double MAX_FACTOR = 0.5;
+    const double MIN_FACTOR = 1.0/8;
 
     typedef std::vector<HashNode<T>*> HashMap;
 
@@ -129,7 +129,7 @@ public:
 
         }
         --N;
-        if(N > 0 && N <= MIN_FACTOR){
+        if(N > 0 && (double)N/M <= MIN_FACTOR){
             realloc(M / 2);
         }
 
@@ -137,6 +137,10 @@ public:
 
     size_t size() {
         return N;
+    }
+
+    size_t max_size() {
+        return M;
     }
 };
 

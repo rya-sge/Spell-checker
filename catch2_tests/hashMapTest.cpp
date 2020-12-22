@@ -1,3 +1,5 @@
+#include <iostream>
+#include <iomanip>
 #include "catch.hpp"
 #include "../HashMapWrapper.h"
 #include "../HashMapLinearProbing.h"
@@ -30,47 +32,16 @@ TEST_CASE("various dummy tests", "[hashmap]") {
 TEST_CASE("Linear Probing", "[hashmap]") {
     HashMapLinearProbing<string> hmString;
     HashMapLinearProbing<size_t> hmSizeT;
-/*
-    SECTION("String values") {
 
+    const double MAX_FACTOR = 0.5;
+    const double MIN_FACTOR = 1.0/8;
 
-        SECTION("Insert key") {
-            hmString.insert("Salut");
-            hmString.insert("Les amis");
-            hmString.insert("Oui");
-
-            REQUIRE(hmString.contains("Salut"));
-            REQUIRE(hmString.contains("Les amis"));
-            REQUIRE(hmString.contains("Oui"));
-            REQUIRE(hmString.size() == 3);
-        }
-
-        SECTION("Remove key") {
-            REQUIRE(hmString.contains("Salut"));
-
-        }
-
-        SECTION("Search key") {
-
-        }
-
-        SECTION("Resize hashmap") {
-            SECTION("Extend") {
-
-            }
-
-            SECTION("Reduce") {
-
-            }
-        }
-    }
-*/
     SECTION("Size_T values") {
-        vector<size_t> values(5);
+        vector<size_t> values(10);
         for(size_t &value : values)
             value = rand();
 
-        SECTION("Insert key") {
+        SECTION("Insert key (and contains)") {
             for(size_t val : values){
                 hmSizeT.insert(val);
                 REQUIRE(hmSizeT.contains(val));
@@ -92,16 +63,29 @@ TEST_CASE("Linear Probing", "[hashmap]") {
             REQUIRE(!hmSizeT.size());
         }
 
-        SECTION("Search key") {
-
-        }
-
         SECTION("Resize hashmap") {
             SECTION("Extend") {
+
 
             }
 
             SECTION("Reduce") {
+                for(size_t val: values)
+                    hmSizeT.insert(val);
+
+                size_t M = hmSizeT.max_size();
+                for(size_t N = hmSizeT.size()-1; N >= 0; --N){
+                    double factor = (double)(N)/M;
+                    hmSizeT.erase(values.at(N));
+                    //std::cout << setw(2)<< N << "|" << M << "|" <<  factor << endl;
+                    if(factor <= MIN_FACTOR){ // realloc expected
+                        double actualFactor = (double)hmSizeT.size()/hmSizeT.max_size();
+                        //std::cout << "\t" << hmSizeT.size() << " / " << hmSizeT.max_size() << " = " << actualFactor << endl;
+                        REQUIRE(actualFactor == factor*2);
+                        M = hmSizeT.max_size();
+                    }
+
+                }
 
             }
         }
