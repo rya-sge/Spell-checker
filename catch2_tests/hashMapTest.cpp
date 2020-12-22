@@ -5,7 +5,7 @@
 #include "../HashMapLinearProbing.h"
 
 using namespace std;
-/*
+
 TEST_CASE("various dummy tests", "[hashmap]") {
 
     HashMapWrapper<int> hashMapWrapper;
@@ -27,7 +27,7 @@ TEST_CASE("various dummy tests", "[hashmap]") {
         REQUIRE(!hashMapWrapper.contains(1));
     }
 }
-*/
+
 
 TEST_CASE("Linear Probing", "[hashmap]") {
     HashMapLinearProbing<string> hmString;
@@ -65,7 +65,24 @@ TEST_CASE("Linear Probing", "[hashmap]") {
 
         SECTION("Resize hashmap") {
             SECTION("Extend") {
+                size_t M = hmSizeT.max_size();
 
+                for(size_t N = 0; N < values.size(); ++N){
+                    double factor = (double)(N+1)/M;
+
+                    hmSizeT.insert(values.at(N));
+
+                    //std::cout << setw(2)<< N+1 << "|" << M << "|" <<  factor << endl;
+
+                    if(factor >= MAX_FACTOR){ // realloc expected
+                        double actualFactor = (double)hmSizeT.size()/hmSizeT.max_size();
+
+                        //std::cout << "\t" << hmSizeT.size() << " / " << hmSizeT.max_size() << " = " << actualFactor << endl;
+                        REQUIRE(actualFactor == factor/2);
+                        M = hmSizeT.max_size();
+                    }
+
+                }
 
             }
 
@@ -74,14 +91,16 @@ TEST_CASE("Linear Probing", "[hashmap]") {
                     hmSizeT.insert(val);
 
                 size_t M = hmSizeT.max_size();
-                for(size_t N = hmSizeT.size()-1; N >= 0; --N){
-                    double factor = (double)(N)/M;
+                for(int N = hmSizeT.size()-1; N >= 0; --N){
+                    double factor = (double)N/M;
                     hmSizeT.erase(values.at(N));
+
                     //std::cout << setw(2)<< N << "|" << M << "|" <<  factor << endl;
                     if(factor <= MIN_FACTOR){ // realloc expected
                         double actualFactor = (double)hmSizeT.size()/hmSizeT.max_size();
+
                         //std::cout << "\t" << hmSizeT.size() << " / " << hmSizeT.max_size() << " = " << actualFactor << endl;
-                        REQUIRE(actualFactor == factor*2);
+                        REQUIRE((actualFactor == factor*2));
                         M = hmSizeT.max_size();
                     }
 

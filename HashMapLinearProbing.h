@@ -23,7 +23,7 @@ class HashMapLinearProbing {
 // Valeurs par défaut
     size_t M = 2;
     size_t N = 0;
-    const double MAX_FACTOR = 0.5;
+    const double MAX_FACTOR = 1.0/2;
     const double MIN_FACTOR = 1.0/8;
 
     typedef std::vector<HashNode<T>*> HashMap;
@@ -79,15 +79,15 @@ public:
     }
 
     void insert(const T& key) {
-        if((double)N / M >= MAX_FACTOR){
-            realloc(M*2);
-        }
-
         // find first available index
         size_t index = hash(key, M);
         findPosition(hashMap, key, M, index);
         hashMap->at(index) = new HashNode<T>(key);
         ++N;
+
+        if((double)N / M >= MAX_FACTOR){
+            realloc(M*2);
+        }
     }
 
     bool contains(const T& key) {
