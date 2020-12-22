@@ -15,9 +15,9 @@ class HashMapSeparateChaining {
     typedef std::list<T> Bucket;
     typedef std::vector<Bucket> HashMap;
     HashMap hashMap;
-
+    const size_t MIN_VALUE_M = 2;
     // Valeurs par défaut
-    size_t M = 2;
+    size_t M = MIN_VALUE_M;
     size_t N = 0;
 
 private:
@@ -66,7 +66,7 @@ public:
             hashMap.at(index).erase(it);
             --N;
             if(N / M <= 2){
-                size_t Mnew = M/2;
+                size_t Mnew = M / 2;
                 realloc( Mnew);
             }
         }

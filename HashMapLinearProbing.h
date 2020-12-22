@@ -107,8 +107,8 @@ public:
         return false;
     }
 
-    void erase(const T& key) {
-        if(!contains(key)) return;
+    bool erase(const T& key) {
+        if(!contains(key)) return false;
         int i = hash(key, M);
         while(hashMap->at(i) == NULL || hashMap->at(i)->key != key ){
             i = (i + 1) % M;
@@ -132,7 +132,7 @@ public:
         if(N > 0 && (double)N/M <= MIN_FACTOR){
             realloc(M / 2);
         }
-
+        return true;
     }
 
     size_t size() {
