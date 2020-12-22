@@ -38,7 +38,7 @@ private:
     }
 
     void findPosition(HashMap* hashMap, const T& key, size_t m, size_t& index){
-        while(hashMap->at(index) != NULL && hashMap.at(index).key != key){
+        while(hashMap->at(index) != NULL && hashMap->at(index).key != key){
             index = (index + 1) % m;
         }
     }
