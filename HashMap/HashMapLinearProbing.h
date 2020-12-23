@@ -4,25 +4,27 @@
 #include <cstdlib>
 #include <vector>
 
-template<typename K>
-class HashNode {
-public:
-    // V value;
-    K key;
 
-    //Constructor of hashnode
-    HashNode(K key) {
-        // this->value = value;
-        this->key = key;
-    }
-};
 
 template<typename T>
 class HashMapLinearProbing : public HashMapWrapper<T> {
 
-    typedef std::vector<HashNode<T> *> HashMap;
-
 private:
+    class HashNode {
+    public:
+        // V value;
+        T key;
+
+        //Constructor of hashnode
+        HashNode(T key) {
+            // this->value = value;
+            this->key = key;
+        }
+    };
+
+    typedef std::vector<HashNode *> HashMap;
+
+
     HashMap *hashMap;
     // Valeurs par défaut
     const size_t MIN_VALUE_M = 2;
@@ -49,7 +51,7 @@ private:
     void realloc(size_t newM) {
         HashMap *newHashMap = new HashMap(newM);
 
-        for (HashNode<T> *ptr: *hashMap) {
+        for (HashNode *ptr: *hashMap) {
             if (ptr != NULL) {
                 T key = ptr->key;
                 // insert values into the new table
@@ -73,7 +75,7 @@ public:
     }
 
     ~HashMapLinearProbing() {
-        for (HashNode<T> *ptr : *hashMap) {
+        for (HashNode *ptr : *hashMap) {
 
             delete ptr;
         }
@@ -88,7 +90,7 @@ public:
 
         size_t index = hash(key, M);
         findPosition(hashMap, key, M, index);
-        hashMap->at(index) = new HashNode<T>(key);
+        hashMap->at(index) = new HashNode(key);
         ++N;
 
         if ((double) N / M >= MAX_FACTOR) {
