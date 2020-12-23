@@ -26,7 +26,7 @@ TEST_CASE("various dummy tests", "[hashmap]") {
     }
 }
 */
-
+/*
 TEST_CASE("Linear Probing", "[hashmap]") {
     HashMapLinearProbing<string> hmString;
     HashMapLinearProbing<size_t> hmSizeT;
@@ -65,7 +65,7 @@ TEST_CASE("Linear Probing", "[hashmap]") {
         }
     }
 */
-    SECTION("Size_T values") {
+/*    SECTION("Size_T values") {
         vector<size_t> values(5);
         for(size_t &value : values)
             value = rand();
@@ -106,4 +106,4 @@ TEST_CASE("Linear Probing", "[hashmap]") {
             }
         }
     }
-}
+}*/

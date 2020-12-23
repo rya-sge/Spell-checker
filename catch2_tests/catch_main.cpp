@@ -37,9 +37,9 @@ TEST_CASE("Separate Chaining with size_t") {
 
         for (size_t i = 1; i <= N; ++i) {
             if(i%2)
-                REQUIRE(sp.contains(i) == true);
+                REQUIRE(sp.contains(i));
             else
-                REQUIRE(sp.contains(i) == false);
+                REQUIRE(!sp.contains(i));
         }
     }SECTION("size == i, i in [1,...,N], with erase") {
         for (size_t i = 1; i <= N; ++i) {
@@ -61,11 +61,49 @@ TEST_CASE("Separate Chaining with size_t") {
         }
         for (size_t i = 1; i <= N; ++i) {
             if(i%2)
-                REQUIRE(sp.contains(i) == false);
+                REQUIRE(!sp.contains(i));
             else
-                REQUIRE(sp.contains(i) == true);
+                REQUIRE(sp.contains(i));
         }
     }
 }
 
 
+TEST_CASE("Separate Chaining with string") {
+
+    HashMapSeparateChaining<std::string> sp;
+    std::string fruits[] = {"pomme","poire","fraise","pasteque","orange","mandarine","citron","noix", "noisette", "melon"};
+    std::string suppressFruits[] = {"poire","pasteque","mandarine","noix", "melon"};
+
+    SECTION("New size, is 0") {
+        REQUIRE(sp.size() == 0);
+    }SECTION("insert all fruits, count and check if it is contained") {
+        for (size_t i = 0; i < fruits->length(); ++i) {
+            sp.insert(fruits[i]);
+            REQUIRE(sp.size() == i + 1);
+            //Check que les éléments ne s'insérent pas à double
+            sp.insert(fruits[i]);
+            REQUIRE(sp.size() == i + 1);
+            REQUIRE(sp.contains(fruits[i]));
+        }
+        REQUIRE(!sp.contains("piment"));
+    }SECTION("insert all fruits, erase some, count and check if it is contained") {
+
+        for (size_t i = 0; i < fruits->length(); ++i)
+            sp.insert(fruits[i]);
+
+        for (size_t i = 0; i < suppressFruits->length(); ++i) {
+            sp.erase(suppressFruits[i]);
+            REQUIRE(sp.size() == fruits->length() -1 - i);
+            //Check que les éléments ne s'insérent pas à double
+            sp.erase(suppressFruits[i]);
+            REQUIRE(sp.size() == fruits->length() -1 - i);
+        }
+        for (size_t i = 0; i < fruits->length(); ++i){
+            if(i%2)
+                REQUIRE(sp.contains(fruits[i]));
+            else
+                REQUIRE(!sp.contains(fruits[i]));
+        }
+    }
+}

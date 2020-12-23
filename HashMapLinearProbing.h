@@ -3,7 +3,7 @@
 
 #include <cstdlib>
 #include <vector>
-
+/*
 template<typename K>
 class HashNode{
 public:
@@ -140,6 +140,6 @@ public:
     }
 };
 
-
+*/
 
 #endif //ASD2_LABS_2020_HASHMAPLINEARPROBING_H
