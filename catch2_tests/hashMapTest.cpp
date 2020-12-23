@@ -1,9 +1,108 @@
+#include <iostream>
+#include <iomanip>
 #include "catch.hpp"
 #include "../HashMapWrapper.h"
 #include "../HashMapLinearProbing.h"
 
 using namespace std;
+
+template <typename T>
+bool test(const vector<T>& values, const vector<T>& noValues){
+    HashMapLinearProbing<T> hm;
+
+    const double MAX_FACTOR = 0.5;
+    const double MIN_FACTOR = 1.0/8;
+
+    SECTION("Empty hashMap") {
+        //Vérifier que la taille est nulle
+        REQUIRE(!hm.size());
+        for(T val : noValues){
+            REQUIRE(!hm.contains(val));
+            REQUIRE(!hm.erase(val));
+        }
+    }
+
+    SECTION("Insert key (and contains)") {
+        for(T val : values){
+            hm.insert(val);
+            REQUIRE(hm.contains(val));
+        }
+
+        REQUIRE(hm.size() == values.size());
+    }
+
+    SECTION("Remove key") {
+        for(T val : values){
+            hm.insert(val);
+        }
+
+        for(T val : values){
+            hm.erase(val);
+            REQUIRE(!hm.contains(val));
+        }
+
+        REQUIRE(!hm.size());
+    }
+}
+*/
 /*
+TEST_CASE("Linear Probing", "[hashmap]") {
+    HashMapLinearProbing<string> hmString;
+    HashMapLinearProbing<size_t> hmSizeT;
+/*
+    SECTION("String values") {
+
+            for(size_t N = 0; N < values.size(); ++N){
+                double factor = (double)(N+1)/M;
+
+                hm.insert(values.at(N));
+
+                //std::cout << setw(2)<< N+1 << "|" << M << "|" <<  factor << endl;
+
+                if(factor >= MAX_FACTOR){ // realloc expected
+                    double actualFactor = (double)hm.size() / hm.max_size();
+
+                    //std::cout << "\t" << hm.size() << " / " << hm.max_size() << " = " << actualFactor << endl;
+                    REQUIRE(actualFactor == factor/2);
+                    M = hm.max_size();
+                }
+
+            }
+
+        }
+
+        SECTION("Reduce") {
+            for(T val: values)
+                hm.insert(val);
+
+            size_t M = hm.max_size();
+            for(int N = hm.size() - 1; N >= 0; --N){
+                double factor = (double)N/M;
+                hm.erase(values.at(N));
+
+                //std::cout << setw(2)<< N << "|" << M << "|" <<  factor << endl;
+                if(factor <= MIN_FACTOR){ // realloc expected
+                    double actualFactor = (double)hm.size() / hm.max_size();
+
+                    //std::cout << "\t" << hm.size() << " / " << hm.max_size() << " = " << actualFactor << endl;
+                    REQUIRE((actualFactor == factor*2));
+                    M = hm.max_size();
+                }
+
+            }
+
+        }
+    }
+*/
+/*    SECTION("Size_T values") {
+        vector<size_t> values(5);
+        for(size_t &value : values)
+            value = rand();
+
+}
+
+
+
 TEST_CASE("various dummy tests", "[hashmap]") {
 
     HashMapWrapper<int> hashMapWrapper;
@@ -25,85 +124,26 @@ TEST_CASE("various dummy tests", "[hashmap]") {
         REQUIRE(!hashMapWrapper.contains(1));
     }
 }
-*/
-/*
+
+
 TEST_CASE("Linear Probing", "[hashmap]") {
     HashMapLinearProbing<string> hmString;
     HashMapLinearProbing<size_t> hmSizeT;
-/*
-    SECTION("String values") {
 
+    const double MAX_FACTOR = 0.5;
+    const double MIN_FACTOR = 1.0/8;
 
-        SECTION("Insert key") {
-            hmString.insert("Salut");
-            hmString.insert("Les amis");
-            hmString.insert("Oui");
-
-            REQUIRE(hmString.contains("Salut"));
-            REQUIRE(hmString.contains("Les amis"));
-            REQUIRE(hmString.contains("Oui"));
-            REQUIRE(hmString.size() == 3);
+    SECTION("Size_T values") {
+        const size_t SIZE = 5;
+        vector<size_t> values(SIZE);
+        vector<size_t> valuesExclude(SIZE);
+        for(int i = 0; i < values.size(); ++i ){
+            values.at(i) = i;
         }
-
-        SECTION("Remove key") {
-            REQUIRE(hmString.contains("Salut"));
-
+        for(int elem = values.size(), i = 0; i < valuesExclude.size(); ++i, ++elem ){
+            valuesExclude.at(i) = elem;
         }
+        test(values, valuesExclude);
 
-        SECTION("Search key") {
-
-        }
-
-        SECTION("Resize hashmap") {
-            SECTION("Extend") {
-
-            }
-
-            SECTION("Reduce") {
-
-            }
-        }
-    }
-*/
-/*    SECTION("Size_T values") {
-        vector<size_t> values(5);
-        for(size_t &value : values)
-            value = rand();
-
-        SECTION("Insert key") {
-            for(size_t val : values){
-                hmSizeT.insert(val);
-                REQUIRE(hmSizeT.contains(val));
-            }
-
-            REQUIRE(hmSizeT.size() == values.size());
-        }
-
-        SECTION("Remove key") {
-            for(size_t val : values){
-                hmSizeT.insert(val);
-            }
-
-            for(size_t val : values){
-                hmSizeT.erase(val);
-                REQUIRE(!hmSizeT.contains(val));
-            }
-
-            REQUIRE(!hmSizeT.size());
-        }
-
-        SECTION("Search key") {
-
-        }
-
-        SECTION("Resize hashmap") {
-            SECTION("Extend") {
-
-            }
-
-            SECTION("Reduce") {
-
-            }
-        }
     }
 }*/

@@ -8,6 +8,11 @@
 
 using namespace std;
 
+template<typename T>
+size_t hashFun(const T& key, size_t m) {
+    return std::hash<T>()(key) % m;
+}
+
 int main() {
 
     HashMapWrapper<std::string> hashMap;

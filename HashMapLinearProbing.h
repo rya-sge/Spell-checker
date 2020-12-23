@@ -23,8 +23,8 @@ class HashMapLinearProbing {
 // Valeurs par défaut
     size_t M = 2;
     size_t N = 0;
-    double MAX_FACTOR = 0.5;
-    double MIN_FACTOR = 1.0/8;
+    const double MAX_FACTOR = 1.0/2;
+    const double MIN_FACTOR = 1.0/8;
 
     typedef std::vector<HashNode<T>*> HashMap;
 
@@ -38,7 +38,7 @@ private:
     }
 
     void findPosition(HashMap* hashMap, const T& key, size_t m, size_t& index){
-        while(hashMap->at(index) != NULL && hashMap->at(index).key != key){
+        while(hashMap->at(index) != NULL && hashMap->at(index)->key != key){
             index = (index + 1) % m;
         }
     }
@@ -79,15 +79,15 @@ public:
     }
 
     void insert(const T& key) {
-        if((double)N / M >= MAX_FACTOR){
-            realloc(M*2);
-        }
-
         // find first available index
         size_t index = hash(key, M);
         findPosition(hashMap, key, M, index);
         hashMap->at(index) = new HashNode<T>(key);
         ++N;
+
+        if((double)N / M >= MAX_FACTOR){
+            realloc(M*2);
+        }
     }
 
     bool contains(const T& key) {
@@ -107,8 +107,8 @@ public:
         return false;
     }
 
-    void erase(const T& key) {
-        if(!contains(key)) return;
+    bool erase(const T& key) {
+        if(!contains(key)) return false;
         int i = hash(key, M);
         while(hashMap->at(i) == NULL || hashMap->at(i)->key != key ){
             i = (i + 1) % M;
@@ -129,14 +129,18 @@ public:
 
         }
         --N;
-        if(N > 0 && N <= MIN_FACTOR){
+        if(N > 0 && (double)N/M <= MIN_FACTOR){
             realloc(M / 2);
         }
-
+        return true;
     }
 
     size_t size() {
         return N;
+    }
+
+    size_t max_size() {
+        return M;
     }
 };
 
