@@ -97,7 +97,7 @@ TEST_CASE("Separate Chaining with string") {
             REQUIRE(sp.size() == fruits->length() -1 - i);
             //Check que les éléments ne s'insérent pas à double
             sp.erase(suppressFruits[i]);
-            REQUIRE(sp.size() == fruits->length() -1 - i);
+            REQUIRE(sp.size() == fruits->length() - 1 - i);
         }
         for (size_t i = 0; i < fruits->length(); ++i){
             if(i%2)

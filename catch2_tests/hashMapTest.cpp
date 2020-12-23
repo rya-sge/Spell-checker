@@ -43,14 +43,10 @@ bool test(const vector<T>& values, const vector<T>& noValues){
 
         REQUIRE(!hm.size());
     }
-}
-*/
-/*
-TEST_CASE("Linear Probing", "[hashmap]") {
-    HashMapLinearProbing<string> hmString;
-    HashMapLinearProbing<size_t> hmSizeT;
-/*
-    SECTION("String values") {
+
+    SECTION("Resize hashmap") {
+        SECTION("Extend") {
+            size_t M = hm.max_size();
 
             for(size_t N = 0; N < values.size(); ++N){
                 double factor = (double)(N+1)/M;
@@ -93,11 +89,6 @@ TEST_CASE("Linear Probing", "[hashmap]") {
 
         }
     }
-*/
-/*    SECTION("Size_T values") {
-        vector<size_t> values(5);
-        for(size_t &value : values)
-            value = rand();
 
 }
 
@@ -146,4 +137,10 @@ TEST_CASE("Linear Probing", "[hashmap]") {
         test(values, valuesExclude);
 
     }
-}*/
+
+    SECTION("String values") {
+        vector<string> values = {"H", "Salut", "Les amis", "Oui"};
+        vector<string> valuesExclude = {"h", "tulaS", "Non", "Enjoy"};
+        test(values, valuesExclude);
+    }
+}
