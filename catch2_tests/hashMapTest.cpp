@@ -121,9 +121,6 @@ TEST_CASE("Linear Probing", "[hashmap]") {
     HashMapLinearProbing<string> hmString;
     HashMapLinearProbing<size_t> hmSizeT;
 
-    const double MAX_FACTOR = 0.5;
-    const double MIN_FACTOR = 1.0/8;
-
     SECTION("Size_T values") {
         const size_t SIZE = 5;
         vector<size_t> values(SIZE);
