@@ -15,16 +15,23 @@ class HashMapSeparateChaining : public HashMapWrapper2<T> {
 
     typedef std::list<T> Bucket;
     typedef std::vector<Bucket> HashMap;
+private:
     HashMap hashMap;
     const size_t MIN_VALUE_M = 2;
     // Valeurs par défaut
     size_t M = MIN_VALUE_M;
     size_t N = 0;
 
-private:
+    const double MAX_FACTOR = 8;
+    const double MIN_FACTOR = 2;
+
+    const double MIN_FACTOR_COEF = 2;
+    const double MAX_FACTOR_COEF = 2;
+
     size_t hash(T key, size_t m) {
         return std::hash<T>()(key) % m;
     }
+
     void realloc(size_t newM){
         size_t hashCalcul;
         HashMap hashMapNew(newM);
@@ -54,8 +61,8 @@ public:
         N++;
         size_t occupancy = N / M;
 
-        if (occupancy >= 8) {
-            size_t Mnew = M * 2;
+        if (occupancy >= MAX_FACTOR) {
+            size_t Mnew = M * MIN_FACTOR_COEF;
             realloc(Mnew);
         }
 
@@ -76,8 +83,8 @@ public:
         if(it != hashMap.at(index).end()){
             hashMap.at(index).erase(it);
             --N;
-            if(N / M <= 2 and M > 2){
-                size_t Mnew = M/2;
+            if(N / M <= MIN_FACTOR and M > 2){
+                size_t Mnew = M / MAX_FACTOR_COEF;
                 realloc( Mnew);
             }
         }else{
@@ -91,6 +98,22 @@ public:
     }
     size_t max_size() {
         return M;
+    }
+
+    double getMaxFactor() {
+        return MAX_FACTOR;
+    }
+
+    double getMinFactor() {
+        return MIN_FACTOR;
+    }
+
+    size_t getMaxCoefFactor() {
+        return MAX_FACTOR_COEF;
+    }
+
+    size_t getMinCoefFactor() {
+        return MIN_FACTOR_COEF;
     }
 };
 

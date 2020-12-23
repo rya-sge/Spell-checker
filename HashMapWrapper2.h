@@ -24,6 +24,14 @@ public:
     virtual size_t size(){}
 
     virtual size_t max_size(){}
+
+    virtual double getMaxFactor(){}
+
+    virtual double getMinFactor() {}
+
+    virtual size_t getMaxCoefFactor() {}
+
+    virtual size_t getMinCoefFactor(){}
 };
 
 

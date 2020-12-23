@@ -26,6 +26,10 @@ class HashMapLinearProbing  : public HashMapWrapper2<T>{
     const double MAX_FACTOR = 1.0/2;
     const double MIN_FACTOR = 1.0/8;
 
+    const size_t MAX_FACTOR_COEF = 2;
+    const size_t MIN_FACTOR_COEF = 2;
+
+
     typedef std::vector<HashNode<T>*> HashMap;
 
     HashMap *hashMap;
@@ -73,13 +77,18 @@ public:
 
     ~HashMapLinearProbing(){
         for( HashNode<T> *ptr : *hashMap){
+
             delete ptr;
         }
         delete hashMap;
+        hashMap = NULL;
     }
 
     void insert(const T& key) {
         // find first available index
+        if(contains(key))
+            return;
+
         size_t index = hash(key, M);
         findPosition(hashMap, key, M, index);
         hashMap->at(index) = new HashNode<T>(key);
@@ -130,7 +139,7 @@ public:
         }
         --N;
         if(N > 0 && (double)N/M <= MIN_FACTOR){
-            realloc(M / 2);
+            realloc(M / MAX_FACTOR_COEF);
         }
         return true;
     }
@@ -141,6 +150,22 @@ public:
 
     size_t max_size() {
         return M;
+    }
+
+    double getMaxFactor() {
+        return MAX_FACTOR;
+    }
+
+    double getMinFactor() {
+        return MIN_FACTOR;
+    }
+
+    size_t getMaxCoefFactor() {
+        return MAX_FACTOR_COEF;
+    }
+
+    size_t getMinCoefFactor() {
+        return MIN_FACTOR_COEF;
     }
 };
 
