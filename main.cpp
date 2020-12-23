@@ -4,9 +4,9 @@
 
 #include <iostream>
 #include "Dictionary.h"
-#include "HashMapWrapper.h"
-#include "HashMapLinearProbing.h"
-#include "HashMapSeparateChaining.h"
+#include "HashMap/HashMapWrapper.h"
+#include "HashMap/HashMapLinearProbing.h"
+#include "HashMap/HashMapSeparateChaining.h"
 
 using namespace std;
 
