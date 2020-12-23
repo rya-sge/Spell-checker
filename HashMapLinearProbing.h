@@ -19,7 +19,7 @@ public:
 };
 
 template<typename T>
-class HashMapLinearProbing {
+class HashMapLinearProbing  : public HashMapWrapper2<T>{
 // Valeurs par défaut
     size_t M = 2;
     size_t N = 0;

@@ -8,9 +8,10 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include "HashMapWrapper2.h"
 
 template<typename T>
-class HashMapSeparateChaining {
+class HashMapSeparateChaining : public HashMapWrapper2<T> {
 
     typedef std::list<T> Bucket;
     typedef std::vector<Bucket> HashMap;
@@ -68,7 +69,7 @@ public:
         return (std::find(hashMap.at(index).begin(), hashMap.at(index).end(), key) != hashMap.at(index).end());
     }
 
-    void erase(const T& key) {
+    bool erase(const T& key) {
         size_t index = hash(key, M);
         //peut-être utiliser contains:
         auto it = std::find(hashMap.at(index).begin(), hashMap.at(index).end(), key);
@@ -79,11 +80,17 @@ public:
                 size_t Mnew = M/2;
                 realloc( Mnew);
             }
+        }else{
+            return false;
         }
+        return true;
     }
 
     size_t size() {
         return N;
+    }
+    size_t max_size() {
+        return M;
     }
 };
 

@@ -13,7 +13,7 @@
 
 const size_t N = 100;
 
-
+/*
 TEST_CASE("Separate Chaining with size_t") {
 
     HashMapSeparateChaining<size_t> sp;
@@ -108,4 +108,4 @@ TEST_CASE("Separate Chaining with string") {
                 REQUIRE(!sp.contains(fruits[i]));
         }
     }
-}
+}*/

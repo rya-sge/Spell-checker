@@ -15,7 +15,7 @@ size_t hashFun(const T& key, size_t m) {
 
 int main() {
 
-    HashMapWrapper<std::string> hashMap;
+   /* HashMapWrapper<std::string> hashMap;
 
     hashMap.insert("Hello world");
 
@@ -24,15 +24,15 @@ int main() {
 
     for (size_t i = 1; i <= N ; ++i) {
         sp.insert(i);
-    }
+    }*/
 
     /*for (size_t i = 0; i <= N ; ++i) {
         cout << sp.size() << endl;
         sp.erase(N-i);
     }*/
 
-    sp.erase(42);
-    cout << sp.size() << endl;
+    /*sp.erase(42);
+    cout << sp.size() << endl;*/
 
     return 0;
 }
