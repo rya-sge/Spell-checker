@@ -73,12 +73,14 @@ TEST_CASE("Separate Chaining with string") {
 
     HashMapSeparateChaining<std::string> sp;
     std::string fruits[] = {"pomme","poire","fraise","pasteque","orange","mandarine","citron","noix", "noisette", "melon"};
+    const size_t SIZE_FRUITS = 10;
     std::string suppressFruits[] = {"poire","pasteque","mandarine","noix", "melon"};
+    const size_t SIZE_SUPRESSED_FRUITS = 5;
 
     SECTION("New size, is 0") {
         REQUIRE(sp.size() == 0);
     }SECTION("insert all fruits, count and check if it is contained") {
-        for (size_t i = 0; i < fruits->length(); ++i) {
+        for (size_t i = 0; i < SIZE_FRUITS; ++i) {
             sp.insert(fruits[i]);
             REQUIRE(sp.size() == i + 1);
             //Check que les éléments ne s'insérent pas à double
@@ -89,18 +91,18 @@ TEST_CASE("Separate Chaining with string") {
         REQUIRE(!sp.contains("piment"));
     }SECTION("insert all fruits, erase some, count and check if it is contained") {
 
-        for (size_t i = 0; i < fruits->length(); ++i)
+        for (size_t i = 0; i < SIZE_FRUITS; ++i)
             sp.insert(fruits[i]);
 
-        for (size_t i = 0; i < suppressFruits->length(); ++i) {
+        for (size_t i = 0; i < SIZE_SUPRESSED_FRUITS; ++i) {
             sp.erase(suppressFruits[i]);
-            REQUIRE(sp.size() == fruits->length() -1 - i);
-            //Check que les éléments ne s'insérent pas à double
+            REQUIRE(sp.size() == SIZE_FRUITS -1 - i);
+            //Check que les éléments ne s'effacent pas deux fois
             sp.erase(suppressFruits[i]);
-            REQUIRE(sp.size() == fruits->length() - 1 - i);
+            REQUIRE(sp.size() == SIZE_FRUITS - 1 - i);
         }
-        for (size_t i = 0; i < fruits->length(); ++i){
-            if(i%2)
+        for (size_t i = 0; i < SIZE_FRUITS; ++i){
+            if(!(i%2))
                 REQUIRE(sp.contains(fruits[i]));
             else
                 REQUIRE(!sp.contains(fruits[i]));

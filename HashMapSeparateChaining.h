@@ -27,7 +27,7 @@ private:
     void realloc(size_t newM){
         size_t hashCalcul;
         HashMap hashMapNew(newM);
-        for (size_t i = 0; i < hashMap.size(); ++i) {
+        for (size_t i = 0; i < M; ++i)  {
             for (auto j = hashMap.at(i).begin(); j != hashMap.at(i).end(); ++j) {
                 T k = *j;
                 hashCalcul = hash(k, newM);
