@@ -58,7 +58,7 @@ private:
             }
 
         }
-        // remarque: peut mieux faire avec l'allocation dynamique ?
+
         HashMap *oldHashMap = hashMap;
         hashMap = newHashMap;
         delete oldHashMap;
@@ -80,6 +80,9 @@ public:
 
     void insert(const T& key) {
         // find first available index
+        if(contains(key))
+            return;
+
         size_t index = hash(key, M);
         findPosition(hashMap, key, M, index);
         hashMap->at(index) = new HashNode<T>(key);
