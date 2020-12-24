@@ -15,7 +15,7 @@ class Dictionary{
     HashMap words;
 
 private:
-    std::string sanitizeWord(const std::string& w){
+    std::string sanitizeWord(const std::string& w) const {
 
         std::string saneWord;
         for(char c : w){
@@ -43,18 +43,21 @@ private:
         return saneWord;
 
     }
-
 public:
 
-
     Dictionary(const std::string& inputfile){
-        HashMap newWords;
 
         // read file
         std::string line;
         std::ifstream file;
 
         file.open(inputfile);
+
+        if(!file.is_open()){
+            std::cout << '\n' << "Erreur de lecture du fichier";
+            return;
+        }
+
         while(!file.eof()){
             std::getline(file, line);
             std::istringstream iss(line);
@@ -66,23 +69,25 @@ public:
             }
 
         }
+
+        file.close();
     }
 
     void addWord(std::string word){
         word = sanitizeWord(word);
         words.insert(word);
-        std::cout << word << " added" <<std::endl;
     }
 
     bool eraseWord(std::string word){
         return words.erase(word);
     }
 
-    bool contains(std::string word){
+    bool contains(std::string word) const{
+        word = sanitizeWord(word);
         return words.contains(word);
     }
 
-    void print(){
+    void size() const {
         std::cout << words.size() << std::endl;
     }
 

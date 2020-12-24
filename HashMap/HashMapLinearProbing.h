@@ -3,13 +3,22 @@
 
 #include <cstdlib>
 #include <vector>
+#include "HashMapWrapper.h"
 
 
 
 template<typename T>
 class HashMapLinearProbing : public HashMapWrapper<T> {
 
+
 private:
+    // Valeurs par défaut
+    const size_t MIN_VALUE_M = 2;
+    const double MAX_FACTOR = 1.0 / 2;
+    const double MIN_FACTOR = 1.0 / 8;
+    const size_t MAX_FACTOR_COEF = 2;
+    const size_t MIN_FACTOR_COEF = 2;
+
     class HashNode {
     public:
         // V value;
@@ -24,20 +33,12 @@ private:
 
     typedef std::vector<HashNode *> HashMap;
 
-
-    HashMap *hashMap;
-    // Valeurs par défaut
-    const size_t MIN_VALUE_M = 2;
     size_t M = MIN_VALUE_M;
     size_t N = 0;
-    const double MAX_FACTOR = 1.0 / 2;
-    const double MIN_FACTOR = 1.0 / 8;
 
-    const size_t MAX_FACTOR_COEF = 2;
-    const size_t MIN_FACTOR_COEF = 2;
+    HashMap *hashMap;
 
-
-    size_t hash(const T &key, size_t m) {
+    size_t hash(const T &key, size_t m) const{
         return std::hash<T>()(key) % m;
     }
 
@@ -46,7 +47,6 @@ private:
             index = (index + 1) % m;
         }
     }
-
 
     void realloc(size_t newM) {
         HashMap *newHashMap = new HashMap(newM);
@@ -70,9 +70,25 @@ private:
     }
 
 public:
+
     HashMapLinearProbing() {
         hashMap = new HashMap(M);
     }
+
+/*  // Constructeur de copie: pas utile mais je le laisse au cas où
+    HashMapLinearProbing(const HashMapLinearProbing<T>& copy){
+        hashMap = new HashMap(copy.M);
+        for (int i = 0; i < copy.N; ++i) {
+            HashNode *ptr = copy.hashMap->at(i);
+            if(ptr != NULL){
+                hashMap->at(i) = ptr;
+            }
+        }
+
+        M = copy.M;
+        N = copy.N;
+    }
+*/
 
     ~HashMapLinearProbing() {
         for (HashNode *ptr : *hashMap) {
@@ -98,7 +114,7 @@ public:
         }
     }
 
-    bool contains(const T &key) {
+    bool contains(const T &key) const{
         size_t index = hash(key, M);
         size_t count = 0;
 
@@ -142,31 +158,31 @@ public:
         return true;
     }
 
-    size_t size() {
+    size_t size() const{
         return N;
     }
 
-    size_t max_size() {
+    size_t max_size() const {
         return M;
     }
 
-    double getMaxFactor() {
+    double getMaxFactor() const{
         return MAX_FACTOR;
     }
 
-    double getMinFactor() {
+    double getMinFactor() const{
         return MIN_FACTOR;
     }
 
-    size_t getMaxCoefFactor() {
+    size_t getMaxCoefFactor() const{
         return MAX_FACTOR_COEF;
     }
 
-    size_t getMinCoefFactor() {
+    size_t getMinCoefFactor() const{
         return MIN_FACTOR_COEF;
     }
 
-    size_t getMinValueForM() {
+    size_t getMinValueForM() const{
         return MIN_VALUE_M;
     }
 };

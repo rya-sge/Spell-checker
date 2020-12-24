@@ -13,23 +13,23 @@ public:
 
     virtual void insert(const T& key) = 0;
 
-    virtual bool contains(const T& key) = 0;
+    virtual bool contains(const T& key) const = 0;
 
     virtual bool erase(const T& key) = 0;
 
-    virtual size_t size() = 0;
+    virtual size_t size() const = 0;
 
-    virtual size_t max_size() = 0;
+    virtual size_t max_size() const = 0;
 
-    virtual double getMaxFactor() = 0;
+    virtual double getMaxFactor() const = 0;
 
-    virtual double getMinFactor() = 0;
+    virtual double getMinFactor() const = 0;
 
-    virtual size_t getMaxCoefFactor() = 0;
+    virtual size_t getMaxCoefFactor() const = 0;
 
-    virtual size_t getMinCoefFactor() = 0;
+    virtual size_t getMinCoefFactor() const = 0;
 
-    virtual size_t getMinValueForM() = 0;
+    virtual size_t getMinValueForM() const = 0;
 };
 
 
