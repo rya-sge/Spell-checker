@@ -7,11 +7,15 @@
 #define ASD2_LABS_2020_TERNARYSEARCHTREE_H
 
 #include <string>
+#include <limits>
 
 class TST{
 private:
+
+    static const size_t  NOT_ASSIGNED = std::numeric_limits<size_t>::max();
+
     struct Node{
-        size_t val = NULL;
+        size_t val = NOT_ASSIGNED;
         char c;
         Node* left;
         Node* mid;
@@ -51,11 +55,11 @@ public:
         root = put(root, key, val, 0);
     }
     bool contains(std::string key) const{
-        return get(key) != NULL;
+        return get(key) != NOT_ASSIGNED;
     }
     size_t get(std::string key) const{
         Node* x = get(root, key, 0);
-        if (x == nullptr) return NULL;
+        if (x == nullptr) return NOT_ASSIGNED;
         return x->val;
     }
 
