@@ -1,5 +1,6 @@
 //
 // Created by david on 23.12.20.
+// Hacked by mike
 //
 
 #ifndef ASD2_LABS_2020_TERNARYSEARCHTREE_H
