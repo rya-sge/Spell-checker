@@ -3,49 +3,28 @@
 //
 
 #include <iostream>
+#include <unordered_set>
 #include "Dictionary.h"
-#include "HashMap/HashMapWrapper.h"
 #include "HashMap/HashMapLinearProbing.h"
 #include "HashMap/HashMapSeparateChaining.h"
-
+#include "SpellChecker.h"
+#include "BinarySearchTree.h"
 using namespace std;
 
 
-std::string sanitizeWord(const std::string& w){
-
-    std::string saneWord;
-    for(char c : w){
-        if(!isalpha(c) && c != '\'')
-            continue; // skip non alpha and apostrophe
-        else if(isupper(c))
-            c = (char)tolower(c); // remove uppercase
-
-        saneWord += c;
-
-    }
-
-    // loop needed in the case there are multiple apostrophes at the beginning/end character
-    // i.e "'''''test'''''"
-    bool apoFound = true;
-    while(apoFound){
-        if(saneWord.back() == '\'')
-            saneWord.pop_back();
-        else if(saneWord.front() == '\'')
-            saneWord = saneWord.substr(1, saneWord.size() - 1);
-        else
-            apoFound = false;
-    }
-
-    return saneWord;
-
-}
-
-
 int main() {
-    Dictionary<HashMapLinearProbing<string>> dico("../Labo4_data/dictionary.txt");
+    using container = HashMapLinearProbing<string>;
 
-    cout << dico.contains("faraway") << endl;
-    dico.print();
+    const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
+    const string INPUT_FILE = "../Labo4_data/input_simple.txt";
 
+    const Dictionary<container> DICO(DICTIONARY_FILE);
+    SpellChecker<container> sp(INPUT_FILE, DICO);
+
+    string res = sp.result();
+    cout << res << endl;
+    sp.writeOutput("../output.txt");
+
+    cout << "done" << endl;
     return 0;
 }

@@ -2,23 +2,28 @@
 // Created by micha on 2020-12-23.
 //
 
-#ifndef ASD2_LABS_2020_VARIANTES_H
-#define ASD2_LABS_2020_VARIANTES_H
+#ifndef ASD2_LABS_2020_SUGGESTIONS_H
+#define ASD2_LABS_2020_SUGGESTIONS_H
 
 #include <vector>
 #include <string>
 #include <iostream>
+#include "Dictionary.h"
 
-class variantes {
+
+template <typename DicoType>
+class Suggestions {
 private:
     std::string wordAOP;
     std::vector<std::string> tooManyChar;
     std::vector<std::string> tooFewChar;
     std::vector<std::string> wrongChar;
     std::vector<std::string> swapedChar;
+
+    const Dictionary<DicoType>* dictionary;
 public:
-    variantes(std::string aop) {
-        wordAOP = aop;
+    Suggestions(const std::string& aop, const Dictionary<DicoType>& dictionary) : wordAOP(aop), dictionary(&dictionary){
+
         tooMany();
         tooFew();
         wrong();
@@ -41,19 +46,8 @@ public:
         return swapedChar;
     }
 
-
-    /**
-     * HAVE TO BE DELETED
-     */
-    void displayDebug() {
-        std::cout << "Too Many" << std::endl;
-        vectorDisplay(tooManyChar);
-        std::cout << "Too Few" << std::endl;
-        vectorDisplay(tooFewChar);
-        std::cout << "Wrong" << std::endl;
-        vectorDisplay(wrongChar);
-        std::cout << "Swap" << std::endl;
-        vectorDisplay(swapedChar);
+    const std::string &getAOP() const {
+        return wordAOP;
     }
 
 private:
@@ -62,7 +56,8 @@ private:
         for (size_t i = 0; i < wordAOP.length(); ++i) {
             var = wordAOP;
             var.erase(i, 1);
-            tooManyChar.push_back(var);
+            if(dictionary->contains(var))
+                tooManyChar.push_back(var);
         }
     }
 
@@ -72,7 +67,8 @@ private:
             for (int j = 0; j < 26; ++j) {
                 var = wordAOP;
                 var.insert(i, 1, char('a' + j));
-                tooFewChar.push_back(var);
+                if(dictionary->contains(var))
+                    tooFewChar.push_back(var);
             }
         }
     }
@@ -83,7 +79,8 @@ private:
             for (int j = 0; j < 26; ++j) {
                 var = wordAOP;
                 var.replace(i, 1, 1, char('a' + j));
-                wrongChar.push_back(var);
+                if(dictionary->contains(var))
+                    wrongChar.push_back(var);
             }
         }
     }
@@ -93,20 +90,12 @@ private:
         for (size_t i = 1; i < wordAOP.length(); ++i) {
             var = wordAOP;
             std::swap(var[i - 1], var[i]);
-            swapedChar.push_back(var);
+            if(dictionary->contains(var))
+                swapedChar.push_back(var);
         }
     }
 
-    /**
- * HAVE TO BE DELETED
- */
-    void vectorDisplay(std::vector<std::string> var) {
-        for (int i = 0; i < var.size(); ++i) {
-            std::cout << var.at(i) << " " << std::endl;
-        }
-        std::cout << std::endl;
-    }
 };
 
-#endif //ASD2_LABS_2020_VARIANTES_H
+#endif //ASD2_LABS_2020_SUGGESTIONS_H
 

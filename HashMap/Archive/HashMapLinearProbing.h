@@ -1,6 +1,5 @@
 #ifndef ASD2_LABS_2020_HASHMAPLINEARPROBING_H
 #define ASD2_LABS_2020_HASHMAPLINEARPROBING_H
-
 #include <cstdlib>
 #include <vector>
 

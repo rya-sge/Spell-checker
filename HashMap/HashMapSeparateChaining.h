@@ -32,7 +32,7 @@ private:
     const size_t MIN_FACTOR_COEF = 2;
     const size_t MAX_FACTOR_COEF = 2;
 
-    size_t hash(T key, size_t m) {
+    size_t hash(T key, size_t m) const{
         return std::hash<T>()(key) % m;
     }
 
@@ -81,9 +81,14 @@ public:
         hashMap->at(hKey).push_front(key);
     }
 
-    bool contains(const T& key) {
+    bool contains(const T& key) const {
         size_t index = hash(key, M);
-        return (std::find(hashMap->at(index).begin(), hashMap->at(index).end(), key) != hashMap->at(index).end());
+
+        for(const T& v : hashMap->at(index)){
+            if(v == key)
+                return true;
+        }
+        return false;
     }
 
     bool erase(const T& key) {
@@ -102,29 +107,29 @@ public:
         return true;
     }
 
-    size_t size() {
+    size_t size() const {
         return N;
     }
-    size_t max_size() {
+    size_t max_size() const {
         return M;
     }
 
-    double getMaxFactor() {
+    double getMaxFactor() const {
         return MAX_FACTOR;
     }
 
-    double getMinFactor() {
+    double getMinFactor() const {
         return MIN_FACTOR;
     }
 
-    size_t getMaxCoefFactor() {
+    size_t getMaxCoefFactor() const {
         return MAX_FACTOR_COEF;
     }
 
-    size_t getMinCoefFactor() {
+    size_t getMinCoefFactor() const {
         return MIN_FACTOR_COEF;
     }
-    size_t getMinValueForM() {
+    size_t getMinValueForM() const {
         return MIN_VALUE_M;
     }
 };
