@@ -12,7 +12,7 @@
 using namespace std;
 
 
-int main() {
+/*int main() {
     using container = HashMapLinearProbing<string>;
 
     const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
@@ -27,4 +27,4 @@ int main() {
 
     cout << "done" << endl;
     return 0;
-}
+}*/

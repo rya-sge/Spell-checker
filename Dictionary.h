@@ -10,9 +10,9 @@
 #include <cstring>
 #include <iostream>
 
-template<typename HashMap>
+template<typename Container>
 class Dictionary{
-    HashMap words;
+    Container* words;
 
 private:
     std::string sanitizeWord(const std::string& w) const {
@@ -45,7 +45,7 @@ private:
     }
 public:
 
-    Dictionary(const std::string& inputfile){
+    Dictionary(Container& container,const std::string& inputfile) : words(&container){
 
         // read file
         std::string line;
@@ -75,20 +75,20 @@ public:
 
     void addWord(std::string word){
         word = sanitizeWord(word);
-        words.insert(word);
+        words->insert(word);
     }
 
     bool eraseWord(std::string word){
-        return words.erase(word);
+        return words->erase(word);
     }
 
     bool contains(std::string word) const{
         word = sanitizeWord(word);
-        return words.contains(word);
+        return words->contains(word);
     }
 
     void size() const {
-        std::cout << words.size() << std::endl;
+        std::cout << words->size() << std::endl;
     }
 
 

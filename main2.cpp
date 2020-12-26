@@ -12,6 +12,7 @@
 #include "HashMap/HashMapLinearProbing.h"
 #include "HashMap/HashMapSeparateChaining.h"
 #include "HashMap/Container.h"
+#include "SpellChecker.h"
 using namespace std;
 
 #include <iostream>
@@ -22,7 +23,7 @@ using namespace std;
 
 
 int main() {
-    typedef string Type;
+ /*   typedef string Type;
     typedef unordered_set<Type> Container;
 
     Container test;
@@ -32,6 +33,7 @@ int main() {
                            [&test](const Type& key){ test.insert(key);},
                            [&test](const Type& key){ test.erase(key);}       );
 
+
     test.insert("lol");
     cout << us.contains("lol");
     us.erase("lol");
@@ -40,6 +42,29 @@ int main() {
     us.erase("Lol");
     us.erase("V");
     us.contains("Lol");
-return 0;
+return 0;*/
+    typedef HashMapLinearProbing<string> ContainerType;
+    typedef C<string> ContainerWrapper;
+    ContainerType test;
+
+
+    ContainerWrapper us ([&test](const string& key){ return test.contains(key);},
+                         [&test](const string& key){ test.insert(key);},
+                         [&test](const string& key){ test.erase(key);});
+
+
+    const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
+    const string INPUT_FILE = "../Labo4_data/input_simple.txt";
+
+
+    const Dictionary<ContainerWrapper> DICO(us, DICTIONARY_FILE);
+    SpellChecker<ContainerWrapper> sp(INPUT_FILE, DICO);
+
+    string res = sp.result();
+    cout << res << endl;
+    //sp.writeOutput("../output.txt");
+
+    cout << "done" << endl;
+    return 0;
 }
 
