@@ -8,11 +8,10 @@
 
 #include <string>
 
-template < typename KeyType, typename ValueType >
 class TST{
 private:
     struct Node{
-        ValueType val;
+        size_t val = NULL;
         char c;
         Node* left;
         Node* mid;
@@ -21,7 +20,7 @@ private:
 
     Node* root;
 
-    Node* put(Node* x, std::string key, ValueType val,  size_t d){
+    Node* put(Node* x, std::string key, size_t val,  size_t d){
         char c = key.at(d);
         if(x == nullptr){
             x = new Node();
@@ -37,7 +36,7 @@ private:
         return x;
     }
 
-    Node* get(Node* x, std::string key, size_t d){
+    Node* get(Node* x, std::string key, size_t d) const{
         if(x == nullptr) return nullptr;
         char c = key.at(d);
         if (c < x->c) return get(x->left,key,d);
@@ -48,15 +47,15 @@ private:
 
 public:
     TST() : root(nullptr) { };
-    void put(std::string key, ValueType val){
+    void put(std::string key, size_t val){
         root = put(root, key, val, 0);
     }
-    bool contains(std::string key){
-        return get(key) != -1;
+    bool contains(std::string key) const{
+        return get(key) != NULL;
     }
-    ValueType get(std::string key){
+    size_t get(std::string key) const{
         Node* x = get(root, key, 0);
-        if (x == nullptr) return -1;
+        if (x == nullptr) return NULL;
         return x->val;
     }
 
