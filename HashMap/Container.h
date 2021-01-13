@@ -9,7 +9,7 @@
 #include <functional>
 
 template<typename T>
-class C{
+class Container{
 
     using boolFunction =  std::function<bool(const T& key)>;
     using voidFunction =  std::function<void(const T& key)>;
@@ -20,7 +20,7 @@ class C{
 
 public:
 
-    C(const boolFunction &containsFunction, const voidFunction &insertFunction, const voidFunction &eraseFunction)
+    Container(const boolFunction &containsFunction, const voidFunction &insertFunction, const voidFunction &eraseFunction)
             : containsF(containsFunction), insertF(insertFunction), eraseF(eraseFunction) {}
 
     bool contains(const T& key) const{

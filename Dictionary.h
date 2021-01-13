@@ -45,6 +45,9 @@ private:
     }
 public:
 
+
+    Dictionary(Container& container) : words(&container) {};
+
     Dictionary(Container& container,const std::string& inputfile) : words(&container){
 
         // read file
