@@ -13,6 +13,7 @@
 #include "HashMap/HashMapSeparateChaining.h"
 #include "HashMap/Container.h"
 #include "SpellChecker.h"
+#include <functional>
 using namespace std;
 
 #include <iostream>

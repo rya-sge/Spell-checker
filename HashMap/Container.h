@@ -11,20 +11,17 @@
 template<typename T>
 class C{
 
-    //Co container;
-
     using boolFunction =  std::function<bool(const T& key)>;
     using voidFunction =  std::function<void(const T& key)>;
-    const  boolFunction& containsF;
-    const  voidFunction& insertF;
-    const  voidFunction& eraseF;
+
+    const boolFunction containsF;
+    const voidFunction insertF;
+    const voidFunction eraseF;
 
 public:
 
-    C(const boolFunction& containsFunction, const voidFunction& insertFunction, const voidFunction& eraseFunction)
-            : containsF(containsFunction), insertF(insertFunction), eraseF(eraseFunction) {
-        //this->container = container;
-    }
+    C(const boolFunction &containsFunction, const voidFunction &insertFunction, const voidFunction &eraseFunction)
+            : containsF(containsFunction), insertF(insertFunction), eraseF(eraseFunction) {}
 
     bool contains(const T& key) const{
         return containsF(key);
