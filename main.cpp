@@ -32,19 +32,20 @@ int main() {
                          [&test](const string& key){ test.insert(key);},
                          [&test](const string& key){ test.erase(key);}); //*/
 
-    // SEPARATE CHAINING
-    /*typedef HashMapLinearProbing<string> ContainerType;
+    /*// SEPARATE CHAINING
+    typedef HashMapLinearProbing<string> ContainerType;
     ContainerType test;
     ContainerWrapper cw ([&test](const string& key){ return test.contains(key);},
                          [&test](const string& key){ test.insert(key);},
                          [&test](const string& key){ test.erase(key);}); //*/
 
-    /*// VECTEUR
+    // VECTEUR
     typedef vector<string> ContainerType;
     ContainerType test;
-    ContainerWrapper cw ([&test](const string& key){ return find(test.begin(), test.end(), key) != test.end();},
-                         [&test](const string& key){ test.push_back(key);},
-                         [&test](const string& key){ }); //*/
+    ContainerWrapper cw ([&test](const string& key){ return binary_search(test.begin(), test.end(), key) ;},
+                         [&test](const string& key){ test.insert(upper_bound(test.begin(), test.end(), key), key); },
+                         [&test](const string& key){ auto place = test.erase(lower_bound(test.begin(), test.end(), key));}
+                         ); //*/
 
     /*// AVL
     typedef AVLTree<string, char> ContainerType;
