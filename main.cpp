@@ -13,8 +13,6 @@
 
 #include <unordered_set>
 using namespace std;
-
-
 typedef Container<string> ContainerWrapper;
 
 
@@ -29,9 +27,13 @@ void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE);
 
 int main() {
     const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
-    const string INPUT_FILE = "../Labo4_data/input_wikipedia.txt";
+    const string INPUT_FILE = "../Labo4_data/input_sh.txt";
 
     testSortedVector(INPUT_FILE, DICTIONARY_FILE);
+    //testTST(INPUT_FILE, DICTIONARY_FILE);
+    //testLinearProbing(INPUT_FILE, DICTIONARY_FILE);
+    //testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
+    //testUnorderedSet(INPUT_FILE, DICTIONARY_FILE);
 
     return 0;
 }
@@ -137,8 +139,8 @@ void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     // Creation
     TST test;
     ContainerWrapper cw ([&test](const string& key){return test.contains(key);},
-                         [&test](const string& key){ test.put(key, 1);},
-                         [&test](const string& key){ });
+                         [&test](const string& key){ test.insert(key, 1);},
+                         [&test](const string& key){ test.erase(key);});
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done
