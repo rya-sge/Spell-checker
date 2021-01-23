@@ -29,13 +29,24 @@ private:
     const double MAX_FACTOR = 8;
     const double MIN_FACTOR = 2;
 
-    const size_t MIN_FACTOR_COEF = 2;
-    const size_t MAX_FACTOR_COEF = 2;
+    const size_t DIV_FACTOR_COEF = 2;
+    const size_t MUL_FACTOR_COEF = 2;
 
+    /**
+     * @brief donne le hash de la clé modulo m.
+     * @param key la clé.
+     * @param m modulo.
+     * @return le hash de la clé modulo m.
+     */
     size_t hash(T key, size_t m) const{
         return std::hash<T>()(key) % m;
     }
 
+    /**
+     * @brief Change le nombre de buckets et fais le hash de toutes les clés
+     *        afin de les réinsérer au bon endroit.
+     * @param newM le nouveau nombre de buckets.
+     */
     void realloc(size_t newM){
         size_t hashCalcul;
         HashMap* hashMapNew = new HashMap(newM);
@@ -53,16 +64,25 @@ private:
 
 public:
 
+    /**
+     * Constructeur
+     */
     HashMapSeparateChaining(){
         hashMap = new HashMap(2);
     }
 
+    /**
+     * Destructeur
+     */
     ~HashMapSeparateChaining() {
         delete hashMap;
         hashMap = NULL;
     }
 
-
+    /**
+     * @bief Insère une clé dans la hash map.
+     * @param key la clé à insérer.
+     */
     void insert(const T &key) {
 
         if(contains(key))
@@ -72,7 +92,7 @@ public:
         size_t occupancy = N / M;
 
         if (occupancy >= MAX_FACTOR) {
-            size_t Mnew = M * MIN_FACTOR_COEF;
+            size_t Mnew = M * DIV_FACTOR_COEF;
             realloc(Mnew);
         }
 
@@ -81,12 +101,22 @@ public:
         hashMap->at(hKey).push_front(key);
     }
 
+    /**
+     * Permet de savoir si un clé est dans la hash map.
+     * @param key la clé cherchée.
+     * @return vrai si la clé est contenue, sinon faux.
+     */
     bool contains(const T& key) const {
         size_t index = hash(key, M);
 
         return (find(hashMap->at(index).begin(), hashMap->at(index).end(), key) != hashMap->at(index).end());
     }
 
+    /**
+     * @brief Supprime une clé.
+     * @param key la clé à supprimer.
+     * @return vrai s'il y a bien eu une supression. Faux si ce n'est pas le cas.
+     */
     bool erase(const T& key) {
         size_t index = hash(key, M);
         //peut-être utiliser contains:
@@ -95,7 +125,7 @@ public:
             hashMap->at(index).erase(it);
             --N;
             if(N / M <= MIN_FACTOR && M > MIN_VALUE_M){
-                realloc( M / MAX_FACTOR_COEF );
+                realloc(M / MUL_FACTOR_COEF );
             }
         }else{
             return false;
@@ -103,28 +133,58 @@ public:
         return true;
     }
 
+    /**
+     * @brief donne le nombre d'éléments'.
+     * @return le nombre d'éléments.
+     */
     size_t size() const {
         return N;
     }
-    size_t max_size() const {
+
+    /**
+     * @brief donne le nombre de buckets.
+     * @return le nombre de buckets.
+     */
+    size_t max_buckets() const {
         return M;
     }
 
+    /**
+     * @brief donne le facteur maximum.
+     * @return le facteur maximum.
+     */
     double getMaxFactor() const {
         return MAX_FACTOR;
     }
 
+    /**
+     * @brief donne le facteur minimum.
+     * @return le facteur minimum.
+     */
     double getMinFactor() const {
         return MIN_FACTOR;
     }
 
-    size_t getMaxCoefFactor() const {
-        return MAX_FACTOR_COEF;
+    /**
+     * @brief donne le coeficient de multiplication.
+     * @return le coeficient de multiplication.
+     */
+    size_t getMulCoefFactor() const {
+        return MUL_FACTOR_COEF;
     }
 
-    size_t getMinCoefFactor() const {
-        return MIN_FACTOR_COEF;
+     /**
+      * @brief donne le coeficient de division.
+      * @return le coeficient de division.
+      */
+    size_t getDivCoefFactor() const {
+        return DIV_FACTOR_COEF;
     }
+
+     /**
+      * @brief renvoie le nombre de bucket minimum que peut avoir la hashmap.
+      * @return le nombre de bucket minimum que peut avoir la hashmap.
+      */
     size_t getMinValueForM() const {
         return MIN_VALUE_M;
     }
