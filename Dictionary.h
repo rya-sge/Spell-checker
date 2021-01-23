@@ -20,19 +20,18 @@ public:
 
 
     /**
-     * @param Container offering the following methods: insert, contains, erase
+     * @param Container offrant les méthodes suivantes: insert, contains, erase
      */
     Dictionary(ContainerType& container) : words(&container) {};
 
     /**
-     *
-     * @param Container offering the following methods: insert, contains, erase
-     * @param inputfile to read
-     * @details Create a dictionnary with the words present in the inputfile
+     * @brief Crée le dictionnaire en le remplissant en lisant les mots contenus dans inputfile
+     * @param Container offrant les méthodes suivantes: insert, contains, erase
+     * @param inputfile fichier à lire
      */
     Dictionary(ContainerType& container, const std::string& inputfile) : words(&container){
 
-        // read file
+        // Lecture
         std::string line;
         std::ifstream file;
 
@@ -48,8 +47,8 @@ public:
             std::istringstream iss(line);
             std::string token;
 
+            // Ajout de tous les mots
             while(getline(iss, token, ' ')){
-                // add every word
                 addWord(token);
             }
 
@@ -59,7 +58,7 @@ public:
     }
 
     /**
-     * @brief add a word to dictionary
+     * @brief Ajout un mot (word) dans le dictionnaire
      * @param word
      */
     void addWord(std::string word){
@@ -68,7 +67,7 @@ public:
     }
 
     /**
-     * @brief Deletes a word from the dictionary
+     * @brief Supprime un mot du dictionnaire
      * @param word
      */
     void eraseWord(std::string word){
@@ -77,7 +76,7 @@ public:
 
     /**
      * @param word
-     * @return true if the word exists in the dictionary
+     * @return true si le mot existe dans le dicionnaire
      */
     bool contains(std::string word) const{
         word = sanitizeWord(word);
@@ -85,7 +84,7 @@ public:
     }
 
     /**
-     * @brief returns the number of words in the dictionary
+     * @brief retourne le nombre de mots dans le dictionnaire
      */
     size_t size() const {
         return words->size();

@@ -8,25 +8,25 @@
 #include <string>
 
 /**
- *
- * @param w
- * @return
+ * @brief Enlève les caractères spéciaux et les apostrophes aux extrémités du mot. Convertit le mot en minuscule
+ * @param w mot à modifier
+ * @return le mot en minuscules
  */
 std::string sanitizeWord(const std::string& w) {
 
     std::string saneWord;
     for(char c : w){
         if(!isalpha(c) && c != '\'')
-            continue; // skip non alpha and apostrophe
+            continue; // supprime les caractères non alphabétiques qui ne sont pas des apostrophes
         else if(isupper(c))
-            c = (char)tolower(c); // remove uppercase
+            c = (char)tolower(c); // enlève les majuscules
 
         saneWord += c;
 
     }
 
-    // loop needed in the case there are multiple apostrophes at the beginning/end character
-    // i.e "'''''test'''''"
+    // boucle nécessaire pour le cas où il y a de multiples apostrophes au début ou à la fin du mot
+    // par exemple: "'''''test'''''"
     bool apoFound = true;
     while(apoFound){
         if(saneWord.back() == '\'')

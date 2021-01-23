@@ -7,12 +7,13 @@
 #include <chrono>
 
 // For Testing
+#include <unordered_set>
 #include "HashMap/HashMapLinearProbing.h"
 #include "HashMap/HashMapSeparateChaining.h"
 #include "TernarySearchTree.h"
 
-#include <unordered_set>
 using namespace std;
+
 typedef DictionaryContainer<string> ContainerWrapper;
 
 
@@ -39,7 +40,6 @@ int main() {
 }
 
 /**
- *
  * @param INPUT_FILE
  * @param DICO
  * @param timeDico
@@ -52,7 +52,6 @@ void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DI
     string res = sp.result();
 
     cout << res << endl;
-    //sp.writeOutput("../output.txt");
 
     // done
     chrono::high_resolution_clock::time_point end = chrono::high_resolution_clock::now();
@@ -64,7 +63,6 @@ void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DI
 }
 
 /**
- *
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
@@ -87,7 +85,6 @@ void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 }
 
 /**
- *
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
@@ -109,7 +106,6 @@ void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FIL
     testCommon(INPUT_FILE, DICO, timeDico);
 }
 /**
- *
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
@@ -166,7 +162,6 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 }
 
 /**
- * 
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
