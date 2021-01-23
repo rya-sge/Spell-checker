@@ -19,8 +19,18 @@ class Dictionary{
 public:
 
 
+    /**
+     *
+     * @param container
+     */
     Dictionary(ContainerType& container) : words(&container) {};
 
+    /**
+     *
+     * @param container
+     * @param inputfile
+     * @details Create a dictionnary with the words present in the inputfile
+     */
     Dictionary(ContainerType& container, const std::string& inputfile) : words(&container){
 
         // read file
@@ -49,20 +59,36 @@ public:
         file.close();
     }
 
+    /**
+     * @brief add a word to dictionary
+     * @param word
+     */
     void addWord(std::string word){
         word = sanitizeWord(word);
         words->insert(word);
     }
 
+    /**
+     * @brief Delete a word from the dictionary
+     * @param word
+     * @return
+     */
     bool eraseWord(std::string word){
         return words->erase(word);
     }
 
+    /**
+     * @param word
+     * @return
+     */
     bool contains(std::string word) const{
         word = sanitizeWord(word);
         return words->contains(word);
     }
 
+    /**
+     * @brief number of words in the dictionary
+     */
     void size() const {
         std::cout << words->size() << std::endl;
     }

@@ -7,6 +7,11 @@
 
 #include <string>
 
+/**
+ *
+ * @param w
+ * @return
+ */
 std::string sanitizeWord(const std::string& w) {
 
     std::string saneWord;
