@@ -106,17 +106,19 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
 }
 
 /**
- * @tparam T
+ * @tparam T seulement des types numériques(int, double, char) -> String pas possible
  * @param hm
  * @param n nombre d'éléments utilisés pour le test de la hashmap
- * @details test size(), insert() et contains(), erase() avec une taille spécifique
+ * @details
+ * - test size(), insert() et contains(), erase() avec une taille spécifique
+ * - Permet de réaliser des tests avec beaucoups d'éléments.
  */
 template<typename T>
-void testCommonSize(HashMapWrapper<T> *hm, size_t n) {
+void testCommonSize(HashMapWrapper<T> *hm, T n) {
     SECTION("New size, is 0") {
         REQUIRE(hm->size() == 0);
     }SECTION("size == i, i in [1,...,n], with insert") {
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             hm->insert(i);
             REQUIRE(hm->size() == i);
             //Check que les éléments ne s'insérent pas à double
@@ -125,22 +127,22 @@ void testCommonSize(HashMapWrapper<T> *hm, size_t n) {
         }
     }SECTION("contains == i, i in [1,...,n], with insert where elements are 2k, k in R") {
 
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             if (i % 2)
                 hm->insert(i);
         }
 
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             if (i % 2)
                 REQUIRE(hm->contains(i));
             else
                 REQUIRE(!hm->contains(i));
         }
     }SECTION("size == i, i in [1,...,n], with erase") {
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             hm->insert(i);
         }
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             hm->erase(i);
             REQUIRE(hm->size() == n - i);
             //check qu'il n'ait aucune modification quand on supprime un élément déjà supprimé.
@@ -148,18 +150,19 @@ void testCommonSize(HashMapWrapper<T> *hm, size_t n) {
             REQUIRE(hm->size() == n - i);
         }
     }SECTION("contains == i, i in [1,...,n], with erase for elements that are 2k, k in R") {
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             hm->insert(i);
             if (i % 2)
                 hm->erase(i);
         }
-        for (size_t i = 1; i <= n; ++i) {
+        for (T i = 1; i <= n; ++i) {
             if (i % 2)
                 REQUIRE(!hm->contains(i));
             else
                 REQUIRE(hm->contains(i));
         }
     }
+
 }
 
 /**
