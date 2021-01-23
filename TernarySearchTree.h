@@ -23,6 +23,7 @@ private:
         Node* left;
         Node* mid;
         Node* right;
+        int nodeHeight;
     };
 
     Node* root;
@@ -44,7 +45,7 @@ private:
                 ++sizeTST;
             x->val = val;
         }
-        return x;
+        return restoreBalance(x);
     }
 
     Node* get(Node* x, std::string key, size_t d) const{
@@ -56,7 +57,7 @@ private:
         else return x;
     }
 
-    void erase(Node* x, std::string key, size_t d, std::list<Node*>& listNodes) const{
+    void erase(Node* x, std::string key, size_t d, std::list<Node*>& listNodes) {
         listNodes.push_back(x);
         char c = key.at(d);
         if (c < x->c) erase(x->left,key,d,listNodes);
@@ -64,8 +65,63 @@ private:
         else if (d < key.length() - 1) erase(x->mid,key,d+1,listNodes);
         else {
             x->val = NOT_ASSIGNED;
+            --sizeTST;
             return;
         }
+    }
+
+    int height(Node* x) {
+        if ( x == nullptr ) return -1;
+        return x->nodeHeight;
+    }
+
+    void updateNodeHeight(Node* x) {
+        x->nodeHeight = std::max(height(x->right),height(x->left)) + 1;
+    }
+
+    int balance(Node* x) {
+        if(x==nullptr) return 0;
+        return height(x->right) - height(x->left);
+    }
+
+    Node* rotateLeft(Node* x)
+    {
+        Node* y = x->right;
+        x->right = y->left;
+        y->left = x;
+
+        updateNodeHeight(x);
+        updateNodeHeight(y);
+        return y;
+    }
+
+    Node* rotateRight(Node* x)
+    {
+        Node* y = x->left;
+        x->left = y->right;
+        y->right = x;
+
+        updateNodeHeight(x);
+        updateNodeHeight(y);
+        return y;
+    }
+
+    Node* restoreBalance(Node* x)
+    {
+        if(balance(x) < -1) // right < left-1
+        {
+            if (balance(x->left)>0) // double rot.
+                x->left = rotateLeft( x->left );
+            x = rotateRight(x);
+        }
+        else if( balance(x) > 1) // right > left+1
+        {
+            if ( balance(x->right) < 0 ) // double rot.
+                x->right = rotateRight( x->right );
+            x = rotateLeft(x);
+        }
+        else updateNodeHeight(x); // équilibre ok
+        return x;
     }
 
 public:
@@ -81,7 +137,6 @@ public:
     void erase(std::string key){
         if(!contains(key))
             return;
-        --sizeTST;
         std::list<Node*> listNodes;
         erase(root, key, 0, listNodes);
         Node* x;
@@ -92,7 +147,7 @@ public:
                 delete x->right;
                 delete x->mid;
                 delete x->left;
-                delete x;
+                x = nullptr;
             }
             else{
                 break;
