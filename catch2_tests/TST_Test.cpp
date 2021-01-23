@@ -35,14 +35,14 @@ TEST_CASE("Ternary Search Tree") {
     /**
      * Vérification que l'arbre vide a une taille de 0
      */
-    SECTION("Empty Tree") {
+    SECTION("Arbre vide") {
         REQUIRE(!test.size());
     }
 
     /**
      * Vérification qu'une clé insérée soit contenue
      */
-    SECTION("Insert key (and contains)") {
+    SECTION("Insertion et vérification du contenu") {
         for (string val : fruits) {
             test.insert(val, 1);
             REQUIRE(test.contains(val));
@@ -56,7 +56,7 @@ TEST_CASE("Ternary Search Tree") {
      * Vérification que ceux-ci ne soit plus contenus
      * après chaque supressions.
      */
-    SECTION("Erase key") {
+    SECTION("Suppression") {
         for (string val : fruits) {
             test.insert(val, 1);
         }
@@ -72,7 +72,7 @@ TEST_CASE("Ternary Search Tree") {
      * d'éléments, contains soit correcte et que
      * tous les arbres et sous arbres soient équilibrés,
      */
-    SECTION("Balance") {
+    SECTION("Equilibrage") {
         for (string val :  BALANCE_TEST_VALUES) {
             balanceTest.insert(val, 1);
             REQUIRE(balanceTest.contains(val));
@@ -90,7 +90,7 @@ TEST_CASE("Ternary Search Tree") {
     /*
      * Tests de toutes les fonctionalités du TST sauf erase
      */
-    SECTION("Insert all fruits, count and check if it is contained") {
+    SECTION("Insertion des fruits, vérifie la taille, le contenu et l'équilibrage") {
         for (size_t i = 0; i < SIZE_FRUITS; ++i) {
             test.insert(fruits[i], i);
             REQUIRE(test.size() == i + 1);
@@ -106,7 +106,7 @@ TEST_CASE("Ternary Search Tree") {
     /*
      * Tests de toutes les fonctionalités du TST avec erase
      */
-    SECTION("Insert all fruits, erase some, count and check if it is contained") {
+    SECTION("Insertion des fruits, suppresion de certains, vérifie la taille, le contenu et l'équilibrage") {
 
         for (string fruit : fruits)
             test.insert(fruit, 1);
@@ -114,7 +114,7 @@ TEST_CASE("Ternary Search Tree") {
         for (size_t i = 0; i < SIZE_SUPRESSED_FRUITS; ++i) {
             test.erase(suppressFruits[i]);
             REQUIRE(test.size() == SIZE_FRUITS - 1 - i);
-            //Check que les éléments ne s'effacent pas deux fois
+            //Vérifie que les éléments ne s'effacent pas deux fois
             test.erase(suppressFruits[i]);
             REQUIRE(test.size() == SIZE_FRUITS - 1 - i);
             REQUIRE(test.isBalanced());
