@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include "catch.hpp"
 #include "../HashMap/HashMapWrapper.h"
 #include "../HashMap/HashMapLinearProbing.h"
@@ -99,7 +98,7 @@ void testString(HashMapWrapper<T> *hm){
 
     SECTION("New size, is 0") {
         REQUIRE(hm->size() == 0);
-    }SECTION("insert all fruits, count and check if it is contained") {
+    }SECTION("Insert all fruits, count and check if it is contained") {
         for (size_t i = 0; i < SIZE_FRUITS; ++i) {
             hm->insert(fruits[i]);
             REQUIRE(hm->size() == i + 1);
@@ -109,7 +108,7 @@ void testString(HashMapWrapper<T> *hm){
             REQUIRE(hm->contains(fruits[i]));
         }
         REQUIRE(!hm->contains("piment"));
-    }SECTION("insert all fruits, erase some, count and check if it is contained") {
+    }SECTION("Insert all fruits, erase some, count and check if it is contained") {
 
         for (size_t i = 0; i < SIZE_FRUITS; ++i)
             hm->insert(fruits[i]);
@@ -122,10 +121,11 @@ void testString(HashMapWrapper<T> *hm){
             REQUIRE(hm->size() == SIZE_FRUITS - 1 - i);
         }
         for (size_t i = 0; i < SIZE_FRUITS; ++i){
-            if(!(i % 2))
-                REQUIRE(hm->contains(fruits[i]));
-            else
+            if(i % 2)
                 REQUIRE(!hm->contains(fruits[i]));
+            else
+                REQUIRE(hm->contains(fruits[i]));
+
         }
     }
 }

@@ -1,1 +1,1 @@
-add_executable(hashmap_tests_run hashMapTest.cpp catch_main.cpp ../Suggestions.h)
+add_executable(hashmap_tests_run hashMapTest.cpp catch_main.cpp ../Suggestions.h TST_Test.cpp)
