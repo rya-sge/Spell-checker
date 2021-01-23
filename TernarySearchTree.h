@@ -17,6 +17,9 @@ private:
 
     size_t sizeTST = 0;
 
+    /**
+     * Structure permettant de faire un noeud.
+     */
     struct Node{
         size_t val = NOT_ASSIGNED;
         char c;
@@ -28,6 +31,14 @@ private:
 
     Node* root;
 
+    /**
+     * Appelée par insert aide à linsertion du mot.
+     * @param x le noeud courrant.
+     * @param key le mot à inserer.
+     * @param val la valeur du mot.
+     * @param d le numéro de caractère du mot à inserer.
+     * @return le noeud équilibré.
+     */
     Node* put(Node* x, std::string key, size_t val,  size_t d){
         char c = key.at(d);
         if(x == nullptr){
@@ -48,6 +59,13 @@ private:
         return restoreBalance(x);
     }
 
+    /**
+     * Renvoie la valeur du mot cherché ou NOT_ASSIGNED si celui-ci n'existe pas.
+     * @param x noeud courrant.
+     * @param key le mot à obtenir.
+     * @param d le numéro de caractère du mot à obtenir.
+     * @return la valeur du mot cherché ou NOT_ASSIGNED si celui-ci n'existe pas.
+     */
     Node* get(Node* x, std::string key, size_t d) const{
         if(x == nullptr) return nullptr;
         char c = key.at(d);
@@ -57,6 +75,13 @@ private:
         else return x;
     }
 
+    /**
+     * Fonction appelée par erase public. Aide à supprimé le noeud
+     * @param x noeud courrant.
+     * @param key le mot à supprimer.
+     * @param d le numéro de caractère du mot à suprimmer.
+     * @param listNodes liste remplie des noeuds traversé.
+     */
     void erase(Node* x, std::string key, size_t d, std::list<Node*>& listNodes) {
         listNodes.push_back(x);
         char c = key.at(d);
@@ -70,20 +95,51 @@ private:
         }
     }
 
+    /**
+     * Renvoie la taille du noeud. -1 si le noeud est nul.
+     * @param x le noeud.
+     * @return la taille du noeud. -1 si la noeud est nul.
+     * @details fonction reprise des slides "Arbres AVL"
+     *          faites par Laura Elena Raileanu, Marc Dikötter
+     *          pour le cours ASD2.
+     */
     int height(Node* x) {
         if ( x == nullptr ) return -1;
         return x->nodeHeight;
     }
 
+    /**
+     * Met à jour la taille d'un noeud.
+     * @param x le noeud.
+     * @details fonction reprise des slides "Arbres AVL"
+     *          faites par Laura Elena Raileanu, Marc Dikötter
+     *          pour le cours ASD2.
+     */
     void updateNodeHeight(Node* x) {
         x->nodeHeight = std::max(height(x->right),height(x->left)) + 1;
     }
 
+    /**
+     * Calcule du déséquilibre à partire d'un noeud.
+     * @param x le noeud.
+     * @return le déséquilibre
+     * @details fonction reprise des slides "Arbres AVL"
+     *          faites par Laura Elena Raileanu, Marc Dikötter
+     *          pour le cours ASD2.
+     */
     int balance(Node* x) {
         if(x==nullptr) return 0;
         return height(x->right) - height(x->left);
     }
 
+    /**
+    * Effectue une rotation à gauche par rapport à un noeud.
+    * @param x le noeud
+    * @return le nouveau noeud
+    * @details fonction reprise des slides "Arbres AVL"
+    *          faites par Laura Elena Raileanu, Marc Dikötter
+    *          pour le cours ASD2.
+    */
     Node* rotateLeft(Node* x)
     {
         Node* y = x->right;
@@ -95,6 +151,14 @@ private:
         return y;
     }
 
+    /**
+     * Effectue une rotation à droite par rapport à un noeud.
+     * @param x le noeud
+     * @return le nouveau noeud
+     * @details fonction reprise des slides "Arbres AVL"
+     *          faites par Laura Elena Raileanu, Marc Dikötter
+     *          pour le cours ASD2.
+     */
     Node* rotateRight(Node* x)
     {
         Node* y = x->left;
@@ -107,6 +171,16 @@ private:
     }
 
 
+    /**
+     * Si nécessaire, restauration par rotation
+     * simple ou double selon l’équilibre du
+     * nœud suivant du côté lourd.
+     * @param x noeud
+     * @return le noeud équilibré
+     * @details fonction reprise des slides "Arbres AVL"
+     *          faites par Laura Elena Raileanu, Marc Dikötter
+     *          pour le cours ASD2.
+     */
     Node* restoreBalance(Node* x)
     {
         if(balance(x) < -1) // right < left-1
@@ -125,16 +199,68 @@ private:
         return x;
     }
 
+    /**
+     * Parcours l'arbre depuis un noeud est vérifie que tous est équilibré depuis ce noeud.
+     * @param x le noeud de dépard.
+     * @return Vrai si rien de désequilibré n'est trouvé. Sinon faux.
+     */
+    bool isBalanced(Node* x){
+        if((x->left != nullptr) and (x->right != nullptr)){
+            int diffHeight = x->right->nodeHeight - x->left->nodeHeight;
+            if(diffHeight < -1 or diffHeight > 1)
+                return false;
+            int maxHeight = std::max( x->right->nodeHeight, x->left->nodeHeight);
+            if((x->nodeHeight - maxHeight - 1) != 0)
+                return false;
+        }
+        bool a = true,b = true,c = true;
+        if(x->left != nullptr){
+            a = isBalanced(x->left);
+        }
+        if(x->mid != nullptr){
+            b = isBalanced(x->mid);
+        }
+        if(x->right != nullptr){
+            c = isBalanced(x->right);
+        }
+        return a and b and c;
+    }
+
 public:
+
+    /**
+     * Constructeur de l'arbre
+     */
     TST() : root(nullptr) { };
-    void insert(std::string key, size_t val){
+
+    /**
+     * Insère un mot dans l'arbre avec sa valeur.
+     * @param key le mot à insérer.
+     * @param val la valeur à insérer.
+     * @throw invalid_argument si val vaut la même chose que NOT_ASSIGNED.
+     */
+    void insert(std::string key, size_t val) {
+        if (val == NOT_ASSIGNED)
+            throw std::invalid_argument("La valeur ne doit pas être la même que NOT_ASSIGNED");
         root = put(root, key, val, 0);
     }
+
+    /**
+     * Indique si un mot est contenu dans l'arbre.
+     * @param key le mot à vérifier.
+     * @return vrai si le mot est contenu dans l'arbre. Si ce n'est pas le cas, faux est renvoyé.
+     */
     bool contains(std::string key) const{
         Node* x = get(root, key, 0);
         if (x == nullptr) return false;
         return x->val != NOT_ASSIGNED;
     }
+
+    /**
+     * Permet de supprimer un mot de l'arbre.
+     * Supprime les noeuds qui n'ont plus d'utilité.
+     * @param key mot à supprimer
+     */
     void erase(std::string key){
         if(!contains(key))
             return;
@@ -161,41 +287,22 @@ public:
             restoreBalance(x);
         }
     }
+
+    /**
+     * Renvoie la taille (nombre de mots) de l'arbre
+     * @return  la taille (nombre de mots) de l'arbre
+     */
     size_t size(){
         return sizeTST;
     }
-    bool isEquilibrate(Node* x){
-        bool a = true,b = true,c = true;
-        if(x->left != nullptr){
-            a = isEquilibrate(x->left);
-        }
-        if(x->mid != nullptr){
-            b = isEquilibrate(x->mid);
-        }
-        if(x->right != nullptr){
-            c = isEquilibrate(x->right);
-        }
-        if((x->left != nullptr) and (x->right != nullptr)){
-            int diffHeight = x->right->nodeHeight - x->left->nodeHeight;
-            if(diffHeight < -1 or diffHeight > 1)
-                return false;
-            int maxHeight = std::max( x->right->nodeHeight, x->left->nodeHeight);
-            if((x->nodeHeight - maxHeight - 1) != 0)
-                return false;
-        }
-        return a and b and c;
-    }
-    bool isEquilibrate(){
-        isEquilibrate(root);
-    }
 
+    /**
+     * Permet de savoir si l'arbre est équilibré
+     * @return true si l'arbre est équilibré. False si ce n'est pas le cas
+     */
     bool isBalanced(){
-        if(balance(root) < -1 || balance(root) > 1){
-            return false;
-        }
-        return true;
+        return isBalanced(root);
     }
-
 
 };
 
