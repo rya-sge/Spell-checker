@@ -47,9 +47,15 @@ TEST_CASE("Ternary Search Tree") {
         for (string val :  BALANCE_TEST_VALUES) {
             balanceTest.insert(val, 1);
             REQUIRE(balanceTest.contains(val));
-            REQUIRE(balanceTest.isBalanced() == true);
+            REQUIRE(balanceTest.isBalanced());
         }
         REQUIRE(balanceTest.size() == SIZE_BALANCE_VALUES);
+        for (string val :BALANCE_TEST_VALUES) {
+            balanceTest.erase(val);
+            REQUIRE(!test.contains(val));
+            REQUIRE(balanceTest.isBalanced());
+        }
+
     }
 
     SECTION("Insert all fruits, count and check if it is contained") {

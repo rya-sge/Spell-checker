@@ -106,6 +106,7 @@ private:
         return y;
     }
 
+
     Node* restoreBalance(Node* x)
     {
         if(balance(x) < -1) // right < left-1
@@ -162,6 +163,13 @@ public:
     }
     size_t size(){
         return sizeTST;
+    }
+
+    bool isBalanced(){
+        if(balance(root) < -1 || balance(root) > 1){
+            return false;
+        }
+        return true;
     }
 
 
