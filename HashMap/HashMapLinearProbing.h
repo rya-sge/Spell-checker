@@ -16,8 +16,8 @@ private:
     const size_t MIN_VALUE_M = 2;
     const double MAX_FACTOR = 1.0 / 2;
     const double MIN_FACTOR = 1.0 / 8;
-    const size_t MAX_FACTOR_COEF = 2;
-    const size_t MIN_FACTOR_COEF = 2;
+    const size_t MUL_FACTOR_COEF = 2;
+    const size_t DIV_FACTOR_COEF = 2;
 
 
 
@@ -27,7 +27,11 @@ private:
         // V value;
         T key;
 
-        //Constructor of hashnode
+        /**
+         * Utilisation des pointeurs pour différencier une case est vide(ptr == null)
+         * d'une case contenant une clé
+         * @param key
+         */
         HashNode(T key) {
             // this->value = value;
             this->key = key;
@@ -41,16 +45,34 @@ private:
 
     HashMap *hashMap;
 
+    /**
+     * @brief donne le hash de la clé modulo m.
+     * @param key la clé.
+     * @param m modulo.
+     * @return le hash de la clé modulo m.
+     */
     size_t hash(const T &key, size_t m) const{
         return std::hash<T>()(key) % m;
     }
 
+    /**
+     *
+     * @param hashMap
+     * @param key
+     * @param m
+     * @param index
+     */
     void findPosition(HashMap *hashMap, const T &key, size_t m, size_t &index) {
         while (hashMap->at(index) != NULL && hashMap->at(index)->key != key) {
             index = (index + 1) % m;
         }
     }
 
+    /**
+     * @brief Change le nombre de buckets et fais le hash de toutes les clés
+     *        afin de les réinsérer au bon endroit.
+     * @param newM le nouveau nombre de buckets.
+     */
     void realloc(size_t newM) {
         HashMap *newHashMap = new HashMap(newM);
 
@@ -74,6 +96,9 @@ private:
 
 public:
 
+    /**
+     * Constructeur
+     */
     HashMapLinearProbing() {
         hashMap = new HashMap(M);
     }
@@ -93,6 +118,9 @@ public:
     }
 */
 
+    /**
+     * Destructeur
+     */
     ~HashMapLinearProbing() {
         for (HashNode *ptr : *hashMap) {
 
@@ -102,6 +130,10 @@ public:
         hashMap = NULL;
     }
 
+    /**
+     * @brief Insère une clé dans la hash map.
+     * @param key la clé à insérer.
+     */
     void insert(const T &key) {
         // find first available index
         if (contains(key))
@@ -117,6 +149,11 @@ public:
         }
     }
 
+    /**
+     * Permet de savoir si un clé est dans la hash map.
+     * @param key la clé cherchée.
+     * @return vrai si la clé est contenue, sinon faux.
+     */
     bool contains(const T &key) const{
         size_t index = hash(key, M);
         size_t count = 0;
@@ -134,6 +171,11 @@ public:
         return false;
     }
 
+    /**
+     * @brief Supprime une clé.
+     * @param key la clé à supprimer.
+     * @return vrai s'il y a bien eu une supression. Faux si ce n'est pas le cas.
+     */
     bool erase(const T &key) {
         if (!contains(key)) return false;
         int i = hash(key, M);
@@ -156,35 +198,63 @@ public:
         }
         --N;
         if (M > MIN_VALUE_M && (double) N / M <= MIN_FACTOR) {
-            realloc(M / MAX_FACTOR_COEF);
+            realloc(M / MUL_FACTOR_COEF);
         }
         return true;
     }
 
+    /**
+     * @brief donne le nombre d'éléments'.
+     * @return le nombre d'éléments.
+     */
     size_t size() const{
         return N;
     }
 
-    size_t max_size() const {
+    /**
+     * @brief donne le nombre de buckets.
+     * @return le nombre de buckets.
+     */
+    size_t max_buckets() const {
         return M;
     }
 
+    /**
+     * @brief donne le facteur maximum.
+     * @return le facteur maximum.
+     */
     double getMaxFactor() const{
         return MAX_FACTOR;
     }
 
+    /**
+     * @brief donne le facteur minimum.
+     * @return le facteur minimum.
+     */
     double getMinFactor() const{
         return MIN_FACTOR;
     }
 
-    size_t getMaxCoefFactor() const{
-        return MAX_FACTOR_COEF;
+    /**
+     * @brief donne le coeficient de multiplication.
+     * @return le coeficient de multiplication.
+     */
+    size_t getMulCoefFactor() const{
+        return MUL_FACTOR_COEF;
     }
 
-    size_t getMinCoefFactor() const{
-        return MIN_FACTOR_COEF;
+    /**
+     * @brief donne le coeficient de division.
+     * @return le coeficient de division.
+     */
+    size_t getDivCoefFactor() const{
+        return DIV_FACTOR_COEF;
     }
 
+   /**
+    * @brief renvoie le nombre de bucket minimum que peut avoir la hashmap.
+    * @return le nombre de bucket minimum que peut avoir la hashmap.
+    */
     size_t getMinValueForM() const{
         return MIN_VALUE_M;
     }

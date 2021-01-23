@@ -1,12 +1,21 @@
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : main.cpp
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
 
-// Needed
+But : Tester l'implémentation du correcteur orthographique
+
+Compilateur : gcc 9.3.0
+--------------------------- */
+
 #include "Dictionary.h"
 #include "SpellChecker.h"
 #include "HashMap/DictionaryContainer.h"
 #include <iostream>
 #include <chrono>
 
-// For Testing
+// Structures de test
 #include <unordered_set>
 #include "HashMap/HashMapLinearProbing.h"
 #include "HashMap/HashMapSeparateChaining.h"

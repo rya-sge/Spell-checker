@@ -1,6 +1,13 @@
-//
-// Created by micha on 2020-12-23.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : Suggestions.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Génération des propositions de mots semblables à un mot donné
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_SUGGESTIONS_H
 #define ASD2_LABS_2020_SUGGESTIONS_H
