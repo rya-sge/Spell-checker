@@ -10,45 +10,18 @@
 #include <cstring>
 #include <iostream>
 
-template<typename Container>
+#include "Utils/sanitizeWord.h"
+
+template<typename ContainerType>
 class Dictionary{
-    Container* words;
+    ContainerType* words;
 
-private:
-    std::string sanitizeWord(const std::string& w) const {
-
-        std::string saneWord;
-        for(char c : w){
-            if(!isalpha(c) && c != '\'')
-                continue; // skip non alpha and apostrophe
-            else if(isupper(c))
-                c = (char)tolower(c); // remove uppercase
-
-            saneWord += c;
-
-        }
-
-        // loop needed in the case there are multiple apostrophes at the beginning/end character
-        // i.e "'''''test'''''"
-        bool apoFound = true;
-        while(apoFound){
-            if(saneWord.back() == '\'')
-                saneWord.pop_back();
-            else if(saneWord.front() == '\'')
-                saneWord = saneWord.substr(1, saneWord.size() - 1);
-            else
-                apoFound = false;
-        }
-
-        return saneWord;
-
-    }
 public:
 
 
-    Dictionary(Container& container) : words(&container) {};
+    Dictionary(ContainerType& container) : words(&container) {};
 
-    Dictionary(Container& container,const std::string& inputfile) : words(&container){
+    Dictionary(ContainerType& container, const std::string& inputfile) : words(&container){
 
         // read file
         std::string line;

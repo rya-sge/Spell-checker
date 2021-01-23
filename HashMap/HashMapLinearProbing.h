@@ -80,7 +80,7 @@ public:
 
 /*  // Constructeur de copie: pas utile mais je le laisse au cas où
     HashMapLinearProbing(const HashMapLinearProbing<T>& copy){
-        hashMap = new Container(copy.M);
+        hashMap = new DictionaryContainer(copy.M);
         for (int i = 0; i < copy.N; ++i) {
             HashNode *ptr = copy.hashMap->at(i);
             if(ptr != NULL){

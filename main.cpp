@@ -2,7 +2,7 @@
 // Needed
 #include "Dictionary.h"
 #include "SpellChecker.h"
-#include "HashMap/Container.h"
+#include "HashMap/DictionaryContainer.h"
 #include <iostream>
 #include <chrono>
 
@@ -13,14 +13,14 @@
 
 #include <unordered_set>
 using namespace std;
-typedef Container<string> ContainerWrapper;
+typedef DictionaryContainer<string> ContainerWrapper;
 
 
 // Prototypes des fonctions pour pouvoir les retrouver plus facilement
 void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico);
 void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE);
 void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE);
-void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE);
+void testUnorderedSet(const string& KEY, const string& DICTIONARY_FILE);
 void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE);
 void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE);
 
@@ -62,9 +62,9 @@ void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 
     // Creation
     HashMapLinearProbing<string> test;
-    ContainerWrapper cw([&test](const string& key){ return test.contains(key);},
-                        [&test](const string& key){ test.insert(key);},
-                        [&test](const string& key){ test.erase(key);});
+    ContainerWrapper cw([&test](const string& KEY){ return test.contains(KEY);},
+                        [&test](const string& KEY){ test.insert(KEY);},
+                        [&test](const string& KEY){ test.erase(KEY);});
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done
@@ -80,9 +80,9 @@ void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FIL
 
     // Creation
     HashMapSeparateChaining<string> test;
-    ContainerWrapper cw ([&test](const string& key){ return test.contains(key);},
-                         [&test](const string& key){ test.insert(key);},
-                         [&test](const string& key){ test.erase(key);});
+    ContainerWrapper cw ([&test](const string& KEY){ return test.contains(KEY);},
+                         [&test](const string& KEY){ test.insert(KEY);},
+                         [&test](const string& KEY){ test.erase(KEY);});
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done
@@ -98,9 +98,9 @@ void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 
     // Creation
     unordered_set<string> test;
-    ContainerWrapper cw ([&test](const string& key){ return test.find(key) != test.end();},
-                         [&test](const string& key){ test.insert(key);},
-                         [&test](const string& key){ test.erase(key);}       );
+    ContainerWrapper cw ([&test](const string& KEY){ return test.find(KEY) != test.end();},
+                         [&test](const string& KEY){ test.insert(KEY);},
+                         [&test](const string& KEY){ test.erase(KEY);}       );
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     //done
@@ -119,9 +119,9 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 
     // Creation
     vector<string> test;
-    ContainerWrapper cw ([&test](const string& key){ return binary_search(test.begin(), test.end(), key) ;;},
-                         [&test](const string& key){ test.push_back(key);},
-                         [&test](const string& key){ test.erase(lower_bound(test.begin(), test.end(), key)); });
+    ContainerWrapper cw ([&test](const string& KEY){ return binary_search(test.begin(), test.end(), KEY) ;;},
+                         [&test](const string& KEY){ test.push_back(KEY);},
+                         [&test](const string& KEY){ test.erase(lower_bound(test.begin(), test.end(), KEY)); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
     sort(test.begin(), test.end());
 
@@ -138,9 +138,9 @@ void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 
     // Creation
     TST test;
-    ContainerWrapper cw ([&test](const string& key){return test.contains(key);},
-                         [&test](const string& key){ test.insert(key, 1);},
-                         [&test](const string& key){ test.erase(key);});
+    ContainerWrapper cw ([&test](const string& KEY){return test.contains(KEY);},
+                         [&test](const string& KEY){ test.insert(KEY, 1);},
+                         [&test](const string& KEY){ test.erase(KEY);});
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done

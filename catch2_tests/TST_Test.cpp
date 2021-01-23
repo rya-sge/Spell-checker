@@ -66,7 +66,7 @@ TEST_CASE("Ternary Search Tree") {
             test.insert(fruits[i], i);
             REQUIRE(test.size() == i + 1);
             REQUIRE(test.contains(fruits[i]));
-        }
+    }
         REQUIRE(!test.contains("piment"));
     }
 

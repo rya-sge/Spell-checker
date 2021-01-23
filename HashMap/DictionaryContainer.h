@@ -2,14 +2,14 @@
 // Created by super on 26/12/2020.
 //
 
-#ifndef ASD2_LABS_2020_CONTAINER_H
-#define ASD2_LABS_2020_CONTAINER_H
+#ifndef ASD2_LABS_2020_DICTIONARYCONTAINER_H
+#define ASD2_LABS_2020_DICTIONARYCONTAINER_H
 
 
 #include <functional>
 
 template<typename T>
-class Container{
+class DictionaryContainer{
 
     using boolFunction =  std::function<bool(const T& key)>;
     using voidFunction =  std::function<void(const T& key)>;
@@ -20,7 +20,7 @@ class Container{
 
 public:
 
-    Container(const boolFunction &containsFunction, const voidFunction &insertFunction, const voidFunction &eraseFunction)
+    DictionaryContainer(const boolFunction &containsFunction, const voidFunction &insertFunction, const voidFunction &eraseFunction)
             : containsF(containsFunction), insertF(insertFunction), eraseF(eraseFunction) {}
 
     bool contains(const T& key) const{
@@ -36,4 +36,4 @@ public:
     }
 };
 
-#endif //ASD2_LABS_2020_CONTAINER_H
+#endif //ASD2_LABS_2020_DICTIONARYCONTAINER_H
