@@ -1,7 +1,9 @@
-//
-// Created by david on 23.12.20.
-// Hacked by mike
-//
+/**
+ * @author David Pellisier, Michael Ruckstuhl. Ryan Sauge
+ * @date 25.12.2020
+ *
+ * Implémentation de la class TST permettant de créer un ternary search tree
+ */
 
 #ifndef ASD2_LABS_2020_TERNARYSEARCHTREE_H
 #define ASD2_LABS_2020_TERNARYSEARCHTREE_H
@@ -32,7 +34,7 @@ private:
     Node* root;
 
     /**
-     * Appelée par insert aide à linsertion du mot.
+     * @brief Appelée par insert aide à linsertion du mot.
      * @param x le noeud courrant.
      * @param key le mot à inserer.
      * @param val la valeur du mot.
@@ -60,7 +62,7 @@ private:
     }
 
     /**
-     * Renvoie la valeur du mot cherché ou NOT_ASSIGNED si celui-ci n'existe pas.
+     * @brief Renvoie la valeur du mot cherché ou NOT_ASSIGNED si celui-ci n'existe pas.
      * @param x noeud courrant.
      * @param key le mot à obtenir.
      * @param d le numéro de caractère du mot à obtenir.
@@ -76,7 +78,7 @@ private:
     }
 
     /**
-     * Fonction appelée par erase public. Aide à supprimé le noeud
+     * @brief Fonction appelée par erase public. Aide à supprimé le noeud
      * @param x noeud courrant.
      * @param key le mot à supprimer.
      * @param d le numéro de caractère du mot à suprimmer.
@@ -96,7 +98,7 @@ private:
     }
 
     /**
-     * Renvoie la taille du noeud. -1 si le noeud est nul.
+     * @brief Renvoie la taille du noeud. -1 si le noeud est nul.
      * @param x le noeud.
      * @return la taille du noeud. -1 si la noeud est nul.
      * @details fonction reprise des slides "Arbres AVL"
@@ -109,7 +111,7 @@ private:
     }
 
     /**
-     * Met à jour la taille d'un noeud.
+     * @brief Met à jour la taille d'un noeud.
      * @param x le noeud.
      * @details fonction reprise des slides "Arbres AVL"
      *          faites par Laura Elena Raileanu, Marc Dikötter
@@ -120,7 +122,7 @@ private:
     }
 
     /**
-     * Calcule du déséquilibre à partire d'un noeud.
+     * @brief Calcule du déséquilibre à partire d'un noeud.
      * @param x le noeud.
      * @return le déséquilibre
      * @details fonction reprise des slides "Arbres AVL"
@@ -133,7 +135,7 @@ private:
     }
 
     /**
-    * Effectue une rotation à gauche par rapport à un noeud.
+    * @brief Effectue une rotation à gauche par rapport à un noeud.
     * @param x le noeud
     * @return le nouveau noeud
     * @details fonction reprise des slides "Arbres AVL"
@@ -152,7 +154,7 @@ private:
     }
 
     /**
-     * Effectue une rotation à droite par rapport à un noeud.
+     * @brief Effectue une rotation à droite par rapport à un noeud.
      * @param x le noeud
      * @return le nouveau noeud
      * @details fonction reprise des slides "Arbres AVL"
@@ -172,9 +174,9 @@ private:
 
 
     /**
-     * Si nécessaire, restauration par rotation
-     * simple ou double selon l’équilibre du
-     * nœud suivant du côté lourd.
+     * @brief Si nécessaire, restauration par rotation
+     *        simple ou double selon l’équilibre du
+     *        nœud suivant du côté lourd.
      * @param x noeud
      * @return le noeud équilibré
      * @details fonction reprise des slides "Arbres AVL"
@@ -200,7 +202,7 @@ private:
     }
 
     /**
-     * Parcours l'arbre depuis un noeud est vérifie que tous est équilibré depuis ce noeud.
+     * @brief Parcours l'arbre depuis un noeud est vérifie que tous est équilibré depuis ce noeud.
      * @param x le noeud de dépard.
      * @return Vrai si rien de désequilibré n'est trouvé. Sinon faux.
      */
@@ -234,7 +236,7 @@ public:
     TST() : root(nullptr) { };
 
     /**
-     * Insère un mot dans l'arbre avec sa valeur.
+     * @brief Insère un mot dans l'arbre avec sa valeur.
      * @param key le mot à insérer.
      * @param val la valeur à insérer.
      * @throw invalid_argument si val vaut la même chose que NOT_ASSIGNED.
@@ -246,7 +248,7 @@ public:
     }
 
     /**
-     * Indique si un mot est contenu dans l'arbre.
+     * @brief Indique si un mot est contenu dans l'arbre.
      * @param key le mot à vérifier.
      * @return vrai si le mot est contenu dans l'arbre. Si ce n'est pas le cas, faux est renvoyé.
      */
@@ -257,8 +259,8 @@ public:
     }
 
     /**
-     * Permet de supprimer un mot de l'arbre.
-     * Supprime les noeuds qui n'ont plus d'utilité.
+     * @brief Permet de supprimer un mot de l'arbre.
+     *        Supprime les noeuds qui n'ont plus d'utilité.
      * @param key mot à supprimer
      */
     void erase(std::string key){
@@ -289,7 +291,7 @@ public:
     }
 
     /**
-     * Renvoie la taille (nombre de mots) de l'arbre
+     * @brief   Renvoie la taille (nombre de mots) de l'arbre
      * @return  la taille (nombre de mots) de l'arbre
      */
     size_t size(){
@@ -297,7 +299,7 @@ public:
     }
 
     /**
-     * Permet de savoir si l'arbre est équilibré
+     * @brief  Permet de savoir si l'arbre est équilibré
      * @return true si l'arbre est équilibré. False si ce n'est pas le cas
      */
     bool isBalanced(){
