@@ -23,7 +23,7 @@ private:
         Node* left;
         Node* mid;
         Node* right;
-        int nodeHeight;
+        int nodeHeight = 0;
     };
 
     Node* root;
@@ -150,8 +150,14 @@ public:
                 x = nullptr;
             }
             else{
+                restoreBalance(x);
                 break;
             }
+        }
+        while(!listNodes.empty()){
+            x = listNodes.back();
+            listNodes.pop_back();
+            restoreBalance(x);
         }
     }
     size_t size(){
