@@ -28,12 +28,12 @@ typedef DictionaryContainer<string> ContainerWrapper;
 
 // Prototypes des fonctions pour pouvoir les retrouver plus facilement
 void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico, bool sansAffichage = false);
-void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testUnorderedSet(const string& KEY, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testLinearProbing(const string&INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testSeparateChaining(const string&INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
 void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
 void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE);
+void testAll(const string& INPUT_FILE, const string& DICTIONARY_FILE);
 
 int main() {
     const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
@@ -181,7 +181,7 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, b
     vector<string> test;
     ContainerWrapper cw ([&test](const string& KEY){ return binary_search(test.begin(), test.end(), KEY) ;},
                          [&test](const string& KEY){ test.push_back(KEY);},
-                         [&test](const string& KEY){ test.erase(lower_bound(test.begin(), test.end(), KEY)) != test.end(); });
+                         [&test](const string& KEY){ test.erase(lower_bound(test.begin(), test.end(), KEY)); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
     sort(test.begin(), test.end());
 

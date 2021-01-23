@@ -121,7 +121,7 @@ public:
     /**
      * @brief Supprime une clé.
      * @param key la clé à supprimer.
-     * @return vrai s'il y a bien eu une supression. Faux si ce n'est pas le cas.
+     * @return vrai s'il y a bien eu une suppression. Faux si ce n'est pas le cas.
      */
     bool erase(const T& key) {
         size_t index = hash(key, M);
@@ -172,16 +172,16 @@ public:
     }
 
     /**
-     * @brief donne le coeficient de multiplication.
-     * @return le coeficient de multiplication.
+     * @brief donne le coefficient de multiplication.
+     * @return le coefficient de multiplication.
      */
     size_t getMulCoefFactor() const {
         return MUL_FACTOR_COEF;
     }
 
      /**
-      * @brief donne le coeficient de division.
-      * @return le coeficient de division.
+      * @brief donne le coefficient de division.
+      * @return le coefficient de division.
       */
     size_t getDivCoefFactor() const {
         return DIV_FACTOR_COEF;

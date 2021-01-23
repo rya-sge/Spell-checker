@@ -64,6 +64,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
     }
 
     SECTION("Erase key") {
+        1+1;
         for (T val : keys) {
             hm->insert(val);
         }
@@ -72,7 +73,6 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
             hm->erase(val);
             REQUIRE(!hm->contains(val));
         }
-
         REQUIRE(!hm->size());
     }
 
