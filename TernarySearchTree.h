@@ -164,6 +164,30 @@ public:
     size_t size(){
         return sizeTST;
     }
+    bool isEquilibrate(Node* x){
+        bool a = true,b = true,c = true;
+        if(x->left != nullptr){
+            a = isEquilibrate(x->left);
+        }
+        if(x->mid != nullptr){
+            b = isEquilibrate(x->mid);
+        }
+        if(x->right != nullptr){
+            c = isEquilibrate(x->right);
+        }
+        if((x->left != nullptr) and (x->right != nullptr)){
+            int diffHeight = x->right->nodeHeight - x->left->nodeHeight;
+            if(diffHeight < -1 or diffHeight > 1)
+                return false;
+            int maxHeight = std::max( x->right->nodeHeight, x->left->nodeHeight);
+            if((x->nodeHeight - maxHeight - 1) != 0)
+                return false;
+        }
+        return a and b and c;
+    }
+    bool isEquilibrate(){
+        isEquilibrate(root);
+    }
 
     bool isBalanced(){
         if(balance(root) < -1 || balance(root) > 1){
