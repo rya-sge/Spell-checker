@@ -36,7 +36,6 @@ TEST_CASE("Ternary Search Tree") {
         }
         for (string val : fruits) {
             test.erase(val);
-            cout << val << ": " << test.contains(val) << endl;
             REQUIRE(!test.contains(val));
         }
         REQUIRE(!test.size());
@@ -79,37 +78,3 @@ TEST_CASE("Ternary Search Tree") {
         }
     }
 }
-
-/*
-TST test;
-test.insert("Pomme",1);
-test.insert("Poir", 2);
-test.insert("Melon", 3);
-
-cout << "size of tst is: " << test.size() << endl;
-
-cout << "Pomme: " << test.contains("Pomme") << endl;
-cout << "Poir: " << test.contains("Poir") << endl;
-cout << "Melon: " << test.contains("Melon") << endl;
-
-cout << "Orange: " << test.contains("Orange") << endl;
-cout << "Fraise: " << test.contains("Fraise") << endl;
-cout << "Noix: " << test.contains("Noix") << endl;
-
-test.erase("Pomme");
-test.erase("Pomme");
-test.erase("Poir");
-test.erase("Noix");
-
-cout << "size of tst is: " << test.size() << endl;
-
-cout << "Pomme: " << test.contains("Pomme") << endl;
-cout << "Poir: " << test.contains("Poir") << endl;
-cout << "Melon: " << test.contains("Melon") << endl;
-
-cout << "Orange: " << test.contains("Orange") << endl;
-cout << "Fraise: " << test.contains("Fraise") << endl;
-cout << "Noix: " << test.contains("Noix") << endl;
-
-
-return 0;*/
