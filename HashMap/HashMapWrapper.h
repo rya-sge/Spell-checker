@@ -25,15 +25,15 @@ public:
 
     virtual size_t size() const = 0;
 
-    virtual size_t max_size() const = 0;
+    virtual size_t max_buckets() const = 0;
 
     virtual double getMaxFactor() const = 0;
 
     virtual double getMinFactor() const = 0;
 
-    virtual size_t getMaxCoefFactor() const = 0;
+    virtual size_t getMulCoefFactor() const = 0;
 
-    virtual size_t getMinCoefFactor() const = 0;
+    virtual size_t getDivCoefFactor() const = 0;
 
     virtual size_t getMinValueForM() const = 0;
 };

@@ -66,7 +66,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
 
     SECTION("Resize hashmap") {
         SECTION("Extend") {
-            size_t M = hm->max_size();
+            size_t M = hm->max_buckets();
 
             for (size_t N = 0; N < values.size(); ++N) {
                 double factor = (double) (N + 1) / M;
@@ -74,9 +74,9 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
                 hm->insert(values.at(N));
 
                 if (factor >= hm->getMaxFactor()) { // realloc expected
-                    double actualFactor = (double) hm->size() / hm->max_size();
-                    REQUIRE(actualFactor == (factor / hm->getMaxCoefFactor()));
-                    M = hm->max_size();
+                    double actualFactor = (double) hm->size() / hm->max_buckets();
+                    REQUIRE(actualFactor == (factor / hm->getMulCoefFactor()));
+                    M = hm->max_buckets();
                 }
 
             }
@@ -87,16 +87,16 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
             for (T val: values)
                 hm->insert(val);
 
-            size_t M = hm->max_size();
+            size_t M = hm->max_buckets();
             for (int n = hm->size() - 1; n >= 0; --n) {
                 hm->erase(values.at(n));
                 double factor = (double) n / M;
-                double actualFactor = (double) hm->size() / hm->max_size();
+                double actualFactor = (double) hm->size() / hm->max_buckets();
                 if (M == hm->getMinValueForM()) {
                     REQUIRE((actualFactor == factor));
                 } else if (factor <= hm->getMinFactor()) { // realloc expected
-                    REQUIRE((actualFactor == (factor * hm->getMinCoefFactor())));
-                    M = hm->max_size();
+                    REQUIRE((actualFactor == (factor * hm->getDivCoefFactor())));
+                    M = hm->max_buckets();
                 }
 
             }
