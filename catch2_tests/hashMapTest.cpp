@@ -200,68 +200,62 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
  * @param values
  * @param valuesExclude
  */
-void prepareVector(vector<size_t> &values, vector<size_t> &valuesExclude, vector<size_t> &valuesErase) {
-    for (unsigned i = 0; i < values.size(); ++i) {
+template <typename T>
+void prepareVector(vector<T> &values, vector<T> &valuesExclude, vector<T> &valuesErase) {
+    for (T i = 0; i < values.size(); ++i) {
         values.at(i) = i;
     }
-    for (unsigned elem = values.size(), i = 0; i < valuesExclude.size(); ++i, ++elem) {
+    for (T elem = values.size(), i = 0; i < valuesExclude.size(); ++i, ++elem) {
         valuesExclude.at(i) = elem;
     }
 
-    for (unsigned i = 0; i < valuesErase.size(); ++i) {
+    for (T i = 0; i < valuesErase.size(); ++i) {
         valuesErase.at(i) = i;
     }
 }
 
 template<typename T>
-void testCommonFunction(HashMapWrapper<T>& hm, HashMapWrapper<T>& hm2){
-    vector<size_t> values(SIZE_VECTOR_TEST);
-    vector<size_t> valuesExclude(SIZE_VECTOR_TEST);
-    vector<size_t> valuesDelete(SIZE_VECTOR_TEST / 3);
-    prepareVector(values, valuesExclude,  valuesDelete);
+void testCommonFunction(HashMapWrapper<T>& hm,  HashMapWrapper<T>& hm2, HashMapWrapper<string>& strings){
+    SECTION("Valeurs numériques de type T") {
+        vector<T> values(SIZE_VECTOR_TEST);
+        vector<T> valuesExclude(SIZE_VECTOR_TEST);
+        vector<T> valuesDelete(SIZE_VECTOR_TEST / 3);
+        prepareVector(values, valuesExclude,  valuesDelete);
 
-    auto *hw = reinterpret_cast<HashMapWrapper<size_t> *>(&hm);
-    testCommonGeneral(hw, values, valuesExclude, valuesDelete);
+        auto *hw = reinterpret_cast<HashMapWrapper<T> *>(&hm);
+        testCommonGeneral(hw, values, valuesExclude, valuesDelete);
 
-    auto *hw2 = reinterpret_cast<HashMapWrapper<size_t> *>(&hm2);
-    testCommonSize(hw2, N);
+        auto *hw2 = reinterpret_cast<HashMapWrapper<T> *>(&hm2);
+        testCommonSize(hw2, N);
+    }
+
+    SECTION("Test avec des strings") {
+        vector<string> values(FRUITS);
+        auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&strings);
+        testCommonGeneral(hw, values, FRUITS_EXCLUS, FRUITS_A_SUPPRIMER);
+    }
+
 }
+
+
 /**
  * Test de Linear Probing
  */
 TEST_CASE("Linear Probing", "[hashmap]") {
-    SECTION("Size_T values") {
-        HashMapLinearProbing<size_t> lb;
-        HashMapLinearProbing<size_t> lb2;
-        testCommonFunction(lb, lb2);
-    }
-
-    SECTION("String values") {
-        vector<string> values(FRUITS);
-        HashMapLinearProbing<string> lb;
-        auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&lb);
-        testCommonGeneral(hw, values, FRUITS_EXCLUS, FRUITS_A_SUPPRIMER);
-    }
-
-
+    HashMapLinearProbing<size_t> lb;
+    HashMapLinearProbing<size_t> lb2;
+    HashMapLinearProbing<string> strings;
+    testCommonFunction(lb, lb2, strings);
 }
 
 /**
  * Test de Separate Chaining
  */
 TEST_CASE("SeparateChaining", "[hashmap]") {
-    SECTION("Size_T values") {
-        HashMapSeparateChaining<size_t> sc;
-        HashMapSeparateChaining<size_t> sc2;
-        testCommonFunction(sc, sc2);
-    }
-
-    SECTION("String values") {
-        vector<string> values(FRUITS);
-
-        HashMapSeparateChaining<string> sc;
-        auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&sc);
-        testCommonGeneral(hw, values, FRUITS_EXCLUS, FRUITS_A_SUPPRIMER);
-    }
+    HashMapSeparateChaining<size_t> sc;
+    HashMapSeparateChaining<size_t> sc2;
+    HashMapSeparateChaining<string> strings;
+    auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&strings);
+    testCommonFunction(sc, sc2, strings);
 }
 
