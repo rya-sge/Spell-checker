@@ -38,6 +38,12 @@ int main() {
     return 0;
 }
 
+/**
+ *
+ * @param INPUT_FILE
+ * @param DICO
+ * @param timeDico
+ */
 void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
@@ -57,6 +63,11 @@ void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DI
     cout << "Total time : " << timeDico + timeSpellCheck << "ms" << endl;
 }
 
+/**
+ *
+ * @param INPUT_FILE
+ * @param DICTIONARY_FILE
+ */
 void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
@@ -75,6 +86,11 @@ void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     testCommon(INPUT_FILE, DICO, timeDico);
 }
 
+/**
+ *
+ * @param INPUT_FILE
+ * @param DICTIONARY_FILE
+ */
 void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
@@ -92,7 +108,11 @@ void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FIL
 
     testCommon(INPUT_FILE, DICO, timeDico);
 }
-
+/**
+ *
+ * @param INPUT_FILE
+ * @param DICTIONARY_FILE
+ */
 void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
@@ -111,10 +131,22 @@ void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     testCommon(INPUT_FILE, DICO, timeDico);
 }
 
+/**
+ *
+ * @param INPUT_FILE
+ * @param DICTIONARY_FILE
+ * @details
+ *  Ici on insère les valeurs à la fin du vecteur puis on trie le vecteur.
+    On peut se le permettre car on n'utilisera plus la fonction insert dans la suite des tests.
+    À ne pas faire en pratique car le vecteur doit être trié en tout temps
+    Pour la fonction insert, la bonne pratique serait de :
+     -déterminer l'endroit où il faut insérer avec un appel à lower_bound
+        auto it = std::lower_bound(test.begin(), test.end()) pour
+    puis ensuite insérer la clé à la position trouvée :
+        test.insert(it, key)
+ */
 void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
-    // Ici on insère les valeurs à la fin du vecteur puis on trie le vecteur.
-    // On peut se le permettre car on n'utilisera plus la fonction insert dans la suite des tests.
-    // À ne pas faire en pratique ! (le vecteur doit être trié en tout temps)
+
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
@@ -133,6 +165,11 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     testCommon(INPUT_FILE, DICO, timeDico);
 }
 
+/**
+ * 
+ * @param INPUT_FILE
+ * @param DICTIONARY_FILE
+ */
 void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
