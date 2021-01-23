@@ -14,20 +14,19 @@ Compilateur : gcc 9.3.0
 #include "../HashMap/HashMapWrapper.h"
 #include "../HashMap/HashMapLinearProbing.h"
 #include "../HashMap/HashMapSeparateChaining.h"
+#include <memory> // for std::allocator
 
 using namespace std;
 
 const size_t SIZE_VECTOR_TEST = 20;
 const size_t N = 100;
 
-const vector<string> FRUITS = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix", "noisette",
-                         "melon"};
+const vector<string> FRUITS = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix",
+                               "noisette",
+                               "melon"};
 const vector<string> FRUITS_A_SUPPRIMER = {"poire", "pasteque", "mandarine", "noix", "melon"};
 
 const vector<string> FRUITS_EXCLUS = {"h", "tulaS", "Non", "Enjoy"};
-
-
-#include <memory> // for std::allocator
 
 
 /**
@@ -76,9 +75,9 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
         REQUIRE(!hm->size());
     }
 
-    SECTION("Insère des éléments de keys, supprime les cls specifies par noKeys count and check if it is contained") {
+    SECTION("Insère des éléments de keys, supprime les cls specifies par noKeys, etc.") {
 
-        for (size_t i = 0; i < keys.size(); ++i){
+        for (size_t i = 0; i < keys.size(); ++i) {
             hm->insert(keys[i]);
             REQUIRE(hm->contains(keys[i]));
         }
@@ -94,7 +93,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
         }
     }
 
-    SECTION("Resize hashmap") {
+    SECTION("Resize de hashmap") {
         SECTION("Extend") {
             size_t M = hm->max_buckets();
 
@@ -113,7 +112,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
 
         }
 
-        SECTION("Reduce") {
+        SECTION("Réduction taille hashmap") {
             for (T val: keys)
                 hm->insert(val);
 
@@ -145,9 +144,9 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
  */
 template<typename T>
 void testCommonSize(HashMapWrapper<T> *hm, T n) {
-    SECTION("New size, is 0") {
+    SECTION("Taille initiale, 0") {
         REQUIRE(hm->size() == 0);
-    }SECTION("size == i, i in [1,...,n], with insert") {
+    }SECTION("size == i, i in [1,...,n], avec insertion") {
         for (T i = 1; i <= n; ++i) {
             hm->insert(i);
             REQUIRE(hm->size() == i);
@@ -168,7 +167,7 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
             else
                 REQUIRE(!hm->contains(i));
         }
-    }SECTION("size == i, i in [1,...,n], with erase") {
+    }SECTION("size == i, i in [1,...,n], avec suppression") {
         for (T i = 1; i <= n; ++i) {
             hm->insert(i);
         }
@@ -179,7 +178,7 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
             hm->erase(i);
             REQUIRE(hm->size() == n - i);
         }
-    }SECTION("contains == i, i in [1,...,n], with erase for elements that are 2k, k in R") {
+    }SECTION("contains == i, i in [1,...,n], avec suppression des éléments 2k, k in R") {
         for (T i = 1; i <= n; ++i) {
             hm->insert(i);
             if (i % 2)
@@ -196,34 +195,35 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
 }
 
 /**
- * @brief Préparation d'un vecteur de test
- * @param values
- * @param valuesExclude
+ * @brief Préparation des vecteur de test
+ * @param keys
+ * @param noKeys
+ * @param keyToDelete
  */
-template <typename T>
-void prepareVector(vector<T> &values, vector<T> &valuesExclude, vector<T> &valuesErase) {
-    for (T i = 0; i < values.size(); ++i) {
-        values.at(i) = i;
+template<typename T>
+void prepareVector(vector<T> &keys, vector<T> &noKeys, vector<T> &keyToDelete) {
+    for (T i = 0; i < keys.size(); ++i) {
+        keys.at(i) = i;
     }
-    for (T elem = values.size(), i = 0; i < valuesExclude.size(); ++i, ++elem) {
-        valuesExclude.at(i) = elem;
+    for (T elem = keys.size(), i = 0; i < noKeys.size(); ++i, ++elem) {
+        noKeys.at(i) = elem;
     }
 
-    for (T i = 0; i < valuesErase.size(); ++i) {
-        valuesErase.at(i) = i;
+    for (T i = 0; i < keyToDelete.size(); ++i) {
+        keyToDelete.at(i) = i;
     }
 }
 
 template<typename T>
-void testCommonFunction(HashMapWrapper<T>& hm,  HashMapWrapper<T>& hm2, HashMapWrapper<string>& strings){
+void testCommonFunction(HashMapWrapper<T> &hm, HashMapWrapper<T> &hm2, HashMapWrapper<string> &strings) {
     SECTION("Valeurs numériques de type T") {
-        vector<T> values(SIZE_VECTOR_TEST);
-        vector<T> valuesExclude(SIZE_VECTOR_TEST);
-        vector<T> valuesDelete(SIZE_VECTOR_TEST / 3);
-        prepareVector(values, valuesExclude,  valuesDelete);
+        vector<T> keys(SIZE_VECTOR_TEST);
+        vector<T> noKeys(SIZE_VECTOR_TEST);
+        vector<T> keyToDelete(SIZE_VECTOR_TEST / 3);
+        prepareVector(keys, noKeys, keyToDelete);
 
         auto *hw = reinterpret_cast<HashMapWrapper<T> *>(&hm);
-        testCommonGeneral(hw, values, valuesExclude, valuesDelete);
+        testCommonGeneral(hw, keys, noKeys, keyToDelete);
 
         auto *hw2 = reinterpret_cast<HashMapWrapper<T> *>(&hm2);
         testCommonSize(hw2, N);
