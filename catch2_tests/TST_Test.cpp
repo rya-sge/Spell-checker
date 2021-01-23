@@ -15,8 +15,9 @@ TEST_CASE("Ternary Search Tree") {
     const size_t SIZE_FRUITS = 10;
     std::string suppressFruits[] = {"poire", "pasteque", "mandarine", "noix", "melon"};
     const size_t SIZE_SUPRESSED_FRUITS = 5;
-
-    TST test;
+    std::string BALANCE_TEST_VALUES[] = {"A", "B", "CD", "EF", "GH"};
+    const size_t SIZE_BALANCE_VALUES = 5;
+    TST test, balanceTest;
 
     SECTION("Empty Tree") {
         REQUIRE(!test.size());
@@ -43,6 +44,12 @@ TEST_CASE("Ternary Search Tree") {
 
     SECTION("Balance") {
         /* A trouver comment faire */
+        for (string val :  BALANCE_TEST_VALUES) {
+            balanceTest.insert(val, 1);
+            REQUIRE(balanceTest.contains(val));
+            REQUIRE(balanceTest.isBalanced() == true);
+        }
+        REQUIRE(balanceTest.size() == SIZE_BALANCE_VALUES);
     }
 
     SECTION("Insert all fruits, count and check if it is contained") {
