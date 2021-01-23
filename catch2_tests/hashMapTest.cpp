@@ -35,6 +35,7 @@ const vector<string> FRUITS_EXCLUS = {"h", "tulaS", "Non", "Enjoy"};
  * @param hm
  * @param keys
  * @param noKeys contient une liste de clés qui ne doient pas être présent dans keys
+ * @keyToDelete liste des clés à supprimer, doivent être contenus dans keys
  * @details test une hashMap vide, insert et contains, erase, resize, reduce avec les vecteurs spécifiés
  *
  */
@@ -77,7 +78,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
 
     SECTION("Insère des éléments de keys, supprime les clés specifiées par noKeys, compte et check le résultat") {
 
-        for (size_t i = 0; i < keys.size(); ++i){
+        for (size_t i = 0; i < keys.size(); ++i) {
             hm->insert(keys[i]);
             REQUIRE(hm->contains(keys[i]));
         }
@@ -196,6 +197,7 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
 
 /**
  * @brief Préparation des vecteur de test
+ * @tparam T doit être de type numérique(int, double, etc.)
  * @param keys
  * @param noKeys
  * @param keyToDelete
@@ -214,6 +216,17 @@ void prepareVector(vector<T> &keys, vector<T> &noKeys, vector<T> &keyToDelete) {
     }
 }
 
+/**
+ * @brief Appel testCommonGeneral avec des vecteurs de tests.
+ * @tparam T doit être de type numérique(int, double, etc.)
+ * @param hm
+ * @param hm2
+ * @param strings
+ * @details Contient 2 sections :
+ *              1) Une pour tester le type T
+ *              2) Et l'autre pour tester les strings
+ *
+ */
 template<typename T>
 void testCommonFunction(HashMapWrapper<T> &hm, HashMapWrapper<T> &hm2, HashMapWrapper<string> &strings) {
     SECTION("Valeurs numériques de type T") {
