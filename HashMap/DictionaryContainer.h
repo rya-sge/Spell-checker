@@ -1,6 +1,14 @@
-//
-// Created by super on 26/12/2020.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : DictionaryContainer.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Wrapper servant à définir les fonctions contains, insert et erase dans le but de pouvoir utiliser n'importe
+        quelle structure dans un dictionnaire
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_DICTIONARYCONTAINER_H
 #define ASD2_LABS_2020_DICTIONARYCONTAINER_H

@@ -1,6 +1,13 @@
-//
-// Created by david on 23.12.20.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : Dictionary.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Implémentation d'un dictionnaire utilisé pour le correcteur orthographique
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_DICTIONARY_H
 

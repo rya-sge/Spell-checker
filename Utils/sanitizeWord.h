@@ -1,6 +1,13 @@
-//
-// Created by david on 23.01.21.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : sanitizeWord.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Définit une fonction utilitaire servant à mettre un mot en minuscule et à enlever les caractères spéciaux non apostrophes
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_SANITIZEWORD_H
 #define ASD2_LABS_2020_SANITIZEWORD_H

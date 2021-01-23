@@ -1,3 +1,14 @@
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : HashMapLinearProbing.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Implémentation d'une table de hachage avec sondage linéaire
+
+Compilateur : gcc 9.3.0
+--------------------------- */
+
 #ifndef ASD2_LABS_2020_HASHMAPLINEARPROBING_H
 #define ASD2_LABS_2020_HASHMAPLINEARPROBING_H
 

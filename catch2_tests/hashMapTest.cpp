@@ -1,3 +1,14 @@
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : hashMapTest.cpp
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Test des différentes hashmaps
+
+Compilateur : gcc 9.3.0
+--------------------------- */
+
 #include <iostream>
 #include "catch.hpp"
 #include "../HashMap/HashMapWrapper.h"
@@ -12,8 +23,6 @@ const size_t N = 100;
 #include <memory> // for std::allocator
 
 
-template<typename T>
-
 /**
  *
  * @tparam T
@@ -23,6 +32,7 @@ template<typename T>
  * @details test Empty hashMap, insert and contains, erase, resize, reduce with specified vectors
  *
  */
+template<typename T>
 void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> noValues) {
     SECTION("Empty hashMap") {
         REQUIRE(!hm->size());
@@ -96,11 +106,10 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
 }
 
 /**
- *
  * @tparam T
  * @param hm
- * @param n number of elements used for test hashmap
- * @details test size, insert and contains, erase with a specific size
+ * @param n nombre d'éléments utilisés pour le test de la hashmap
+ * @details test size(), insert() et contains(), erase() avec une taille spécifique
  */
 template<typename T>
 void testCommonSize(HashMapWrapper<T> *hm, size_t n) {
@@ -157,7 +166,7 @@ void testCommonSize(HashMapWrapper<T> *hm, size_t n) {
  *
  * @tparam T
  * @param hm
- * @details test  with strings
+ * @details test avec des strings
  */
 template<typename T>
 void testCommonString(HashMapWrapper<T> *hm) {
@@ -201,9 +210,8 @@ void testCommonString(HashMapWrapper<T> *hm) {
     }
 }
 
-
 /**
- * @brief prepare vector for test
+ * @brief Préparation d'un vecteur de test
  * @param values
  * @param valuesExclude
  */
@@ -217,7 +225,7 @@ void prepareVector(vector<size_t> &values, vector<size_t> &valuesExclude) {
 }
 
 /**
- * test CASE for Linear Probing
+ * Test de Linear Probing
  */
 TEST_CASE("Linear Probing", "[hashmap]") {
     SECTION("Size_T values") {
@@ -250,7 +258,7 @@ TEST_CASE("Linear Probing", "[hashmap]") {
 }
 
 /**
- * test CASE for Separate Chaining
+ * Test de Separate Chaining
  */
 TEST_CASE("SeparateChaining", "[hashmap]") {
     SECTION("Size_T values") {

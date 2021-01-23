@@ -1,7 +1,13 @@
-//
-// Created by david on 23.12.20.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : SpellChecker.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
 
+But : Correcteur ortographique
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 #include <vector>
 #include "Dictionary.h"
 #include "Suggestions.h"
