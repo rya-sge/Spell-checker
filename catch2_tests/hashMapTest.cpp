@@ -20,6 +20,13 @@ using namespace std;
 const size_t SIZE_VECTOR_TEST = 20;
 const size_t N = 100;
 
+const vector<string> FRUITS = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix", "noisette",
+                         "melon"};
+const vector<string> FRUITS_A_SUPPRIMER = {"poire", "pasteque", "mandarine", "noix", "melon"};
+
+const vector<string> FRUITS_EXCLUS = {"h", "tulaS", "Non", "Enjoy"};
+
+
 #include <memory> // for std::allocator
 
 
@@ -27,36 +34,41 @@ const size_t N = 100;
  *
  * @tparam T
  * @param hm
- * @param values
- * @param noValues
+ * @param keys
+ * @param noKeys contient une liste de clés qui ne doient pas être présent dans keys
  * @details test Empty hashMap, insert and contains, erase, resize, reduce with specified vectors
  *
  */
 template<typename T>
-void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> noValues) {
-    SECTION("Empty hashMap") {
+void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noKeys, std::vector<T> keyToDelete) {
+    SECTION("HashMap vide") {
         REQUIRE(!hm->size());
-        for (T val : noValues) {
+
+    }
+
+    SECTION("Contain et Erase sur des clés non contenues dans la hashmap") {
+        for (T val : noKeys) {
             REQUIRE(!hm->contains(val));
             REQUIRE(!hm->erase(val));
         }
     }
 
-    SECTION("Insert key (and contains)") {
-        for (T val : values) {
+
+    SECTION("Insert key (et contains)") {
+        for (T val : keys) {
             hm->insert(val);
             REQUIRE(hm->contains(val));
         }
 
-        REQUIRE(hm->size() == values.size());
+        REQUIRE(hm->size() == keys.size());
     }
 
     SECTION("Erase key") {
-        for (T val : values) {
+        for (T val : keys) {
             hm->insert(val);
         }
 
-        for (T val : values) {
+        for (T val : keys) {
             hm->erase(val);
             REQUIRE(!hm->contains(val));
         }
@@ -64,14 +76,32 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
         REQUIRE(!hm->size());
     }
 
+    SECTION("Insère des éléments de keys, supprime les cls specifies par noKeys count and check if it is contained") {
+
+        for (size_t i = 0; i < keys.size(); ++i){
+            hm->insert(keys[i]);
+            REQUIRE(hm->contains(keys[i]));
+        }
+
+
+        for (size_t i = 0; i < keyToDelete.size(); ++i) {
+            hm->erase(keyToDelete[i]);
+            REQUIRE(hm->size() == keys.size() - 1 - i);
+            //Check que les éléments ne s'effacent pas deux fois
+            hm->erase(keyToDelete[i]);
+            REQUIRE(!hm->contains(keyToDelete[i]));
+            REQUIRE(hm->size() == keys.size() - 1 - i);
+        }
+    }
+
     SECTION("Resize hashmap") {
         SECTION("Extend") {
             size_t M = hm->max_buckets();
 
-            for (size_t N = 0; N < values.size(); ++N) {
+            for (size_t N = 0; N < keys.size(); ++N) {
                 double factor = (double) (N + 1) / M;
 
-                hm->insert(values.at(N));
+                hm->insert(keys.at(N));
 
                 if (factor >= hm->getMaxFactor()) { // realloc expected
                     double actualFactor = (double) hm->size() / hm->max_buckets();
@@ -84,12 +114,12 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> values, std::vector<T> n
         }
 
         SECTION("Reduce") {
-            for (T val: values)
+            for (T val: keys)
                 hm->insert(val);
 
             size_t M = hm->max_buckets();
             for (int n = hm->size() - 1; n >= 0; --n) {
-                hm->erase(values.at(n));
+                hm->erase(keys.at(n));
                 double factor = (double) n / M;
                 double actualFactor = (double) hm->size() / hm->max_buckets();
                 if (M == hm->getMinValueForM()) {
@@ -125,7 +155,7 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
             hm->insert(i);
             REQUIRE(hm->size() == i);
         }
-    }SECTION("contains == i, i in [1,...,n], with insert where elements are 2k, k in R") {
+    }SECTION("contains == i, i in [1,...,n], avec insert où les éléments 2k, k in R") {
 
         for (T i = 1; i <= n; ++i) {
             if (i % 2)
@@ -166,95 +196,51 @@ void testCommonSize(HashMapWrapper<T> *hm, T n) {
 }
 
 /**
- *
- * @tparam T
- * @param hm
- * @details test avec des strings
- */
-template<typename T>
-void testCommonString(HashMapWrapper<T> *hm) {
-    std::string fruits[] = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix", "noisette",
-                            "melon"};
-    const size_t SIZE_FRUITS = 10;
-    std::string suppressFruits[] = {"poire", "pasteque", "mandarine", "noix", "melon"};
-    const size_t SIZE_SUPRESSED_FRUITS = 5;
-
-    SECTION("New size, is 0") {
-        REQUIRE(hm->size() == 0);
-    }SECTION("Insert all fruits, count and check if it is contained") {
-        for (size_t i = 0; i < SIZE_FRUITS; ++i) {
-            hm->insert(fruits[i]);
-            REQUIRE(hm->size() == i + 1);
-            //Check que les éléments ne s'insérent pas à double
-            hm->insert(fruits[i]);
-            REQUIRE(hm->size() == i + 1);
-            REQUIRE(hm->contains(fruits[i]));
-        }
-        REQUIRE(!hm->contains("piment"));
-    }SECTION("Insert all fruits, erase some, count and check if it is contained") {
-
-        for (size_t i = 0; i < SIZE_FRUITS; ++i)
-            hm->insert(fruits[i]);
-
-        for (size_t i = 0; i < SIZE_SUPRESSED_FRUITS; ++i) {
-            hm->erase(suppressFruits[i]);
-            REQUIRE(hm->size() == SIZE_FRUITS - 1 - i);
-            //Check que les éléments ne s'effacent pas deux fois
-            hm->erase(suppressFruits[i]);
-            REQUIRE(hm->size() == SIZE_FRUITS - 1 - i);
-        }
-        for (size_t i = 0; i < SIZE_FRUITS; ++i) {
-            if (i % 2)
-                REQUIRE(!hm->contains(fruits[i]));
-            else
-                REQUIRE(hm->contains(fruits[i]));
-
-        }
-    }
-}
-
-/**
  * @brief Préparation d'un vecteur de test
  * @param values
  * @param valuesExclude
  */
-void prepareVector(vector<size_t> &values, vector<size_t> &valuesExclude) {
+void prepareVector(vector<size_t> &values, vector<size_t> &valuesExclude, vector<size_t> &valuesErase) {
     for (unsigned i = 0; i < values.size(); ++i) {
         values.at(i) = i;
     }
     for (unsigned elem = values.size(), i = 0; i < valuesExclude.size(); ++i, ++elem) {
         valuesExclude.at(i) = elem;
     }
+
+    for (unsigned i = 0; i < valuesErase.size(); ++i) {
+        valuesErase.at(i) = i;
+    }
 }
 
+template<typename T>
+void testCommonFunction(HashMapWrapper<T>& hm, HashMapWrapper<T>& hm2){
+    vector<size_t> values(SIZE_VECTOR_TEST);
+    vector<size_t> valuesExclude(SIZE_VECTOR_TEST);
+    vector<size_t> valuesDelete(SIZE_VECTOR_TEST / 3);
+    prepareVector(values, valuesExclude,  valuesDelete);
+
+    auto *hw = reinterpret_cast<HashMapWrapper<size_t> *>(&hm);
+    testCommonGeneral(hw, values, valuesExclude, valuesDelete);
+
+    auto *hw2 = reinterpret_cast<HashMapWrapper<size_t> *>(&hm2);
+    testCommonSize(hw2, N);
+}
 /**
  * Test de Linear Probing
  */
 TEST_CASE("Linear Probing", "[hashmap]") {
     SECTION("Size_T values") {
-        vector<size_t> values(SIZE_VECTOR_TEST);
-        vector<size_t> valuesExclude(SIZE_VECTOR_TEST);
-        prepareVector(values, valuesExclude);
-
         HashMapLinearProbing<size_t> lb;
-        auto *hw = reinterpret_cast<HashMapWrapper<size_t> *>(&lb);
-        testCommonGeneral(hw, values, valuesExclude);
-
         HashMapLinearProbing<size_t> lb2;
-        auto *hw2 = reinterpret_cast<HashMapWrapper<size_t> *>(&lb2);
-        testCommonSize(hw2, N);
+        testCommonFunction(lb, lb2);
     }
 
     SECTION("String values") {
-        vector<string> values = {"H", "Salut", "Les amis", "Oui"};
-        vector<string> valuesExclude = {"h", "tulaS", "Non", "Enjoy"};
+        vector<string> values(FRUITS);
         HashMapLinearProbing<string> lb;
         auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&lb);
-        testCommonGeneral(hw, values, valuesExclude);
-
-        HashMapLinearProbing<string> lb2;
-        auto *hw2 = reinterpret_cast<HashMapWrapper<std::string> *>(&lb2);
-        testCommonString(hw2);
+        testCommonGeneral(hw, values, FRUITS_EXCLUS, FRUITS_A_SUPPRIMER);
     }
 
 
@@ -265,30 +251,17 @@ TEST_CASE("Linear Probing", "[hashmap]") {
  */
 TEST_CASE("SeparateChaining", "[hashmap]") {
     SECTION("Size_T values") {
-        vector<size_t> values(SIZE_VECTOR_TEST);
-        vector<size_t> valuesExclude(SIZE_VECTOR_TEST);
-        prepareVector(values, valuesExclude);
-
         HashMapSeparateChaining<size_t> sc;
-        auto *hwSc = reinterpret_cast<HashMapWrapper<size_t> *>(&sc);
-        testCommonGeneral(hwSc, values, valuesExclude);
-
         HashMapSeparateChaining<size_t> sc2;
-        auto *hw2 = reinterpret_cast<HashMapWrapper<size_t> *>(&sc2);
-        testCommonSize(hw2, N);
+        testCommonFunction(sc, sc2);
     }
 
     SECTION("String values") {
-        vector<string> values = {"H", "Salut", "Les amis", "Oui"};
-        vector<string> valuesExclude = {"h", "tulaS", "Non", "Enjoy"};
+        vector<string> values(FRUITS);
 
         HashMapSeparateChaining<string> sc;
         auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&sc);
-        testCommonGeneral(hw, values, valuesExclude);
-
-        HashMapSeparateChaining<string> sc2;
-        auto *hw2 = reinterpret_cast<HashMapWrapper<std::string> *>(&sc2);
-        testCommonString(hw2);
+        testCommonGeneral(hw, values, FRUITS_EXCLUS, FRUITS_A_SUPPRIMER);
     }
 }
 
