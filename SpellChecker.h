@@ -1,7 +1,13 @@
-//
-// Created by david on 23.12.20.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : SpellChecker.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
 
+But : Correcteur ortographique
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 #include <vector>
 #include "Dictionary.h"
 #include "Suggestions.h"
@@ -18,13 +24,13 @@ class SpellChecker {
 private:
 
     /**
-     * @brief Check if the word is valid, and if it isn't, saves the typo with its suggestions
+     * @brief Vérifie si le mot est valide. Si non, stocke le mot et calcule les suggestions
      * @param word
      */
     void checkWordSpelling(const std::string& word){
 
         if(word.length() && !dictionary->contains(word)) {
-            // Generate suggestions
+            // Générer les suggestions
             Suggestions<dicoType> suggestions(word, *dictionary);
             typos.push_back(suggestions);
         }
@@ -33,7 +39,7 @@ private:
 public:
 
     /**
-     * @param filename
+     * @param filename nom du fichier à corriger
      * @param dico
      */
     SpellChecker(const std::string& filename, const Dictionary<dicoType>& dico) : dictionary(&dico){
@@ -52,7 +58,7 @@ public:
             std::istringstream iss(line);
             std::string token;
 
-            // check every word in the file
+            // Vérifie chaque mot
             while(getline(iss, token, ' ')){
                 std::string word = sanitizeWord(token);
                 checkWordSpelling(word);
@@ -64,9 +70,9 @@ public:
     }
 
     /**
-     * Outputs the result in the file given in parameter
+     * Ecrit le résultat dans le fichier donné
      * @param filename
-     * @return true if the file has been written successfully
+     * @return true si le fichier a été écrit avec succès
      */
     bool writeOutput(const std::string& filename) const{
         std::ofstream file;
@@ -83,8 +89,8 @@ public:
     }
 
     /**
-     * Returns the result of the spell checking in a string
-     * @return every typo with their suggestions
+     * Retourne une chaîne de caractère correspondant à l'analyse du texte
+     * @return résultat de l'analyse orthographique
      */
     std::string result() const {
         std::string output;
@@ -93,7 +99,7 @@ public:
 
             output += "*" + v.getBaseWord() + "\n";
 
-            // 4 types of typos
+            // 4 types de suggestions
             for(int i = 1; i <= 4; ++i){
                 std::vector<std::string> suggestions;
                 switch(i) {

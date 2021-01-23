@@ -1,9 +1,13 @@
-/**
- * @author David Pellisier, Michael Ruckstuhl. Ryan Sauge
- * @date 25.12.2020
- *
- * Implémentation de la class TST permettant de créer un ternary search tree
- */
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : TernarySearchTree.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Implémentation d'une table de hachage avec sondage linéaire
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_TERNARYSEARCHTREE_H
 #define ASD2_LABS_2020_TERNARYSEARCHTREE_H

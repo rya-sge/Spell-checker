@@ -1,7 +1,13 @@
-//
-// Created by david on 23.01.21.
-// Tests inspirés de hashMapTest.cpp
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : HashMapLinearProbing.cpp
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Tests de la structure Ternary Search Tree. Inspirés des tests de HashMap.
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #include <iostream>
 # include "catch.hpp"

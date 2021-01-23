@@ -1,6 +1,13 @@
-//
-// Created by david on 23.01.21.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : sanitizeWord.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+
+But : Définit une fonction utilitaire servant à mettre un mot en minuscule et à enlever les caractères spéciaux non apostrophes
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_SANITIZEWORD_H
 #define ASD2_LABS_2020_SANITIZEWORD_H
@@ -8,25 +15,25 @@
 #include <string>
 
 /**
- *
- * @param w
- * @return
+ * @brief Enlève les caractères spéciaux et les apostrophes aux extrémités du mot. Convertit le mot en minuscule
+ * @param w mot à modifier
+ * @return le mot en minuscules
  */
 std::string sanitizeWord(const std::string& w) {
 
     std::string saneWord;
     for(char c : w){
         if(!isalpha(c) && c != '\'')
-            continue; // skip non alpha and apostrophe
+            continue; // supprime les caractères non alphabétiques qui ne sont pas des apostrophes
         else if(isupper(c))
-            c = (char)tolower(c); // remove uppercase
+            c = (char)tolower(c); // enlève les majuscules
 
         saneWord += c;
 
     }
 
-    // loop needed in the case there are multiple apostrophes at the beginning/end character
-    // i.e "'''''test'''''"
+    // boucle nécessaire pour le cas où il y a de multiples apostrophes au début ou à la fin du mot
+    // par exemple: "'''''test'''''"
     bool apoFound = true;
     while(apoFound){
         if(saneWord.back() == '\'')

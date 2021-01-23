@@ -1,6 +1,12 @@
-//
-// Created by super on 23/12/2020.
-//
+/* ---------------------------
+Laboratoire : 8 - Correcteur orthographique
+Fichier : HashMapWrapper.h
+Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
+Date : 23.01.2021
+But : Wrapper englobant les HashMap.
+
+Compilateur : gcc 9.3.0
+--------------------------- */
 
 #ifndef ASD2_LABS_2020_HASHMAPWRAPPER_H
 #define ASD2_LABS_2020_HASHMAPWRAPPER_H
