@@ -84,11 +84,7 @@ public:
     bool contains(const T& key) const {
         size_t index = hash(key, M);
 
-        for(const T& v : hashMap->at(index)){
-            if(v == key)
-                return true;
-        }
-        return false;
+        return (find(hashMap->at(index).begin(), hashMap->at(index).end(), key) != hashMap->at(index).end());
     }
 
     bool erase(const T& key) {

@@ -64,7 +64,7 @@ private:
             }
 
         }
-        // remarque: peut mieux faire avec l'allocation dynamique ?
+
         HashMap *oldHashMap = hashMap;
         hashMap = newHashMap;
         delete oldHashMap;

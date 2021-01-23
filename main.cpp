@@ -29,11 +29,11 @@ int main() {
     const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
     const string INPUT_FILE = "../Labo4_data/input_sh.txt";
 
-    testSortedVector(INPUT_FILE, DICTIONARY_FILE);
-    //testTST(INPUT_FILE, DICTIONARY_FILE);
     //testLinearProbing(INPUT_FILE, DICTIONARY_FILE);
-    //testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
+    testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
     //testUnorderedSet(INPUT_FILE, DICTIONARY_FILE);
+    //testSortedVector(INPUT_FILE, DICTIONARY_FILE);
+    //testTST(INPUT_FILE, DICTIONARY_FILE);
 
     return 0;
 }
@@ -151,9 +151,9 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
 
     // Creation
     vector<string> test;
-    ContainerWrapper cw ([&test](const string& KEY){ return binary_search(test.begin(), test.end(), KEY) ;;},
+    ContainerWrapper cw ([&test](const string& KEY){ return binary_search(test.begin(), test.end(), KEY) ;},
                          [&test](const string& KEY){ test.push_back(KEY);},
-                         [&test](const string& KEY){ test.erase(lower_bound(test.begin(), test.end(), KEY)); });
+                         [&test](const string& KEY){ test.erase(lower_bound(test.begin(), test.end(), KEY)) != test.end(); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
     sort(test.begin(), test.end());
 

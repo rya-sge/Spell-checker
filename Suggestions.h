@@ -14,15 +14,15 @@
 template <typename DicoType>
 class Suggestions {
 private:
-    std::string wordAOP;
+    std::string baseWord;
     std::vector<std::string> tooManyChar;
     std::vector<std::string> tooFewChar;
     std::vector<std::string> wrongChar;
-    std::vector<std::string> swapedChar;
+    std::vector<std::string> swappedChar;
 
     const Dictionary<DicoType>* dictionary;
 public:
-    Suggestions(const std::string& aop, const Dictionary<DicoType>& dictionary) : wordAOP(aop), dictionary(&dictionary){
+    Suggestions(const std::string& aop, const Dictionary<DicoType>& dictionary) : baseWord(aop), dictionary(&dictionary){
 
         tooMany();
         tooFew();
@@ -43,18 +43,18 @@ public:
     }
 
     const std::vector<std::string> &getSwapedChar() const {
-        return swapedChar;
+        return swappedChar;
     }
 
-    const std::string &getAOP() const {
-        return wordAOP;
+    const std::string &getBaseWord() const {
+        return baseWord;
     }
 
 private:
     void tooMany() {
         std::string var;
-        for (size_t i = 0; i < wordAOP.length(); ++i) {
-            var = wordAOP;
+        for (size_t i = 0; i < baseWord.length(); ++i) {
+            var = baseWord;
             var.erase(i, 1);
             if(dictionary->contains(var))
                 tooManyChar.push_back(var);
@@ -63,9 +63,9 @@ private:
 
     void tooFew() {
         std::string var;
-        for (size_t i = 0; i <= wordAOP.length(); ++i) {
+        for (size_t i = 0; i <= baseWord.length(); ++i) {
             for (int j = 0; j < 26; ++j) {
-                var = wordAOP;
+                var = baseWord;
                 var.insert(i, 1, char('a' + j));
                 if(dictionary->contains(var))
                     tooFewChar.push_back(var);
@@ -75,9 +75,9 @@ private:
 
     void wrong() {
         std::string var;
-        for (size_t i = 0; i < wordAOP.length(); ++i) {
+        for (size_t i = 0; i < baseWord.length(); ++i) {
             for (int j = 0; j < 26; ++j) {
-                var = wordAOP;
+                var = baseWord;
                 var.replace(i, 1, 1, char('a' + j));
                 if(dictionary->contains(var))
                     wrongChar.push_back(var);
@@ -87,11 +87,11 @@ private:
 
     void swap() {
         std::string var;
-        for (size_t i = 1; i < wordAOP.length(); ++i) {
-            var = wordAOP;
+        for (size_t i = 1; i < baseWord.length(); ++i) {
+            var = baseWord;
             std::swap(var[i - 1], var[i]);
             if(dictionary->contains(var))
-                swapedChar.push_back(var);
+                swappedChar.push_back(var);
         }
     }
 

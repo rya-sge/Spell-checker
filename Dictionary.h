@@ -20,15 +20,14 @@ public:
 
 
     /**
-     *
-     * @param container
+     * @param Container offering the following methods: insert, contains, erase
      */
     Dictionary(ContainerType& container) : words(&container) {};
 
     /**
      *
-     * @param container
-     * @param inputfile
+     * @param Container offering the following methods: insert, contains, erase
+     * @param inputfile to read
      * @details Create a dictionnary with the words present in the inputfile
      */
     Dictionary(ContainerType& container, const std::string& inputfile) : words(&container){
@@ -69,17 +68,16 @@ public:
     }
 
     /**
-     * @brief Delete a word from the dictionary
+     * @brief Deletes a word from the dictionary
      * @param word
-     * @return
      */
-    bool eraseWord(std::string word){
+    void eraseWord(std::string word){
         return words->erase(word);
     }
 
     /**
      * @param word
-     * @return
+     * @return true if the word exists in the dictionary
      */
     bool contains(std::string word) const{
         word = sanitizeWord(word);
@@ -87,10 +85,10 @@ public:
     }
 
     /**
-     * @brief number of words in the dictionary
+     * @brief returns the number of words in the dictionary
      */
-    void size() const {
-        std::cout << words->size() << std::endl;
+    size_t size() const {
+        return words->size();
     }
 
 
