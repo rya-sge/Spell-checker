@@ -82,10 +82,10 @@ private:
     }
 
     /**
-     * @brief Fonction appelée par erase public. Aide à supprimé le noeud
-     * @param x noeud courrant.
+     * @brief Fonction appelée par erase public. Aide à supprimer le noeud
+     * @param x noeud courant.
      * @param key le mot à supprimer.
-     * @param d le numéro de caractère du mot à suprimmer.
+     * @param d le numéro de caractère du mot à supprimer.
      */
     void deleteElement( Node* x, std::string key, size_t d) {
         if(x == nullptr) return;
@@ -115,7 +115,7 @@ private:
     /**
      * @brief Renvoie la taille du noeud. -1 si le noeud est nul.
      * @param x le noeud.
-     * @return la taille du noeud. -1 si la noeud est nul.
+     * @return la taille du noeud. -1 si le noeud est nul.
      * @details fonction reprise des slides "Arbres AVL"
      *          faites par Laura Elena Raileanu, Marc Dikötter
      *          pour le cours ASD2.
@@ -137,7 +137,7 @@ private:
     }
 
     /**
-     * @brief Calcule du déséquilibre à partire d'un noeud.
+     * @brief Calcul du déséquilibre à partir d'un noeud.
      * @param x le noeud.
      * @return le déséquilibre
      * @details fonction reprise des slides "Arbres AVL"
@@ -218,7 +218,7 @@ private:
 
     /**
      * @brief Parcours l'arbre depuis un noeud est vérifie que tous est équilibré depuis ce noeud.
-     * @param x le noeud de dépard.
+     * @param x le noeud de départ.
      * @return Vrai si rien de désequilibré n'est trouvé. Sinon faux.
      */
     bool isBalanced(Node* x){
@@ -244,7 +244,7 @@ private:
     }
 
     /**
-     * @brief Appelé pour par le destructeur pour détruire tous les noeuds.
+     * @brief Appelé par le destructeur pour détruire tous les noeuds.
      * @param x le noeud dont les enfants vont être effacé.
      */
     void eraseAll(Node* x){

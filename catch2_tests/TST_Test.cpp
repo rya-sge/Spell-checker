@@ -1,6 +1,6 @@
 /* ---------------------------
 Laboratoire : 8 - Correcteur orthographique
-Fichier : HashMapLinearProbing.cpp
+Fichier : TST_Test.cpp
 Auteurs : David Pellissier, Michael Ruckstuhl, Ryan Sauge
 Date : 23.01.2021
 
@@ -9,9 +9,9 @@ But : Tests de la structure Ternary Search Tree. Inspirés des tests de HashMap.
 Compilateur : gcc 9.3.0
 --------------------------- */
 
-#include <iostream>
+
 # include "catch.hpp"
-#include "../TernarySearchTree.h"
+# include "../TernarySearchTree.h"
 using namespace std;
 
 
@@ -49,7 +49,6 @@ TEST_CASE("Ternary Search Tree") {
     }
 
     SECTION("Balance") {
-        /* A trouver comment faire */
         for (string val :  BALANCE_TEST_VALUES) {
             balanceTest.insert(val, 1);
             REQUIRE(balanceTest.contains(val));
