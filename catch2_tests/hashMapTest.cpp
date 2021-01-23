@@ -35,7 +35,7 @@ const vector<string> FRUITS_EXCLUS = {"h", "tulaS", "Non", "Enjoy"};
  * @param hm
  * @param keys
  * @param noKeys contient une liste de clés qui ne doient pas être présent dans keys
- * @details test Empty hashMap, insert and contains, erase, resize, reduce with specified vectors
+ * @details test une hashMap vide, insert et contains, erase, resize, reduce avec les vecteurs spécifiés
  *
  */
 template<typename T>
@@ -75,9 +75,9 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
         REQUIRE(!hm->size());
     }
 
-    SECTION("Insère des éléments de keys, supprime les cls specifies par noKeys, etc.") {
+    SECTION("Insère des éléments de keys, supprime les clés specifiées par noKeys, compte et check le résultat") {
 
-        for (size_t i = 0; i < keys.size(); ++i) {
+        for (size_t i = 0; i < keys.size(); ++i){
             hm->insert(keys[i]);
             REQUIRE(hm->contains(keys[i]));
         }
@@ -102,7 +102,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
 
                 hm->insert(keys.at(N));
 
-                if (factor >= hm->getMaxFactor()) { // realloc expected
+                if (factor >= hm->getMaxFactor()) { // realloc attendu
                     double actualFactor = (double) hm->size() / hm->max_buckets();
                     REQUIRE(actualFactor == (factor / hm->getMulCoefFactor()));
                     M = hm->max_buckets();
@@ -123,7 +123,7 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
                 double actualFactor = (double) hm->size() / hm->max_buckets();
                 if (M == hm->getMinValueForM()) {
                     REQUIRE((actualFactor == factor));
-                } else if (factor <= hm->getMinFactor()) { // realloc expected
+                } else if (factor <= hm->getMinFactor()) { // realloc attendu
                     REQUIRE((actualFactor == (factor * hm->getDivCoefFactor())));
                     M = hm->max_buckets();
                 }
@@ -255,7 +255,6 @@ TEST_CASE("SeparateChaining", "[hashmap]") {
     HashMapSeparateChaining<size_t> sc;
     HashMapSeparateChaining<size_t> sc2;
     HashMapSeparateChaining<string> strings;
-    auto *hw = reinterpret_cast<HashMapWrapper<std::string> *>(&strings);
     testCommonFunction(sc, sc2, strings);
 }
 

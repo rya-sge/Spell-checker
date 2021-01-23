@@ -82,29 +82,40 @@ private:
     }
 
     /**
-     * @brief Fonction appelée par erase public. Aide à supprimé le noeud
-     * @param x noeud courrant.
+     * @brief Fonction appelée par erase public. Aide à supprimer le noeud
+     * @param x noeud courant.
      * @param key le mot à supprimer.
-     * @param d le numéro de caractère du mot à suprimmer.
-     * @param listNodes liste remplie des noeuds traversé.
+     * @param d le numéro de caractère du mot à supprimer.
      */
-    void erase(Node* x, std::string key, size_t d, std::list<Node*>& listNodes) {
-        listNodes.push_back(x);
+    void deleteElement( Node* x, std::string key, size_t d) {
+        if(x == nullptr) return;
         char c = key.at(d);
-        if (c < x->c) erase(x->left,key,d,listNodes);
-        else if (c > x->c) erase(x->right,key,d,listNodes);
-        else if (d < key.length() - 1) erase(x->mid,key,d+1,listNodes);
+        if ( c < x->c )
+            deleteElement(x->left,key,d);
+        else if ( c > x->c)
+            deleteElement(x->right,key,d);
+        else if (d < key.length() - 1)
+            deleteElement(x->mid,key,d+1);
         else {
-            x->val = NOT_ASSIGNED;
-            --sizeTST;
-            return;
+            if(x->val != NOT_ASSIGNED){
+                x->val = NOT_ASSIGNED;
+                --sizeTST;
+            }
+        }
+        if (x->mid == nullptr and x->left == nullptr and x->right == nullptr){
+            delete x->right;
+            delete x->mid;
+            delete x->left;
+            x = nullptr;
+        } else {
+            restoreBalance(x);
         }
     }
 
     /**
      * @brief Renvoie la taille du noeud. -1 si le noeud est nul.
      * @param x le noeud.
-     * @return la taille du noeud. -1 si la noeud est nul.
+     * @return la taille du noeud. -1 si le noeud est nul.
      * @details fonction reprise des slides "Arbres AVL"
      *          faites par Laura Elena Raileanu, Marc Dikötter
      *          pour le cours ASD2.
@@ -126,7 +137,7 @@ private:
     }
 
     /**
-     * @brief Calcule du déséquilibre à partire d'un noeud.
+     * @brief Calcul du déséquilibre à partir d'un noeud.
      * @param x le noeud.
      * @return le déséquilibre
      * @details fonction reprise des slides "Arbres AVL"
@@ -207,7 +218,7 @@ private:
 
     /**
      * @brief Parcours l'arbre depuis un noeud est vérifie que tous est équilibré depuis ce noeud.
-     * @param x le noeud de dépard.
+     * @param x le noeud de départ.
      * @return Vrai si rien de désequilibré n'est trouvé. Sinon faux.
      */
     bool isBalanced(Node* x){
@@ -232,12 +243,31 @@ private:
         return a and b and c;
     }
 
+    /**
+     * @brief Appelé par le destructeur pour détruire tous les noeuds.
+     * @param x le noeud dont les enfants vont être effacé.
+     */
+    void eraseAll(Node* x){
+        if( x == nullptr) return;
+        eraseAll( x->right );
+        eraseAll( x->mid );
+        eraseAll( x->left );
+        delete x;
+    }
+
 public:
 
     /**
      * Constructeur de l'arbre
      */
     TST() : root(nullptr) { };
+
+    /**
+     * Destructeur de l'arbre
+     */
+    ~TST(){
+        eraseAll(root);
+    }
 
     /**
      * @brief Insère un mot dans l'arbre avec sa valeur.
@@ -268,30 +298,7 @@ public:
      * @param key mot à supprimer
      */
     void erase(std::string key){
-        if(!contains(key))
-            return;
-        std::list<Node*> listNodes;
-        erase(root, key, 0, listNodes);
-        Node* x;
-        while(!listNodes.empty()){
-            x = listNodes.back();
-            listNodes.pop_back();
-            if (x->mid == nullptr and x->left == nullptr and x->right == nullptr and x->val == NOT_ASSIGNED){
-                delete x->right;
-                delete x->mid;
-                delete x->left;
-                x = nullptr;
-            }
-            else{
-                restoreBalance(x);
-                break;
-            }
-        }
-        while(!listNodes.empty()){
-            x = listNodes.back();
-            listNodes.pop_back();
-            restoreBalance(x);
-        }
+        deleteElement(root, key, 0);
     }
 
     /**

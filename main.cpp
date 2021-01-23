@@ -33,37 +33,41 @@ void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FIL
 void testUnorderedSet(const string& KEY, const string& DICTIONARY_FILE, bool sansAffichage = false);
 void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
 void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-
+void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE);
 
 int main() {
     const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
     const string INPUT_FILE = "../Labo4_data/input_sh.txt";
 
-    cout << "****Resultat****" << endl;
-    cout << "**Sondage lineaire**" << endl;
-    testLinearProbing(INPUT_FILE, DICTIONARY_FILE, true);
+    // Comparaison de tous les tests (sans affichage du résultat)
+    testAll(INPUT_FILE, DICTIONARY_FILE);
 
-    cout << endl << "**Par chainage**" << endl;
-    testSeparateChaining(INPUT_FILE, DICTIONARY_FILE, true);
-
-    cout << endl << "**Unordered_Set**" << endl;
-    testUnorderedSet(INPUT_FILE, DICTIONARY_FILE, true);
-
-    cout << endl << "**Vector**" << endl;
-    testSortedVector(INPUT_FILE, DICTIONARY_FILE, true);
-
-    cout << endl << "**TST**" << endl;
-    testTST(INPUT_FILE, DICTIONARY_FILE, true);
-
-    cout << "Test avec affichage" << endl;
-    cout << "L'implementation testee est a changer en commentaire" << endl;
-    testLinearProbing(INPUT_FILE, DICTIONARY_FILE);
-    //testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
-    //testUnorderedSet(INPUT_FILE, DICTIONARY_FILE);
-   //testSortedVector(INPUT_FILE, DICTIONARY_FILE);
-   //testTST(INPUT_FILE, DICTIONARY_FILE);
+    // Tests avec affichage du résultat. Décommenter si nécessaire
+    // testLinearProbing(INPUT_FILE, DICTIONARY_FILE);
+    // testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
+    // testUnorderedSet(INPUT_FILE, DICTIONARY_FILE);
+    // testSortedVector(INPUT_FILE, DICTIONARY_FILE);
+    // testTST(INPUT_FILE, DICTIONARY_FILE);
 
     return 0;
+}
+
+void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE){
+    const bool SANS_AFFICHAGE = true;
+
+    cout << "****Resultat****" << endl;
+    cout << "**Sondage lineaire**" << endl;
+
+    testLinearProbing(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
+
+    cout << endl << "**Par chainage**" << endl;
+    testSeparateChaining(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
+    cout << endl << "**Unordered_Set**" << endl;
+    testUnorderedSet(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
+    cout << endl << "**Vecteur trié**" << endl;
+    testSortedVector(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
+    cout << endl << "**TST**" << endl;
+    testTST(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
 }
 
 /**
@@ -85,8 +89,8 @@ void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DI
     chrono::high_resolution_clock::time_point end = chrono::high_resolution_clock::now();
     long double timeSpellCheck = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
-    cout << "Dictionnaire genere en : " << timeDico << "ms" << endl;
-    cout << "Correcteur orthographique realise en : " << timeSpellCheck << "ms" << endl;
+    cout << "Dictionnaire généré en : " << timeDico << "ms" << endl;
+    cout << "Correcteur orthographique réalisé en : " << timeSpellCheck << "ms" << endl;
     cout << "Temps total : " << timeDico + timeSpellCheck << "ms" << endl;
 }
 
