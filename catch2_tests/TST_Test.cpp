@@ -14,7 +14,14 @@ Compilateur : gcc 9.3.0
 # include "../TernarySearchTree.h"
 using namespace std;
 
-
+/**
+ * Les différents tests du Ternary Search Tree comportent des vérifications sur
+ *  contains
+ *  insert
+ *  size
+ *  erase
+ * De plus des tests sont faits sur l'équilibrage de l'arbre et des sous arbres
+ */
 TEST_CASE("Ternary Search Tree") {
     std::string fruits[] = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix", "noisette",
                             "melon"};
@@ -25,10 +32,16 @@ TEST_CASE("Ternary Search Tree") {
     const size_t SIZE_BALANCE_VALUES = 5;
     TST test, balanceTest;
 
+    /**
+     * Vérification que l'arbre vide a une taille de 0
+     */
     SECTION("Empty Tree") {
         REQUIRE(!test.size());
     }
 
+    /**
+     * Vérification qu'une clé insérée soit contenue
+     */
     SECTION("Insert key (and contains)") {
         for (string val : fruits) {
             test.insert(val, 1);
@@ -37,6 +50,12 @@ TEST_CASE("Ternary Search Tree") {
         REQUIRE(test.size() == SIZE_FRUITS);
     }
 
+    /**
+     * Insertion d'éléments.
+     * Supression de ceux-ci.
+     * Vérification que ceux-ci ne soit plus contenus
+     * après chaque supressions.
+     */
     SECTION("Erase key") {
         for (string val : fruits) {
             test.insert(val, 1);
@@ -48,6 +67,11 @@ TEST_CASE("Ternary Search Tree") {
         REQUIRE(!test.size());
     }
 
+    /**
+     * Test qu'après chaque insertion et suppression
+     * d'éléments, contains soit correcte et que
+     * tous les arbres et sous arbres soient équilibrés,
+     */
     SECTION("Balance") {
         for (string val :  BALANCE_TEST_VALUES) {
             balanceTest.insert(val, 1);
@@ -63,6 +87,9 @@ TEST_CASE("Ternary Search Tree") {
 
     }
 
+    /*
+     * Tests de toutes les fonctionalités du TST sauf erase
+     */
     SECTION("Insert all fruits, count and check if it is contained") {
         for (size_t i = 0; i < SIZE_FRUITS; ++i) {
             test.insert(fruits[i], i);
@@ -71,11 +98,14 @@ TEST_CASE("Ternary Search Tree") {
             test.insert(fruits[i], i);
             REQUIRE(test.size() == i + 1);
             REQUIRE(test.contains(fruits[i]));
+            REQUIRE(test.isBalanced());
     }
         REQUIRE(!test.contains("piment"));
     }
 
-
+    /*
+     * Tests de toutes les fonctionalités du TST avec erase
+     */
     SECTION("Insert all fruits, erase some, count and check if it is contained") {
 
         for (string fruit : fruits)
@@ -87,6 +117,7 @@ TEST_CASE("Ternary Search Tree") {
             //Check que les éléments ne s'effacent pas deux fois
             test.erase(suppressFruits[i]);
             REQUIRE(test.size() == SIZE_FRUITS - 1 - i);
+            REQUIRE(test.isBalanced());
         }
         for (size_t i = 0; i < SIZE_FRUITS; ++i) {
             if (i % 2)
