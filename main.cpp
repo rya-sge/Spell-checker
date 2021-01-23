@@ -18,23 +18,41 @@ typedef DictionaryContainer<string> ContainerWrapper;
 
 
 // Prototypes des fonctions pour pouvoir les retrouver plus facilement
-void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico);
-void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE);
-void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE);
-void testUnorderedSet(const string& KEY, const string& DICTIONARY_FILE);
-void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE);
-void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE);
+void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico, bool sansAffichage = false);
+void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testUnorderedSet(const string& KEY, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
+void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
 
 
 int main() {
     const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
     const string INPUT_FILE = "../Labo4_data/input_sh.txt";
 
-    //testLinearProbing(INPUT_FILE, DICTIONARY_FILE);
-    testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
+    cout << "****Resultat****" << endl;
+    cout << "**Sondage lineaire**" << endl;
+    testLinearProbing(INPUT_FILE, DICTIONARY_FILE, true);
+
+    cout << endl << "**Par chainage**" << endl;
+    testSeparateChaining(INPUT_FILE, DICTIONARY_FILE, true);
+
+    cout << endl << "**Unordered_Set**" << endl;
+    testUnorderedSet(INPUT_FILE, DICTIONARY_FILE, true);
+
+    cout << endl << "**Vector**" << endl;
+    testSortedVector(INPUT_FILE, DICTIONARY_FILE, true);
+
+    cout << endl << "**TST**" << endl;
+    testTST(INPUT_FILE, DICTIONARY_FILE, true);
+
+    cout << "Test avec affichage" << endl;
+    cout << "L'implementation testee est a changer en commentaire" << endl;
+    testLinearProbing(INPUT_FILE, DICTIONARY_FILE);
+    //testSeparateChaining(INPUT_FILE, DICTIONARY_FILE);
     //testUnorderedSet(INPUT_FILE, DICTIONARY_FILE);
-    //testSortedVector(INPUT_FILE, DICTIONARY_FILE);
-    //testTST(INPUT_FILE, DICTIONARY_FILE);
+   //testSortedVector(INPUT_FILE, DICTIONARY_FILE);
+   //testTST(INPUT_FILE, DICTIONARY_FILE);
 
     return 0;
 }
@@ -44,29 +62,30 @@ int main() {
  * @param DICO
  * @param timeDico
  */
-void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico){
+void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico, bool sansAffichage){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Spellcheck
     SpellChecker<ContainerWrapper> sp(INPUT_FILE, DICO);
     string res = sp.result();
-
-    cout << res << endl;
+    if(!sansAffichage){
+        cout << res << endl;
+    }
 
     // done
     chrono::high_resolution_clock::time_point end = chrono::high_resolution_clock::now();
     long double timeSpellCheck = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
-    cout << "Dictionary generated in " << timeDico << "ms" << endl;
-    cout << "Spellcheck done in " << timeSpellCheck << "ms" << endl;
-    cout << "Total time : " << timeDico + timeSpellCheck << "ms" << endl;
+    cout << "Dictionnaire genere en : " << timeDico << "ms" << endl;
+    cout << "Correcteur orthographique realise en : " << timeSpellCheck << "ms" << endl;
+    cout << "Temps total : " << timeDico + timeSpellCheck << "ms" << endl;
 }
 
 /**
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE){
+void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
@@ -81,14 +100,14 @@ void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     long double timeDico = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
 
-    testCommon(INPUT_FILE, DICO, timeDico);
+    testCommon(INPUT_FILE, DICO, timeDico, sansAffichage);
 }
 
 /**
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE){
+void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
@@ -103,13 +122,13 @@ void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FIL
     long double timeDico = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
 
-    testCommon(INPUT_FILE, DICO, timeDico);
+    testCommon(INPUT_FILE, DICO, timeDico, sansAffichage);
 }
 /**
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE){
+void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
@@ -124,7 +143,7 @@ void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     long double timeDico = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
 
-    testCommon(INPUT_FILE, DICO, timeDico);
+    testCommon(INPUT_FILE, DICO, timeDico, sansAffichage);
 }
 
 /**
@@ -141,7 +160,7 @@ void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     puis ensuite insérer la clé à la position trouvée :
         test.insert(it, key)
  */
-void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
+void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
 
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
@@ -158,14 +177,14 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     long double timeDico = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
 
-    testCommon(INPUT_FILE, DICO, timeDico);
+    testCommon(INPUT_FILE, DICO, timeDico, sansAffichage);
 }
 
 /**
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE){
+void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
@@ -180,5 +199,5 @@ void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE){
     long double timeDico = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
 
-    testCommon(INPUT_FILE, DICO, timeDico);
+    testCommon(INPUT_FILE, DICO, timeDico, sansAffichage);
 }
