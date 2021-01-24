@@ -66,19 +66,19 @@ private:
 
     /**
      *
-     * @param hashMap
+     * @param hm hashmap où chercher la position
      * @param key
      * @param m
      * @param index
      */
-    void findPosition(HashMap *hashMap, const T &key, size_t m, size_t &index) {
-        while (hashMap->at(index) != NULL && hashMap->at(index)->key != key) {
+    void findPosition(HashMap *hm, const T &key, size_t m, size_t &index) {
+        while (hm->at(index) != NULL && hm->at(index)->key != key) {
             index = (index + 1) % m;
         }
     }
 
     /**
-     * @brief Change le nombre de buckets et fais le hash de toutes les clés
+     * @brief Change le nombre de buckets et fait le hash de toutes les clés
      *        afin de les réinsérer au bon endroit.
      * @param newM le nouveau nombre de buckets.
      */
@@ -111,21 +111,6 @@ public:
     HashMapLinearProbing() {
         hashMap = new HashMap(M);
     }
-
-/*  // Constructeur de copie: pas utile mais je le laisse au cas où
-    HashMapLinearProbing(const HashMapLinearProbing<T>& copy){
-        hashMap = new DictionaryContainer(copy.M);
-        for (int i = 0; i < copy.N; ++i) {
-            HashNode *ptr = copy.hashMap->at(i);
-            if(ptr != NULL){
-                hashMap->at(i) = ptr;
-            }
-        }
-
-        M = copy.M;
-        N = copy.N;
-    }
-*/
 
     /**
      * Destructeur
@@ -183,7 +168,7 @@ public:
     /**
      * @brief Supprime une clé.
      * @param key la clé à supprimer.
-     * @return vrai s'il y a bien eu une supression. Faux si ce n'est pas le cas.
+     * @return vrai s'il y a bien eu une suppression. Faux si ce n'est pas le cas.
      */
     bool erase(const T &key) {
         if (!contains(key)) return false;
@@ -245,16 +230,16 @@ public:
     }
 
     /**
-     * @brief donne le coeficient de multiplication.
-     * @return le coeficient de multiplication.
+     * @brief donne le coefficient de multiplication.
+     * @return le coefficient de multiplication.
      */
     size_t getMulCoefFactor() const{
         return MUL_FACTOR_COEF;
     }
 
     /**
-     * @brief donne le coeficient de division.
-     * @return le coeficient de division.
+     * @brief donne le coefficient de division.
+     * @return le coefficient de division.
      */
     size_t getDivCoefFactor() const{
         return DIV_FACTOR_COEF;
