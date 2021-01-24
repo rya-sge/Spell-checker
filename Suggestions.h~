@@ -18,7 +18,7 @@ Compilateur : gcc 9.3.0
 #include "Dictionary.h"
 
 
-template<typename DicoType>
+template <typename DicoType>
 class Suggestions {
 private:
     std::string baseWord;
@@ -27,15 +27,14 @@ private:
     std::vector<std::string> wrongChar;
     std::vector<std::string> swappedChar;
 
-    const Dictionary<DicoType> *dictionary;
+    const Dictionary<DicoType>* dictionary;
 public:
 
     /**
      * @param basew Mot à corriger
      * @param dictionary
      */
-    Suggestions(const std::string &basew, const Dictionary<DicoType> &dictionary) : baseWord(basew),
-                                                                                    dictionary(&dictionary) {
+    Suggestions(const std::string& basew, const Dictionary<DicoType>& dictionary) : baseWord(basew), dictionary(&dictionary){
         tooMany();
         tooFew();
         wrong();
@@ -92,7 +91,7 @@ private:
         for (size_t i = 0; i < baseWord.length(); ++i) {
             var = baseWord;
             var.erase(i, 1);
-            if (dictionary->contains(var))
+            if(dictionary->contains(var))
                 tooManyChar.push_back(var);
         }
     }
@@ -106,7 +105,7 @@ private:
             for (int j = 0; j < 26; ++j) {
                 var = baseWord;
                 var.insert(i, 1, char('a' + j));
-                if (dictionary->contains(var))
+                if(dictionary->contains(var))
                     tooFewChar.push_back(var);
             }
         }
@@ -121,7 +120,7 @@ private:
             for (int j = 0; j < 26; ++j) {
                 var = baseWord;
                 var.replace(i, 1, 1, char('a' + j));
-                if (dictionary->contains(var))
+                if(dictionary->contains(var))
                     wrongChar.push_back(var);
             }
         }
@@ -135,7 +134,7 @@ private:
         for (size_t i = 1; i < baseWord.length(); ++i) {
             var = baseWord;
             std::swap(var[i - 1], var[i]);
-            if (dictionary->contains(var))
+            if(dictionary->contains(var))
                 swappedChar.push_back(var);
         }
     }

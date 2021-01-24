@@ -27,16 +27,23 @@ typedef DictionaryContainer<string> ContainerWrapper;
 
 
 // Prototypes des fonctions pour pouvoir les retrouver plus facilement
-void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico, bool sansAffichage = false);
-void testLinearProbing(const string&INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testSeparateChaining(const string&INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage = false);
-void testAll(const string& INPUT_FILE, const string& DICTIONARY_FILE);
+void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico,
+                bool sansAffichage = false);
+
+void testLinearProbing(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage = false);
+
+void testSeparateChaining(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage = false);
+
+void testUnorderedSet(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage = false);
+
+void testSortedVector(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage = false);
+
+void testTST(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage = false);
+
+void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE);
 
 int main() {
-    const string DICTIONARY_FILE ="../Labo4_data/dictionary.txt";
+    const string DICTIONARY_FILE = "../Labo4_data/dictionary.txt";
     const string INPUT_FILE = "../Labo4_data/input_sh.txt";
 
     // Comparaison de tous les tests (sans affichage du résultat)
@@ -52,7 +59,7 @@ int main() {
     return 0;
 }
 
-void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE){
+void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE) {
     const bool SANS_AFFICHAGE = true;
 
     cout << "****Resultat****" << endl;
@@ -75,13 +82,14 @@ void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE){
  * @param DICO
  * @param timeDico
  */
-void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico, bool sansAffichage){
+void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DICO, long double timeDico,
+                bool sansAffichage) {
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Spellcheck
     SpellChecker<ContainerWrapper> sp(INPUT_FILE, DICO);
     string res = sp.result();
-    if(!sansAffichage){
+    if (!sansAffichage) {
         cout << res << endl;
     }
 
@@ -98,14 +106,14 @@ void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DI
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
+void testLinearProbing(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage) {
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
     HashMapLinearProbing<string> test;
-    ContainerWrapper cw([&test](const string& KEY){ return test.contains(KEY);},
-                        [&test](const string& KEY){ test.insert(KEY);},
-                        [&test](const string& KEY){ test.erase(KEY);});
+    ContainerWrapper cw([&test](const string &KEY) { return test.contains(KEY); },
+                        [&test](const string &KEY) { test.insert(KEY); },
+                        [&test](const string &KEY) { test.erase(KEY); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done
@@ -120,14 +128,14 @@ void testLinearProbing(const string& INPUT_FILE, const string& DICTIONARY_FILE, 
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
+void testSeparateChaining(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage) {
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
     HashMapSeparateChaining<string> test;
-    ContainerWrapper cw ([&test](const string& KEY){ return test.contains(KEY);},
-                         [&test](const string& KEY){ test.insert(KEY);},
-                         [&test](const string& KEY){ test.erase(KEY);});
+    ContainerWrapper cw([&test](const string &KEY) { return test.contains(KEY); },
+                        [&test](const string &KEY) { test.insert(KEY); },
+                        [&test](const string &KEY) { test.erase(KEY); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done
@@ -137,18 +145,19 @@ void testSeparateChaining(const string& INPUT_FILE, const string& DICTIONARY_FIL
 
     testCommon(INPUT_FILE, DICO, timeDico, sansAffichage);
 }
+
 /**
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
+void testUnorderedSet(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage) {
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
     unordered_set<string> test;
-    ContainerWrapper cw ([&test](const string& KEY){ return test.find(KEY) != test.end();},
-                         [&test](const string& KEY){ test.insert(KEY);},
-                         [&test](const string& KEY){ test.erase(KEY);}       );
+    ContainerWrapper cw([&test](const string &KEY) { return test.find(KEY) != test.end(); },
+                        [&test](const string &KEY) { test.insert(KEY); },
+                        [&test](const string &KEY) { test.erase(KEY); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     //done
@@ -173,15 +182,15 @@ void testUnorderedSet(const string& INPUT_FILE, const string& DICTIONARY_FILE, b
     puis ensuite insérer la clé à la position trouvée :
         test.insert(it, key)
  */
-void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
+void testSortedVector(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage) {
 
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
     vector<string> test;
-    ContainerWrapper cw ([&test](const string& KEY){ return binary_search(test.begin(), test.end(), KEY) ;},
-                         [&test](const string& KEY){ test.push_back(KEY);},
-                         [&test](const string& KEY){ test.erase(lower_bound(test.begin(), test.end(), KEY)); });
+    ContainerWrapper cw([&test](const string &KEY) { return binary_search(test.begin(), test.end(), KEY); },
+                        [&test](const string &KEY) { test.push_back(KEY); },
+                        [&test](const string &KEY) { test.erase(lower_bound(test.begin(), test.end(), KEY)); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
     sort(test.begin(), test.end());
 
@@ -197,14 +206,14 @@ void testSortedVector(const string& INPUT_FILE, const string& DICTIONARY_FILE, b
  * @param INPUT_FILE
  * @param DICTIONARY_FILE
  */
-void testTST(const string& INPUT_FILE, const string& DICTIONARY_FILE, bool sansAffichage){
+void testTST(const string &INPUT_FILE, const string &DICTIONARY_FILE, bool sansAffichage) {
     chrono::high_resolution_clock::time_point begin = chrono::high_resolution_clock::now();
 
     // Creation
     TST test;
-    ContainerWrapper cw ([&test](const string& KEY){return test.contains(KEY);},
-                         [&test](const string& KEY){ test.insert(KEY, 1);},
-                         [&test](const string& KEY){ test.erase(KEY);});
+    ContainerWrapper cw([&test](const string &KEY) { return test.contains(KEY); },
+                        [&test](const string &KEY) { test.insert(KEY, 1); },
+                        [&test](const string &KEY) { test.erase(KEY); });
     const Dictionary<ContainerWrapper> DICO(cw, DICTIONARY_FILE);
 
     // done

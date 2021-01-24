@@ -26,7 +26,7 @@ class HashMapSeparateChaining : public HashMapWrapper<T> {
     typedef std::vector<Bucket> HashMap;
 
 private:
-    HashMap* hashMap;
+    HashMap *hashMap;
     const size_t MIN_VALUE_M = 2;
     // Valeurs par défaut
     size_t M = MIN_VALUE_M;
@@ -44,7 +44,7 @@ private:
      * @param m modulo.
      * @return le hash de la clé modulo m.
      */
-    size_t hash(T key, size_t m) const{
+    size_t hash(T key, size_t m) const {
         return std::hash<T>()(key) % m;
     }
 
@@ -53,10 +53,10 @@ private:
      *        afin de les réinsérer au bon endroit.
      * @param newM le nouveau nombre de buckets.
      */
-    void realloc(size_t newM){
+    void realloc(size_t newM) {
         size_t hashCalcul;
-        HashMap* hashMapNew = new HashMap(newM);
-        for (size_t i = 0; i < M; ++i)  {
+        HashMap *hashMapNew = new HashMap(newM);
+        for (size_t i = 0; i < M; ++i) {
             for (auto j = hashMap->at(i).begin(); j != hashMap->at(i).end(); ++j) {
                 T k = *j;
                 hashCalcul = hash(k, newM);
@@ -73,7 +73,7 @@ public:
     /**
      * Constructeur
      */
-    HashMapSeparateChaining(){
+    HashMapSeparateChaining() {
         hashMap = new HashMap(2);
     }
 
@@ -91,7 +91,7 @@ public:
      */
     void insert(const T &key) {
 
-        if(contains(key))
+        if (contains(key))
             return;
 
         N++;
@@ -112,7 +112,7 @@ public:
      * @param key la clé cherchée.
      * @return vrai si la clé est contenue, sinon faux.
      */
-    bool contains(const T& key) const {
+    bool contains(const T &key) const {
         size_t index = hash(key, M);
 
         return (find(hashMap->at(index).begin(), hashMap->at(index).end(), key) != hashMap->at(index).end());
@@ -123,17 +123,17 @@ public:
      * @param key la clé à supprimer.
      * @return vrai s'il y a bien eu une suppression. Faux si ce n'est pas le cas.
      */
-    bool erase(const T& key) {
+    bool erase(const T &key) {
         size_t index = hash(key, M);
         //peut-être utiliser contains:
         auto it = std::find(hashMap->at(index).begin(), hashMap->at(index).end(), key);
-        if(it != hashMap->at(index).end()){
+        if (it != hashMap->at(index).end()) {
             hashMap->at(index).erase(it);
             --N;
-            if(N / M <= MIN_FACTOR && M > MIN_VALUE_M){
-                realloc(M / MUL_FACTOR_COEF );
+            if (N / M <= MIN_FACTOR && M > MIN_VALUE_M) {
+                realloc(M / MUL_FACTOR_COEF);
             }
-        }else{
+        } else {
             return false;
         }
         return true;
@@ -179,18 +179,18 @@ public:
         return MUL_FACTOR_COEF;
     }
 
-     /**
-      * @brief donne le coefficient de division.
-      * @return le coefficient de division.
-      */
+    /**
+     * @brief donne le coefficient de division.
+     * @return le coefficient de division.
+     */
     size_t getDivCoefFactor() const {
         return DIV_FACTOR_COEF;
     }
 
-     /**
-      * @brief renvoie le nombre de bucket minimum que peut avoir la hashmap.
-      * @return le nombre de bucket minimum que peut avoir la hashmap.
-      */
+    /**
+     * @brief renvoie le nombre de bucket minimum que peut avoir la hashmap.
+     * @return le nombre de bucket minimum que peut avoir la hashmap.
+     */
     size_t getMinValueForM() const {
         return MIN_VALUE_M;
     }

@@ -29,8 +29,6 @@ private:
     const size_t DIV_FACTOR_COEF = 2;
 
 
-
-
     class HashNode {
     public:
         // V value;
@@ -60,7 +58,7 @@ private:
      * @param m modulo.
      * @return le hash de la clé modulo m.
      */
-    size_t hash(const T &key, size_t m) const{
+    size_t hash(const T &key, size_t m) const {
         return std::hash<T>()(key) % m;
     }
 
@@ -148,7 +146,7 @@ public:
      * @param key la clé cherchée.
      * @return vrai si la clé est contenue, sinon faux.
      */
-    bool contains(const T &key) const{
+    bool contains(const T &key) const {
         size_t index = hash(key, M);
         size_t count = 0;
 
@@ -201,7 +199,7 @@ public:
      * @brief donne le nombre d'éléments'.
      * @return le nombre d'éléments.
      */
-    size_t size() const{
+    size_t size() const {
         return N;
     }
 
@@ -217,7 +215,7 @@ public:
      * @brief donne le facteur maximum.
      * @return le facteur maximum.
      */
-    double getMaxFactor() const{
+    double getMaxFactor() const {
         return MAX_FACTOR;
     }
 
@@ -225,7 +223,7 @@ public:
      * @brief donne le facteur minimum.
      * @return le facteur minimum.
      */
-    double getMinFactor() const{
+    double getMinFactor() const {
         return MIN_FACTOR;
     }
 
@@ -233,7 +231,7 @@ public:
      * @brief donne le coefficient de multiplication.
      * @return le coefficient de multiplication.
      */
-    size_t getMulCoefFactor() const{
+    size_t getMulCoefFactor() const {
         return MUL_FACTOR_COEF;
     }
 
@@ -241,15 +239,15 @@ public:
      * @brief donne le coefficient de division.
      * @return le coefficient de division.
      */
-    size_t getDivCoefFactor() const{
+    size_t getDivCoefFactor() const {
         return DIV_FACTOR_COEF;
     }
 
-   /**
-    * @brief renvoie le nombre de bucket minimum que peut avoir la hashmap.
-    * @return le nombre de bucket minimum que peut avoir la hashmap.
-    */
-    size_t getMinValueForM() const{
+    /**
+     * @brief renvoie le nombre de bucket minimum que peut avoir la hashmap.
+     * @return le nombre de bucket minimum que peut avoir la hashmap.
+     */
+    size_t getMinValueForM() const {
         return MIN_VALUE_M;
     }
 };

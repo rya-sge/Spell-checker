@@ -21,21 +21,21 @@ public:
      * @brief Insère une clé dans la hash map.
      * @param key la clé à insérer.
      */
-    virtual void insert(const T& key) = 0;
+    virtual void insert(const T &key) = 0;
 
     /**
      * Permet de savoir si un clé est dans la hash map.
      * @param key la clé cherchée.
      * @return vrai si la clé est contenue, sinon faux.
      */
-    virtual bool contains(const T& key) const = 0;
+    virtual bool contains(const T &key) const = 0;
 
     /**
      * @brief Supprime une clé.
      * @param key la clé à supprimer.
      * @return vrai s'il y a bien eu une supression. Faux si ce n'est pas le cas.
      */
-    virtual bool erase(const T& key) = 0;
+    virtual bool erase(const T &key) = 0;
 
     /**
      * @brief donne le nombre d'éléments'.
@@ -79,7 +79,6 @@ public:
      */
     virtual size_t getMinValueForM() const = 0;
 };
-
 
 
 #endif //ASD2_LABS_2020_HASHMAPWRAPPER_H

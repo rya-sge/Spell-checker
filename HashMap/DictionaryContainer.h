@@ -16,12 +16,11 @@ Compilateur : gcc 9.3.0
 #include <functional>
 
 
-
 template<typename T>
-class DictionaryContainer{
+class DictionaryContainer {
 
-    using boolFunction =  std::function<bool(const T& key)>;
-    using voidFunction =  std::function<void(const T& key)>;
+    using boolFunction =  std::function<bool(const T &key)>;
+    using voidFunction =  std::function<void(const T &key)>;
 
     const boolFunction containsF;
     const voidFunction insertF;
@@ -36,7 +35,8 @@ public:
      * @details La structure n'est pas stockée dans cette classe.
      *          Elle doit pouvoir être accédée à l'intérieur de la fonction lambda
      */
-    DictionaryContainer(const boolFunction &containsFunction, const voidFunction &insertFunction, const voidFunction &eraseFunction)
+    DictionaryContainer(const boolFunction &containsFunction, const voidFunction &insertFunction,
+                        const voidFunction &eraseFunction)
             : containsF(containsFunction), insertF(insertFunction), eraseF(eraseFunction) {}
 
     /**
@@ -44,7 +44,7 @@ public:
      * @param key clé à vérifier
      * @return true si la clé existe
      */
-    bool contains(const T& key) const{
+    bool contains(const T &key) const {
         return containsF(key);
     }
 
@@ -52,7 +52,7 @@ public:
      * @brief Appelle la fonction d'insertion avec la clé donnée
      * @param key
      */
-    void insert(const T& key) const {
+    void insert(const T &key) const {
         insertF(key);
     }
 
@@ -60,7 +60,7 @@ public:
      * @brief Appelle la fonction de suppression de clé
      * @param key
      */
-    void erase(const T& key) const {
+    void erase(const T &key) const {
         eraseF(key);
     }
 };
