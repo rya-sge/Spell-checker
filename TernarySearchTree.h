@@ -81,6 +81,11 @@ private:
         else return x;
     }
 
+    /**
+     * @brief Suppression de noeuds inutiles
+     * @param x
+     * @return x
+     */
     Node *deleteLeaf(Node *x) {
         if (x != root && x->val == NOT_ASSIGNED && x->mid == nullptr && x->left == nullptr && x->right == nullptr) {
             delete x;
