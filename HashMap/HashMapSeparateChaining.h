@@ -44,7 +44,7 @@ private:
      * @param m modulo.
      * @return le hash de la clé modulo m.
      */
-    size_t hash(T key, size_t m) const {
+    size_t hash(const T& key, size_t m) const {
         return std::hash<T>()(key) % m;
     }
 

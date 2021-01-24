@@ -86,6 +86,7 @@ public:
         file << result();
 
         file.close();
+        return true;
     }
 
     /**
