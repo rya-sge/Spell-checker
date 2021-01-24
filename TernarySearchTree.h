@@ -81,6 +81,13 @@ private:
         else return x;
     }
 
+    Node* deleteLeaf(Node* x){
+        if (x != root && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
+            delete x;
+            x = nullptr;
+        }
+        return x;
+    }
     /**
      * @brief Fonction appelée par erase public. Aide à supprimer le noeud
      * @param x noeud courant.
@@ -101,21 +108,11 @@ private:
                 x->val = NOT_ASSIGNED;
                 --sizeTST;
             }
-            if (x != root && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
-                delete x;
-                x = nullptr;
-                return x;
-            } else {
+            if (deleteLeaf(x) != nullptr){
                 return restoreBalance(x);
             }
-
         }
-        if (x != root && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
-            delete x;
-            x = nullptr;
-            return x;
-        }
-        return x;
+        return deleteLeaf(x);
     }
 
     /**
