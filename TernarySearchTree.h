@@ -109,10 +109,11 @@ private:
                 x->val = NOT_ASSIGNED;
                 --sizeTST;
             }
-            if (deleteLeaf(x) != nullptr) {
+            x = deleteLeaf(x);
+            if (x != nullptr) {
                 return restoreBalance(x);
             }else{
-                return nullptr;
+                return x;
             }
         }
         return deleteLeaf(x);
