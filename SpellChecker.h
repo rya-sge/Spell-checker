@@ -119,8 +119,7 @@ public:
                         break;
                 }
 
-                for (const std::string &s : suggestions) {
-                    output += " ";
+                for(const std::string& s : suggestions){
                     output += char(i + '0');
                     output += ":" + s + "\n";
                 }

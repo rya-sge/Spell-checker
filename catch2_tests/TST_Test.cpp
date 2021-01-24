@@ -10,6 +10,7 @@ Compilateur : gcc 9.3.0
 --------------------------- */
 
 
+#include <iostream>
 # include "catch.hpp"
 # include "../TernarySearchTree.h"
 
@@ -53,15 +54,16 @@ TEST_CASE("Ternary Search Tree") {
 
         /**
          * Insertion d'éléments.
-         * Supression de ceux-ci.
+         * Suppression de ceux-ci.
          * Vérification que ceux-ci ne soit plus contenus
          * après chaque supressions.
          */
     SECTION("Suppression") {
-        for (const string &val : fruits) {
+        for (string const &val : fruits) {
             test.insert(val, 1);
         }
         for (size_t i = 0; i < fruits.size(); ++i) {
+            auto s = fruits.at(i);
             test.erase(fruits.at(i));
             REQUIRE(!test.contains(fruits.at(i)));
             if (i < fruits.size() - 1) {
