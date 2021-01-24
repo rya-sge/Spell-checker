@@ -40,7 +40,8 @@ const vector<string> FRUITS_EXCLUS = {"h", "tulaS", "Non", "Enjoy"};
  *
  */
 template<typename T>
-void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noKeys, std::vector<T> keyToDelete) {
+void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> &keys, const std::vector<T> &noKeys,
+                       const std::vector<T> &keyToDelete) {
     SECTION("HashMap vide") {
         REQUIRE(!hm->size());
 
@@ -64,7 +65,6 @@ void testCommonGeneral(HashMapWrapper<T> *hm, vector<T> keys, std::vector<T> noK
     }
 
     SECTION("Erase key") {
-        1 + 1;
         for (T val : keys) {
             hm->insert(val);
         }
@@ -249,7 +249,6 @@ void testCommonFunction(HashMapWrapper<T> &hm, HashMapWrapper<T> &hm2, HashMapWr
     }
 
 }
-
 
 /**
  * Test de Linear Probing
