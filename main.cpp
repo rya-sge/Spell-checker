@@ -64,7 +64,7 @@ void testAll(const string &INPUT_FILE, const string &DICTIONARY_FILE){
     testSeparateChaining(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
     cout << endl << "**Unordered_Set**" << endl;
     testUnorderedSet(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
-    cout << endl << "**Vecteur trié**" << endl;
+    cout << endl << "**Vecteur trie**" << endl;
     testSortedVector(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
     cout << endl << "**TST**" << endl;
     testTST(INPUT_FILE, DICTIONARY_FILE, SANS_AFFICHAGE);
@@ -89,8 +89,8 @@ void testCommon(const string &INPUT_FILE, const Dictionary<ContainerWrapper> &DI
     chrono::high_resolution_clock::time_point end = chrono::high_resolution_clock::now();
     long double timeSpellCheck = chrono::duration_cast<chrono::milliseconds>(end - begin).count();
 
-    cout << "Dictionnaire généré en : " << timeDico << "ms" << endl;
-    cout << "Correcteur orthographique réalisé en : " << timeSpellCheck << "ms" << endl;
+    cout << "Dictionnaire genere en : " << timeDico << "ms" << endl;
+    cout << "Correcteur orthographique realise en : " << timeSpellCheck << "ms" << endl;
     cout << "Temps total : " << timeDico + timeSpellCheck << "ms" << endl;
 }
 

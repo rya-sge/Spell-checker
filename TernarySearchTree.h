@@ -87,29 +87,35 @@ private:
      * @param key le mot à supprimer.
      * @param d le numéro de caractère du mot à supprimer.
      */
-    void deleteElement( Node* x, std::string key, size_t d) {
-        if(x == nullptr) return;
+    Node* deleteElement(Node* x, std::string key, size_t d) {
+        if(x == nullptr) return x;
         char c = key.at(d);
         if ( c < x->c )
-            deleteElement(x->left,key,d);
+            x->left = deleteElement(x->left,key,d);
         else if ( c > x->c)
-            deleteElement(x->right,key,d);
+            x->right = deleteElement(x->right,key,d);
         else if (d < key.length() - 1)
-            deleteElement(x->mid,key,d+1);
+            x->mid = deleteElement(x->mid,key,d+1);
         else {
             if(x->val != NOT_ASSIGNED){
                 x->val = NOT_ASSIGNED;
                 --sizeTST;
             }
+            if (x != root && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
+                delete x;
+                x = nullptr;
+                return x;
+            } else {
+                return restoreBalance(x);
+            }
+
         }
-        if (x->mid == nullptr and x->left == nullptr and x->right == nullptr){
-            delete x->right;
-            delete x->mid;
-            delete x->left;
+        if (x != root && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
+            delete x;
             x = nullptr;
-        } else {
-            restoreBalance(x);
+            return x;
         }
+        return x;
     }
 
     /**
@@ -222,7 +228,10 @@ private:
      * @return Vrai si rien de désequilibré n'est trouvé. Sinon faux.
      */
     bool isBalanced(Node* x){
-        if((x->left != nullptr) and (x->right != nullptr)){
+        if(x == nullptr){
+            return true;
+        }
+        if((x->left != nullptr) && (x->right != nullptr)){
             int diffHeight = x->right->nodeHeight - x->left->nodeHeight;
             if(diffHeight < -1 or diffHeight > 1)
                 return false;
@@ -230,7 +239,7 @@ private:
             if((x->nodeHeight - maxHeight - 1) != 0)
                 return false;
         }
-        bool a = true,b = true,c = true;
+        bool a = true, b = true, c = true;
         if(x->left != nullptr){
             a = isBalanced(x->left);
         }
@@ -240,7 +249,7 @@ private:
         if(x->right != nullptr){
             c = isBalanced(x->right);
         }
-        return a and b and c;
+        return a && b && c;
     }
 
     /**
@@ -298,7 +307,7 @@ public:
      * @param key mot à supprimer
      */
     void erase(std::string key){
-        deleteElement(root, key, 0);
+        deleteElement(root,  key, 0);
     }
 
     /**

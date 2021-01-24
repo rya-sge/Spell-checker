@@ -17,6 +17,7 @@ class HashMapWrapper {
 
 public:
 
+
     virtual void insert(const T& key) = 0;
 
     virtual bool contains(const T& key) const = 0;

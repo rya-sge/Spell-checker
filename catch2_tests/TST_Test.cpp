@@ -16,13 +16,12 @@ using namespace std;
 
 
 TEST_CASE("Ternary Search Tree") {
-    std::string fruits[] = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix", "noisette",
+
+    vector<string> fruits = {"pomme", "poire", "fraise", "pasteque", "orange", "mandarine", "citron", "noix", "noisette",
                             "melon"};
-    const size_t SIZE_FRUITS = 10;
-    std::string suppressFruits[] = {"poire", "pasteque", "mandarine", "noix", "melon"};
-    const size_t SIZE_SUPRESSED_FRUITS = 5;
-    std::string BALANCE_TEST_VALUES[] = {"A", "B", "CD", "EF", "GH"};
-    const size_t SIZE_BALANCE_VALUES = 5;
+    vector<string> suppressFruits = {"poire", "pasteque", "mandarine", "noix", "melon"};
+
+    vector<string> BALANCE_TEST_VALUES = {"A", "B", "CD", "EF", "GH"};
     TST test, balanceTest;
 
     SECTION("Empty Tree") {
@@ -34,16 +33,20 @@ TEST_CASE("Ternary Search Tree") {
             test.insert(val, 1);
             REQUIRE(test.contains(val));
         }
-        REQUIRE(test.size() == SIZE_FRUITS);
+        REQUIRE(test.size() == fruits.size());
     }
 
     SECTION("Erase key") {
         for (string val : fruits) {
             test.insert(val, 1);
         }
-        for (string val : fruits) {
-            test.erase(val);
-            REQUIRE(!test.contains(val));
+        for(size_t i = 0; i < fruits.size(); ++i){
+            test.erase(fruits.at(i));
+            REQUIRE(!test.contains(fruits.at(i)));
+            if(i <  fruits.size() - 1 ){
+                REQUIRE(test.contains(fruits.at(i + 1)));
+            }
+            REQUIRE(balanceTest.isBalanced());
         }
         REQUIRE(!test.size());
     }
@@ -54,7 +57,7 @@ TEST_CASE("Ternary Search Tree") {
             REQUIRE(balanceTest.contains(val));
             REQUIRE(balanceTest.isBalanced());
         }
-        REQUIRE(balanceTest.size() == SIZE_BALANCE_VALUES);
+        REQUIRE(balanceTest.size() == BALANCE_TEST_VALUES.size());
         for (string val :BALANCE_TEST_VALUES) {
             balanceTest.erase(val);
             REQUIRE(!test.contains(val));
@@ -64,7 +67,7 @@ TEST_CASE("Ternary Search Tree") {
     }
 
     SECTION("Insert all fruits, count and check if it is contained") {
-        for (size_t i = 0; i < SIZE_FRUITS; ++i) {
+        for (size_t i = 0; i < fruits.size(); ++i) {
             test.insert(fruits[i], i);
             REQUIRE(test.size() == i + 1);
             //Check que les éléments ne s'insérent pas à double
@@ -81,14 +84,14 @@ TEST_CASE("Ternary Search Tree") {
         for (string fruit : fruits)
             test.insert(fruit, 1);
 
-        for (size_t i = 0; i < SIZE_SUPRESSED_FRUITS; ++i) {
+        for (size_t i = 0; i < suppressFruits.size(); ++i) {
             test.erase(suppressFruits[i]);
-            REQUIRE(test.size() == SIZE_FRUITS - 1 - i);
+            REQUIRE(test.size() == fruits.size() - 1 - i);
             //Check que les éléments ne s'effacent pas deux fois
             test.erase(suppressFruits[i]);
-            REQUIRE(test.size() == SIZE_FRUITS - 1 - i);
+            REQUIRE(test.size() == fruits.size() - 1 - i);
         }
-        for (size_t i = 0; i < SIZE_FRUITS; ++i) {
+        for (size_t i = 0; i <fruits.size(); ++i) {
             if (i % 2)
                 REQUIRE(!test.contains(fruits[i]));
             else
