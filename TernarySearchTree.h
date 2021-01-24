@@ -82,7 +82,7 @@ private:
     }
 
     Node* deleteLeaf(Node* x){
-        if (x != root && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
+        if (x != root && x->val == NOT_ASSIGNED && x->mid == nullptr && x->left == nullptr && x->right == nullptr){
             delete x;
             x = nullptr;
         }
