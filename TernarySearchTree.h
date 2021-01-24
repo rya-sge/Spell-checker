@@ -111,6 +111,8 @@ private:
             }
             if (deleteLeaf(x) != nullptr) {
                 return restoreBalance(x);
+            }else{
+                return nullptr;
             }
         }
         return deleteLeaf(x);
